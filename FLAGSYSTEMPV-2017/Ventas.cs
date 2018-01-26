@@ -321,7 +321,7 @@ namespace FLAGSYSTEMPV_2017
         {
             textBox4.Focus();
 
-            FiscalPrinterLib.HASAR prntr = new FiscalPrinterLib.HASAR();
+            //FiscalPrinterLib.HASAR prntr = new FiscalPrinterLib.HASAR();
             
         }
 

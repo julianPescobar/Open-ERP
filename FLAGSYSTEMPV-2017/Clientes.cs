@@ -40,6 +40,7 @@ namespace FLAGSYSTEMPV_2017
 
         private void button1_Click(object sender, EventArgs e)
         {
+            createorupdate.status = "create";
             if (Application.OpenForms.OfType<NuevoCliente>().Count() == 1)
                 Application.OpenForms.OfType<NuevoCliente>().First().Focus();
             else
@@ -126,6 +127,20 @@ namespace FLAGSYSTEMPV_2017
             if (e.KeyCode == Keys.Escape)
             {
                 this.Close();
+            }
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            int rowIndex = dataGridView1.CurrentCell.RowIndex;
+            createorupdate.itemid = dataGridView1.Rows[rowIndex].Cells[0].Value.ToString();
+            createorupdate.status = "update";
+            if (Application.OpenForms.OfType<NuevoCliente>().Count() == 1)
+                Application.OpenForms.OfType<NuevoCliente>().First().Focus();
+            else
+            {
+                NuevoCliente frm = new NuevoCliente();
+                frm.Show();
             }
         }
     }

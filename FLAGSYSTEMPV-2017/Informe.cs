@@ -50,6 +50,68 @@ namespace FLAGSYSTEMPV_2017
                 dataGridView1.DataSource = SBind;
                 dataGridView1.Refresh();
             }
+            if (Conexion.data == "Caja")
+            {
+                SqlCeCommand notdeleted = new SqlCeCommand();
+                notdeleted.Parameters.AddWithValue("an", "Anulada");
+                Conexion.abrir();
+                DataTable ventas = Conexion.Consultar("fechaventa,nfactura,total", "Ventas", "WHERE estadoventa != @an", "", notdeleted);
+                DataTable entrada = Conexion.Consultar("fecha,motivo,total", "EntradaCaja", "", "", new SqlCeCommand());
+                DataTable salida = Conexion.Consultar("fecha,motivo,total", "SalidaCaja", "", "", new SqlCeCommand());
+                DataTable gastos = Conexion.Consultar("fecha,descripcion,importe", "Gastos", "", "", new SqlCeCommand());
+                Conexion.cerrar();
+
+                DataTable arts = new DataTable();
+                arts.Columns.Add("Fecha", typeof(string));
+                arts.Columns.Add("Tipo de transaccion", typeof(string));
+                arts.Columns.Add("Motivo o N Factura", typeof(string));
+                arts.Columns.Add("Importe", typeof(string));
+                for(int i = 0; i < ventas.Rows.Count;i++)
+                {
+                    DataRow iventa = arts.NewRow();
+                    iventa[0] = ventas.Rows[i][0].ToString();
+                    iventa[1] = "Venta";
+                    iventa[2] = ventas.Rows[i][1].ToString();
+                    iventa[3] = float.Parse(ventas.Rows[i][2].ToString()).ToString("$0.00");
+                    arts.Rows.Add(iventa);
+                }
+                for (int i = 0; i < entrada.Rows.Count; i++)
+                {
+                    DataRow iventa = arts.NewRow();
+                    iventa[0] = entrada.Rows[i][0].ToString();
+                    iventa[1] = "Entrada de Caja";
+                    iventa[2] = entrada.Rows[i][1].ToString();
+                    iventa[3] = float.Parse(entrada.Rows[i][2].ToString()).ToString("$0.00");
+                    arts.Rows.Add(iventa);
+                }
+                for (int i = 0; i < salida.Rows.Count; i++)
+                {
+                    DataRow iventa = arts.NewRow();
+                    iventa[0] = salida.Rows[i][0].ToString();
+                    iventa[1] = "Salida de Caja";
+                    iventa[2] = salida.Rows[i][1].ToString();
+                    iventa[3] = float.Parse(salida.Rows[i][2].ToString()).ToString("$0.00");
+                    arts.Rows.Add(iventa);
+                }
+                for (int i = 0; i < gastos.Rows.Count; i++)
+                {
+                    DataRow iventa = arts.NewRow();
+                    iventa[0] = gastos.Rows[i][0].ToString();
+                    iventa[1] = "Gasto";
+                    iventa[2] = gastos.Rows[i][1].ToString();
+                    iventa[3] = float.Parse(gastos.Rows[i][2].ToString()).ToString("$0.00");
+                    arts.Rows.Add(iventa);
+                }
+                BindingSource SBind = new BindingSource();
+                SBind.DataSource = arts;
+                dataGridView1.AutoGenerateColumns = true;
+                dataGridView1.DataSource = arts;
+                //dataGridView1.Columns[0].Visible = false;
+                //dataGridView1.Columns[3].DefaultCellStyle.Format = "c";
+               // dataGridView1.Columns[5].DefaultCellStyle.Format = "c";
+                dataGridView1.DataSource = SBind;
+                dataGridView1.Refresh();
+            }
             if (Conexion.data == "Ventas")
             {
                 Conexion.abrir();

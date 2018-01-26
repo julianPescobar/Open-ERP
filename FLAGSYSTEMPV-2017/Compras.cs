@@ -27,7 +27,6 @@ namespace FLAGSYSTEMPV_2017
                 textBox5.Text = cero.ToString("$0.00");
             }
             Conexion.abrir();
-           
             DataTable proveedores = Conexion.Consultar("nombre", "Proveedores", "", "", new SqlCeCommand());
             Conexion.cerrar();
             for (int i = 0; i < proveedores.Rows.Count; i++)
@@ -83,11 +82,11 @@ namespace FLAGSYSTEMPV_2017
                 {
                     int rowIndex = dataGridView1.CurrentCell.RowIndex;
                     int  Cantidad = Convert.ToInt32(dataGridView1.Rows[rowIndex].Cells[1].Value);
-                    float precio = float.Parse(dataGridView1.Rows[rowIndex].Cells[5].Value.ToString().Replace("$", ""));
+                    float costo = float.Parse(dataGridView1.Rows[rowIndex].Cells[7].Value.ToString().Replace("$", ""));
                     if (Cantidad > 0)
                     {
                         dataGridView1.Rows[rowIndex].Cells[1].Value = (Cantidad + 1).ToString();
-                        dataGridView1.Rows[rowIndex].Cells[6].Value = ((Cantidad + 1) * precio).ToString("$0.00") ;
+                        dataGridView1.Rows[rowIndex].Cells[6].Value = ((Cantidad + 1) * costo).ToString("$0.00") ;
                         chequeartotal();
                     }
                 }
@@ -98,12 +97,12 @@ namespace FLAGSYSTEMPV_2017
                 {
                     int rowIndex = dataGridView1.CurrentCell.RowIndex;
                     int Cantidad = Convert.ToInt32(dataGridView1.Rows[rowIndex].Cells[1].Value);
-                    float precio = float.Parse(dataGridView1.Rows[rowIndex].Cells[5].Value.ToString().Replace("$", ""));
+                    float costo = float.Parse(dataGridView1.Rows[rowIndex].Cells[7].Value.ToString().Replace("$", ""));
 
                     if (Cantidad > 1)
                     {
                         dataGridView1.Rows[rowIndex].Cells[1].Value = (Cantidad - 1).ToString();
-                        dataGridView1.Rows[rowIndex].Cells[6].Value = ((Cantidad - 1) * precio).ToString("$0.00");
+                        dataGridView1.Rows[rowIndex].Cells[6].Value = ((Cantidad - 1) * costo).ToString("$0.00");
                         chequeartotal();
                     }
                 }
@@ -177,8 +176,6 @@ namespace FLAGSYSTEMPV_2017
                         dt.Rows.Add(dr);
                     }
                     totalventa.detallecompra = dt;
-
-                    
                     totalventa.totcompra = textBox5.Text;
                     Total total = new Total();
                     total.Show();
@@ -196,23 +193,39 @@ namespace FLAGSYSTEMPV_2017
                         metocodigo.Parameters.AddWithValue("@pro", totalventa.proveedcompra);
                         DataTable producto = Conexion.Consultar("*", "Articulos", "WHERE codigoart = @cod and proveedor = @pro", "", metocodigo);
                         Conexion.cerrar();
+                        bool yaesta = false;
                         if (producto.Rows.Count > 0)
                         {
-                            int cantidad = 1;
-                            string idproducto = producto.Rows[0][0].ToString();
-                            string codigo = producto.Rows[0][1].ToString();
-                            string desc = producto.Rows[0][2].ToString();
-                            string mca = producto.Rows[0][3].ToString();
-                            float prec = float.Parse(producto.Rows[0][4].ToString());
-                            float costo = float.Parse(producto.Rows[0][5].ToString());
-                            float iva = float.Parse(producto.Rows[0][6].ToString());
-                            float porcentaje = float.Parse(producto.Rows[0][12].ToString());
-                            //añadir al table el costo y porcentaje y esconderlos, para asi poder hacer el porcentaje de mierda ese.
-                            float total = costo * cantidad;
-                            dataGridView1.Rows.Add(idproducto, cantidad, codigo, desc, mca, prec.ToString("$0.00"), total.ToString("$0.00"),costo.ToString("$0.00"),iva.ToString(),porcentaje.ToString());
-                            textBox4.Text = "";
-                            dataGridView1.Rows[(dataGridView1.Rows.Count - 1)].Cells[1].Selected = true;
-                            //MessageBox.Show(costo.ToString() + "-" + porcentaje.ToString() );
+                            
+                            for(int i = 0; i < dataGridView1.Rows.Count;i++)
+                            {
+                                if (dataGridView1.Rows[i].Cells[0].Value.ToString() == producto.Rows[0][0].ToString())
+                                {
+                                    dataGridView1.Rows[i].Cells[1].Value = int.Parse(dataGridView1.Rows[i].Cells[1].Value.ToString())+1;
+                                    dataGridView1.Rows[i].Cells[6].Value = (float.Parse(dataGridView1.Rows[i].Cells[1].Value.ToString()) * float.Parse(dataGridView1.Rows[i].Cells[7].Value.ToString().Replace("$",""))).ToString("$0.00");
+                                    yaesta = true;
+                                    textBox4.Text = "";
+                                    chequeartotal();
+                                }
+                            }
+                            if (yaesta == false)
+                            {
+                                int cantidad = 1;
+                                string idproducto = producto.Rows[0][0].ToString();
+                                string codigo = producto.Rows[0][1].ToString();
+                                string desc = producto.Rows[0][11].ToString();
+                                string mca = producto.Rows[0][2].ToString();
+                                float prec = float.Parse(producto.Rows[0][4].ToString());
+                                float costo = float.Parse(producto.Rows[0][5].ToString());
+                                float iva = float.Parse(producto.Rows[0][6].ToString());
+                                float porcentaje = float.Parse(producto.Rows[0][12].ToString());
+                                //añadir al table el costo y porcentaje y esconderlos, para asi poder hacer el porcentaje de mierda ese.
+                                float total = costo * cantidad;
+                                dataGridView1.Rows.Add(idproducto, cantidad, codigo, desc, mca, prec.ToString("$0.00"), total.ToString("$0.00"), costo.ToString("$0.00"), iva.ToString(), porcentaje.ToString());
+                                textBox4.Text = "";
+                                dataGridView1.Rows[(dataGridView1.Rows.Count - 1)].Cells[1].Selected = true;
+                                //MessageBox.Show(costo.ToString() + "-" + porcentaje.ToString() );
+                            }
                         }
                         else
                         {
@@ -235,30 +248,47 @@ namespace FLAGSYSTEMPV_2017
                 if (comboBox1.SelectedIndex >= 0)
                 {
                     totalventa.proveedcompra = comboBox1.SelectedItem.ToString();
+                    totalventa.codprodbuscado = "";
                     Buscarticulo bus = new Buscarticulo();
                     bus.ShowDialog();
                     if (totalventa.codprodbuscado != "")
                     {
+
                         Conexion.abrir();
                         SqlCeCommand metocodigo = new SqlCeCommand();
                         metocodigo.Parameters.AddWithValue("@cod", totalventa.codprodbuscado);
                         DataTable producto = Conexion.Consultar("idarticulo,codigoart,descripcion,marca,precio,costo,iva,porcentaje", "Articulos", "WHERE codigoart = @cod", "", metocodigo);
                         Conexion.cerrar();
+                        bool yaesta = false;
                         if (producto.Rows.Count > 0)
                         {
-                            int cantidad = 1;
-                            string idproducto = producto.Rows[0][0].ToString();
-                            string codigo = producto.Rows[0][1].ToString();
-                            string desc = producto.Rows[0][2].ToString();
-                            string mca = producto.Rows[0][3].ToString();
-                            float prec = float.Parse(producto.Rows[0][4].ToString());
-                            float total = prec * cantidad;
-                            float costo = float.Parse(producto.Rows[0][5].ToString());
-                            float iva = float.Parse(producto.Rows[0][6].ToString());
-                            float porcentaje = float.Parse(producto.Rows[0][6].ToString());
-                            dataGridView1.Rows.Add(idproducto, cantidad, codigo, desc, mca, prec.ToString("$0.00"), total.ToString("$0.00"),costo.ToString(),iva.ToString(),porcentaje.ToString());
-                            textBox4.Text = "";
-                            dataGridView1.Rows[(dataGridView1.Rows.Count - 1)].Cells[1].Selected = true;
+                            for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                            {
+                                if (dataGridView1.Rows[i].Cells[0].Value.ToString() == producto.Rows[0][0].ToString())
+                                {
+                                    dataGridView1.Rows[i].Cells[1].Value = int.Parse(dataGridView1.Rows[i].Cells[1].Value.ToString()) + 1;
+                                    dataGridView1.Rows[i].Cells[6].Value = (float.Parse(dataGridView1.Rows[i].Cells[1].Value.ToString()) * float.Parse(dataGridView1.Rows[i].Cells[7].Value.ToString().Replace("$", ""))).ToString("$0.00");
+                                    yaesta = true;
+                                    textBox4.Text = "";
+                                    chequeartotal();
+                                }
+                            }
+                            if (yaesta == false)
+                            {
+                                int cantidad = 1;
+                                string idproducto = producto.Rows[0][0].ToString();
+                                string codigo = producto.Rows[0][1].ToString();
+                                string desc = producto.Rows[0][2].ToString();
+                                string mca = producto.Rows[0][3].ToString();
+                                float prec = float.Parse(producto.Rows[0][4].ToString());
+                                float total = prec * cantidad;
+                                float costo = float.Parse(producto.Rows[0][5].ToString());
+                                float iva = float.Parse(producto.Rows[0][6].ToString());
+                                float porcentaje = float.Parse(producto.Rows[0][7].ToString());
+                                dataGridView1.Rows.Add(idproducto, cantidad, codigo, desc, mca, prec.ToString("$0.00"), total.ToString("$0.00"), costo.ToString("$0.00"), iva.ToString(), porcentaje.ToString());
+                                textBox4.Text = "";
+                                dataGridView1.Rows[(dataGridView1.Rows.Count - 1)].Cells[1].Selected = true;
+                            }
                         }
                     }
                 }
@@ -266,7 +296,6 @@ namespace FLAGSYSTEMPV_2017
                 {
                     MessageBox.Show("Para cargar articulos, debe seleccionar un proveedor");
                     comboBox1.DroppedDown = true;
-
                 }
             }
             if (e.KeyCode == Keys.F4 && dataGridView1.Rows.Count > 0)
@@ -281,6 +310,22 @@ namespace FLAGSYSTEMPV_2017
                 {
                     dataGridView1.Rows[rowIndex].Cells[1].Value = Cantidad.ToString();
                     dataGridView1.Rows[rowIndex].Cells[6].Value = ((float.Parse(Cantidad.ToString())  * costo).ToString("$0.00"));
+                    chequeartotal();
+                }
+            }
+            if (e.KeyCode == Keys.F3 && dataGridView1.Rows.Count > 0)
+            {
+                //abrir busqueda de articulo
+                IngreseMonto ing = new IngreseMonto();
+                ing.ShowDialog();
+                int rowIndex = dataGridView1.CurrentCell.RowIndex;
+                float Monto = totalventa.montocompra;
+               
+                if (Monto > 0)
+                {
+                    float Cantidad = float.Parse(dataGridView1.Rows[rowIndex].Cells[1].Value.ToString());
+                    dataGridView1.Rows[rowIndex].Cells[6].Value = ((Cantidad * Monto).ToString("$0.00"));
+                    dataGridView1.Rows[rowIndex].Cells[7].Value = Monto.ToString("$0.00");
                     chequeartotal();
                 }
             }
@@ -339,7 +384,6 @@ namespace FLAGSYSTEMPV_2017
         {
             textBox4.Focus();
         }
-
         private void textBox2_Click(object sender, EventArgs e)
         {
             textBox4.Focus();
@@ -360,7 +404,6 @@ namespace FLAGSYSTEMPV_2017
             textBox4.Focus();
 
             FiscalPrinterLib.HASAR prntr = new FiscalPrinterLib.HASAR();
-            
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)

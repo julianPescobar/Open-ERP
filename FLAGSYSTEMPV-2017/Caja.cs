@@ -44,6 +44,7 @@ namespace FLAGSYSTEMPV_2017
             //dateTimePicker2.Text = DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString();
             getdebehaber();
             calculardht();
+            getTotal();
         }
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
@@ -98,25 +99,25 @@ namespace FLAGSYSTEMPV_2017
                 float total = 0;
                 textBox3.Text = total.ToString("$0.00");
             }
-              
+            /*
             float debe = float.Parse(textBox3.Text.Replace("$",""));
-            float haber = float.Parse(textBox2.Text.Replace("$",""));
-            float saldoinicial;
+            float haber = float.Parse(textBox2.Text.Replace("$",""));*/
+           /* float saldoinicial;
             if (Demo.EsDemo == true)
             {
                 saldoinicial = 0;
             }
             else
-             saldoinicial= registereduser.saldoinicial;
-            textBox1.Text = (saldoinicial + haber - debe).ToString("$0.00");
-            if (float.Parse(textBox1.Text.ToString().Replace("$", "")) >= 0)
+             saldoinicial= registereduser.saldoinicial;*/
+           /* textBox1.Text = (saldoinicial + haber - debe).ToString("$0.00");*/
+            /*if (float.Parse(textBox1.Text.ToString().Replace("$", "")) >= 0)
             {
                 textBox1.BackColor = Color.LightGreen;
             }
             else
             {
                 textBox1.BackColor = Color.IndianRed;
-            }
+            }*/
         }
        
         void getdebehaber()
@@ -139,10 +140,9 @@ namespace FLAGSYSTEMPV_2017
                 string tipo = addIngresos.Rows[i][0].ToString();
                 string motivo = addIngresos.Rows[i][1].ToString();
                 string importe = addIngresos.Rows[i][2].ToString();
-
                 showhaber.Rows.Add(tipo+"("+motivo+")", 0, importe);
-
             }
+
             BindingSource SBind = new BindingSource();
             SBind.DataSource = showhaber;
             dataGridView2.AutoGenerateColumns = true;
@@ -156,9 +156,7 @@ namespace FLAGSYSTEMPV_2017
                 string tipo = addSalidas.Rows[i][0].ToString();
                 string motivo = addSalidas.Rows[i][1].ToString();
                 float importe = float.Parse(addSalidas.Rows[i][2].ToString());
-
                 showdebe.Rows.Add(tipo, motivo, importe.ToString("0.00"));
-
             }
             BindingSource SBind2 = new BindingSource();
             SBind2.DataSource = showdebe;
@@ -183,7 +181,34 @@ namespace FLAGSYSTEMPV_2017
         {
 
         }
+        private void getTotal()
+        {
+            SqlCeCommand notdeleted = new SqlCeCommand();
+            notdeleted.Parameters.AddWithValue("an", "Anulada");
+            Conexion.abrir();
+            DataTable ventas = Conexion.Consultar("SUM(total)", "Ventas", "WHERE estadoventa != @an", "", notdeleted);
+            DataTable entrada = Conexion.Consultar("SUM(total)", "EntradaCaja", "", "", new SqlCeCommand());
+            DataTable salida = Conexion.Consultar("SUM(total)", "SalidaCaja", "", "", new SqlCeCommand());
+            DataTable gastos = Conexion.Consultar("SUM(importe)", "Gastos", "", "", new SqlCeCommand());
+            Conexion.cerrar();
+            float saldoinicial;
 
+            if (Demo.EsDemo == true)
+            saldoinicial = 0;
+            else
+            saldoinicial = registereduser.saldoinicial;
+            float haber = float.Parse(ventas.Rows[0][0].ToString()) + float.Parse(entrada.Rows[0][0].ToString());
+            float debe = float.Parse(gastos.Rows[0][0].ToString()) + float.Parse(salida.Rows[0][0].ToString());
+            textBox1.Text = (saldoinicial + haber - debe).ToString("$0.00");
+            if (float.Parse(textBox1.Text.ToString().Replace("$", "")) >= 0)
+            {
+                textBox1.BackColor = Color.LightGreen;
+            }
+            else
+            {
+                textBox1.BackColor = Color.IndianRed;
+            }
+        }
         private void dateTimePicker2_ValueChanged_1(object sender, EventArgs e)
         {
             getdebehaber();
@@ -193,6 +218,18 @@ namespace FLAGSYSTEMPV_2017
         private void dateTimePicker1_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Escape) this.Close();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (Application.OpenForms.OfType<Informe>().Count() == 1)
+                Application.OpenForms.OfType<Informe>().First().Focus();
+            else
+            {
+                Informe frm = new Informe();
+                Conexion.data = "Caja";
+                frm.Show();
+            }
         }
     }
 }

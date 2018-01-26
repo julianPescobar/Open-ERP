@@ -293,7 +293,7 @@ namespace FLAGSYSTEMPV_2017
                             item.Parameters.AddWithValue("to", totalventa.detallecompra.Rows[i][6].ToString().Replace("$", ""));
                             item.Parameters.AddWithValue("ncosto", nuevocosto);
                             item.Parameters.AddWithValue("porcent", nuevocostoconporcentaje);
-                            MessageBox.Show(porcentajefactura.ToString("0.00"));
+                           // MessageBox.Show(porcentajefactura.ToString("0.00"));
                             //item.Parameters.AddWithValue("costo", totalventa.detallecompra.Rows[i][7].ToString());
                             //MessageBox.Show(totalventa.detallecompra.Rows[i][8].ToString() + "-" + totalventa.detallecompra.Rows[i][7].ToString());
                             //MessageBox.Show(totalventa.detallecompra.Rows[i][1].ToString());
@@ -301,13 +301,13 @@ namespace FLAGSYSTEMPV_2017
                             if ( nuevocostoconporcentaje > Precio)
                             {
 
-                            MessageBox.Show("el nuevo costo es mayor que el precio actual.\n"+nuevocostoconporcentaje.ToString("$0.00")+" > "+PrecioconIva.ToString("$0.00"));
+                            //MessageBox.Show("el nuevo costo es mayor que el precio actual.\n"+nuevocostoconporcentaje.ToString("$0.00")+" > "+PrecioconIva.ToString("$0.00"));
                             Conexion.Actualizar("Articulos", " precio = @porcent, costo = @ncosto  ", "WHERE idarticulo = @idprod", "", item);
                             
                             }
 
                             Conexion.Insertar("DetalleCompras", "nfactura,idproducto, codigoproducto , descripproducto, marcaproducto, cantidproducto, precioproducto, totalproducto", "@nf,@idprod,@cp,@dp,@mc,@ca,@pp,@to", item);
-                            Conexion.Actualizar("Articulos", " stockactual = stockactual + " + Convert.ToInt32(totalventa.detallecompra.Rows[i][1].ToString()) + " ", "WHERE idarticulo = @idprod", "", item);
+                            Conexion.Actualizar("Articulos", " stockactual = stockactual + " + Convert.ToInt32(totalventa.detallecompra.Rows[i][1].ToString()) + ", costo = @ncosto ", "WHERE idarticulo = @idprod", "", item);
                         }
                         if (Demo.EsDemo == true)
                         {

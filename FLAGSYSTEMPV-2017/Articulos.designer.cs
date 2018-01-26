@@ -28,19 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
             this.button9 = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.label2 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textBox3 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -105,41 +107,18 @@
             this.label1.TabIndex = 4;
             this.label1.Text = "Buscar:";
             // 
-            // button4
-            // 
-            this.button4.BackColor = System.Drawing.Color.LightSkyBlue;
-            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button4.Location = new System.Drawing.Point(473, 492);
-            this.button4.Margin = new System.Windows.Forms.Padding(5, 3, 5, 3);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(105, 46);
-            this.button4.TabIndex = 6;
-            this.button4.Text = "Actualizar Precio Costo";
-            this.button4.UseVisualStyleBackColor = false;
-            // 
             // button5
             // 
             this.button5.BackColor = System.Drawing.Color.LightSkyBlue;
             this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button5.Location = new System.Drawing.Point(578, 492);
+            this.button5.Location = new System.Drawing.Point(121, 495);
             this.button5.Margin = new System.Windows.Forms.Padding(5, 3, 5, 3);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(105, 46);
+            this.button5.Size = new System.Drawing.Size(127, 46);
             this.button5.TabIndex = 7;
-            this.button5.Text = "Actualizar Precio Venta";
+            this.button5.Text = "Actualizar Precios Compra/Venta";
             this.button5.UseVisualStyleBackColor = false;
-            // 
-            // button6
-            // 
-            this.button6.BackColor = System.Drawing.Color.LightSkyBlue;
-            this.button6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button6.Location = new System.Drawing.Point(683, 492);
-            this.button6.Margin = new System.Windows.Forms.Padding(5, 3, 5, 3);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(105, 46);
-            this.button6.TabIndex = 8;
-            this.button6.Text = "Valorización";
-            this.button6.UseVisualStyleBackColor = false;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // button9
             // 
@@ -152,6 +131,7 @@
             this.button9.TabIndex = 11;
             this.button9.Text = "Modificar";
             this.button9.UseVisualStyleBackColor = false;
+            this.button9.Click += new System.EventHandler(this.button9_Click);
             // 
             // dataGridView1
             // 
@@ -159,8 +139,8 @@
             this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.AllowUserToResizeColumns = false;
             this.dataGridView1.AllowUserToResizeRows = false;
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.Lavender;
-            this.dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Lavender;
+            this.dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
             this.dataGridView1.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
@@ -174,8 +154,8 @@
             this.dataGridView1.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Lucida Sans Unicode", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Lucida Sans Unicode", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.ShowCellErrors = false;
@@ -194,18 +174,58 @@
             this.label2.TabIndex = 13;
             this.label2.Text = "No hay articulos cargados.";
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(528, 493);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(154, 16);
+            this.label4.TabIndex = 15;
+            this.label4.Text = "Total por Precio Compra:";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(541, 520);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(141, 16);
+            this.label5.TabIndex = 16;
+            this.label5.Text = "Total por Precio Venta:";
+            // 
+            // textBox2
+            // 
+            this.textBox2.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.textBox2.Enabled = false;
+            this.textBox2.Location = new System.Drawing.Point(688, 490);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.ReadOnly = true;
+            this.textBox2.Size = new System.Drawing.Size(100, 26);
+            this.textBox2.TabIndex = 17;
+            // 
+            // textBox3
+            // 
+            this.textBox3.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.textBox3.Enabled = false;
+            this.textBox3.Location = new System.Drawing.Point(688, 517);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.ReadOnly = true;
+            this.textBox3.Size = new System.Drawing.Size(100, 26);
+            this.textBox3.TabIndex = 18;
+            // 
             // Articulos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SteelBlue;
             this.ClientSize = new System.Drawing.Size(800, 550);
+            this.Controls.Add(this.textBox3);
+            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.button9);
-            this.Controls.Add(this.button6);
             this.Controls.Add(this.button5);
-            this.Controls.Add(this.button4);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
@@ -236,11 +256,13 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Button button9;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox textBox3;
     }
 }

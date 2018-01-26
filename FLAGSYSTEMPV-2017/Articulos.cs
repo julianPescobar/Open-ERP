@@ -47,6 +47,7 @@ namespace FLAGSYSTEMPV_2017
 
         private void button1_Click(object sender, EventArgs e)
         {
+            createorupdate.status = "create";
             if (Application.OpenForms.OfType<NuevoArticulo>().Count() == 1)
                 Application.OpenForms.OfType<NuevoArticulo>().First().Focus();
             else
@@ -78,7 +79,7 @@ namespace FLAGSYSTEMPV_2017
         void getarts()
         {
             Conexion.abrir();
-            DataTable showarts = Conexion.Consultar("idarticulo,codigoart as [Codigo de Articulo],descripcion as [Descripcion del Articulo],proveedor as Proveedor,precio as Precio,costo as Costo,stockactual as Stock,stockminimo as [Stock Minimo],iva as IVA", "Articulos", "", "", new SqlCeCommand());
+            DataTable showarts = Conexion.Consultar("idarticulo,codigoart as [Codigo prod.],descripcion as [Descripcion del Articulo],proveedor as Proveedor,precio as [Pr Venta],costo as [Pr Compra],stockactual as Stock,stockminimo as [Stock Minimo],iva as IVA", "Articulos", "", "", new SqlCeCommand());
             Conexion.cerrar();
             BindingSource SBind = new BindingSource();
             SBind.DataSource = showarts;
@@ -95,21 +96,35 @@ namespace FLAGSYSTEMPV_2017
                 label2.Visible = false; //sacamos label
                 dataGridView1.DataSource = showarts; //mostramos lo que hay
                 button2.Enabled = true;
-                button4.Enabled = true;
+               
                 button5.Enabled = true;
-                button6.Enabled = true;
+                //button6.Enabled = true;
                
                
                 button9.Enabled = true;
+                Conexion.abrir();
+                DataTable valorizacion = Conexion.Consultar("precio,costo,stockactual", "Articulos", "", "", new SqlCeCommand());
+                Conexion.cerrar();
+                float precio = 0;
+                float costo = 0;
+                for (int i = 0; i < valorizacion.Rows.Count; i++)
+                {
+                    precio += float.Parse(valorizacion.Rows[i][0].ToString()) * float.Parse(valorizacion.Rows[i][2].ToString());
+                    costo += float.Parse(valorizacion.Rows[i][1].ToString()) * float.Parse(valorizacion.Rows[i][2].ToString());
+                    }
+                textBox3.Text = precio.ToString("$0.00");
+                textBox2.Text = costo.ToString("$0.00");
             }
             else
             {
+                textBox2.Text = "$0.00";
+                textBox3.Text = "$0.00";
                 label2.Visible = true; //mostramos que no hay registros
                 button2.Enabled = false;
                 button9.Enabled = false;
-                button4.Enabled = false;
+              
                 button5.Enabled = false;
-                button6.Enabled = false;
+                //button6.Enabled = false;
               
                
             }
@@ -128,6 +143,34 @@ namespace FLAGSYSTEMPV_2017
             if (e.KeyCode == Keys.Escape)
             {
                 this.Close();
+            }
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            int rowIndex = dataGridView1.CurrentCell.RowIndex;
+            createorupdate.itemid = dataGridView1.Rows[rowIndex].Cells[0].Value.ToString();
+           
+            createorupdate.status = "update";
+            if (Application.OpenForms.OfType<NuevoArticulo>().Count() == 1)
+                Application.OpenForms.OfType<NuevoArticulo>().First().Focus();
+            else
+            {
+                NuevoArticulo frm = new NuevoArticulo();
+                frm.ShowDialog();
+            }
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            int rowIndex = dataGridView1.CurrentCell.RowIndex;
+            createorupdate.itemid = dataGridView1.Rows[rowIndex].Cells[0].Value.ToString();
+            if (Application.OpenForms.OfType<ActualizaPrecios>().Count() == 1)
+                Application.OpenForms.OfType<ActualizaPrecios>().First().Focus();
+            else
+            {
+                ActualizaPrecios frm = new ActualizaPrecios();
+                frm.ShowDialog();
             }
         }
     }

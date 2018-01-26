@@ -44,8 +44,6 @@
             this.label7 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.label15 = new System.Windows.Forms.Label();
             this.textBox16 = new System.Windows.Forms.TextBox();
             this.label16 = new System.Windows.Forms.Label();
             this.textBox8 = new System.Windows.Forms.TextBox();
@@ -69,15 +67,16 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(96, 19);
+            this.label1.Location = new System.Drawing.Point(50, 18);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(62, 16);
+            this.label1.Size = new System.Drawing.Size(108, 16);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Nombre:";
+            this.label1.Text = "Dueño Licencia:";
             // 
             // textBox1
             // 
             this.textBox1.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.textBox1.Enabled = false;
             this.textBox1.Location = new System.Drawing.Point(159, 11);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(202, 27);
@@ -154,6 +153,7 @@
             // textBox6
             // 
             this.textBox6.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.textBox6.Enabled = false;
             this.textBox6.Location = new System.Drawing.Point(159, 157);
             this.textBox6.Name = "textBox6";
             this.textBox6.Size = new System.Drawing.Size(202, 27);
@@ -189,17 +189,16 @@
             // 
             this.button1.BackColor = System.Drawing.Color.LightSkyBlue;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Location = new System.Drawing.Point(281, 519);
+            this.button1.Location = new System.Drawing.Point(281, 489);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(86, 28);
+            this.button1.Size = new System.Drawing.Size(86, 36);
             this.button1.TabIndex = 14;
             this.button1.Text = "Guardar";
             this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.comboBox1);
-            this.groupBox1.Controls.Add(this.label15);
             this.groupBox1.Controls.Add(this.textBox16);
             this.groupBox1.Controls.Add(this.label16);
             this.groupBox1.Controls.Add(this.textBox8);
@@ -218,35 +217,10 @@
             this.groupBox1.Controls.Add(this.label11);
             this.groupBox1.Location = new System.Drawing.Point(15, 216);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(352, 297);
+            this.groupBox1.Size = new System.Drawing.Size(352, 267);
             this.groupBox1.TabIndex = 15;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Configuración de Email";
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.BackColor = System.Drawing.Color.LightSkyBlue;
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
-            "Total gral del día",
-            "Total de compras de hoy",
-            "Total de ventas de hoy",
-            "Stock actual",
-            "Total de caja del dia"});
-            this.comboBox1.Location = new System.Drawing.Point(146, 256);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(200, 24);
-            this.comboBox1.TabIndex = 33;
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(24, 264);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(114, 16);
-            this.label15.TabIndex = 32;
-            this.label15.Text = "Informe a enviar:";
             // 
             // textBox16
             // 
@@ -388,9 +362,9 @@
             // 
             this.button2.BackColor = System.Drawing.Color.LightSkyBlue;
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Location = new System.Drawing.Point(12, 519);
+            this.button2.Location = new System.Drawing.Point(12, 489);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 28);
+            this.button2.Size = new System.Drawing.Size(75, 36);
             this.button2.TabIndex = 16;
             this.button2.Text = "Salir";
             this.button2.UseVisualStyleBackColor = false;
@@ -401,7 +375,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SteelBlue;
-            this.ClientSize = new System.Drawing.Size(379, 552);
+            this.ClientSize = new System.Drawing.Size(379, 533);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.button1);
@@ -452,8 +426,6 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.Label label15;
         private System.Windows.Forms.TextBox textBox16;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.TextBox textBox8;

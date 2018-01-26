@@ -40,6 +40,7 @@ namespace FLAGSYSTEMPV_2017
 
         private void button1_Click(object sender, EventArgs e)
         {
+            createorupdate.status = "create";
             if (Application.OpenForms.OfType<NuevoUser>().Count() == 1)
                 Application.OpenForms.OfType<NuevoUser>().First().Focus();
             else
@@ -84,19 +85,23 @@ namespace FLAGSYSTEMPV_2017
             var row = this.dataGridView1.Rows[rowIndex];
             string name = row.Cells["Nombre Real"].Value.ToString();
             string id = row.Cells["iduser"].Value.ToString();
-
-            DialogResult borrar = MessageBox.Show("Está segudo de borrar este Usuario?\n" + name, "Borrar?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-            if (borrar == DialogResult.Yes)
+            string level = row.Cells["Jerarquía"].Value.ToString();
+            if (level != "Admin")
             {
-                Conexion.abrir();
-                SqlCeCommand del = new SqlCeCommand();
-                del.Parameters.AddWithValue("@id", id);
-                del.Parameters.AddWithValue("@bo", "Eliminado");
-                Conexion.Actualizar("Usuarios","eliminado = @bo","WHERE iduser = @id","",del);
-                this.Close();
-                CrearEmpleados showagn = new CrearEmpleados();
-                showagn.Show();
+                DialogResult borrar = MessageBox.Show("Está segudo de borrar este Usuario?\n" + name, "Borrar?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (borrar == DialogResult.Yes)
+                {
+                    Conexion.abrir();
+                    SqlCeCommand del = new SqlCeCommand();
+                    del.Parameters.AddWithValue("@id", id);
+                    del.Parameters.AddWithValue("@bo", "Eliminado");
+                    Conexion.Actualizar("Usuarios", "eliminado = @bo", "WHERE iduser = @id", "", del);
+                    this.Close();
+                    CrearEmpleados showagn = new CrearEmpleados();
+                    showagn.Show();
+                }
             }
+            else MessageBox.Show("Este usuario está protegido");
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -114,6 +119,24 @@ namespace FLAGSYSTEMPV_2017
             {
                 this.Close();
             }
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            int rowIndex = dataGridView1.CurrentCell.RowIndex;
+            if (dataGridView1.Rows[rowIndex].Cells[2].Value.ToString() != "Admin")
+            {
+                createorupdate.itemid = dataGridView1.Rows[rowIndex].Cells[0].Value.ToString();
+                createorupdate.status = "update";
+                if (Application.OpenForms.OfType<NuevoUser>().Count() == 1)
+                    Application.OpenForms.OfType<NuevoUser>().First().Focus();
+                else
+                {
+                    NuevoUser frm = new NuevoUser();
+                    frm.Show();
+                }
+            }
+            else MessageBox.Show("Este usuario está protegido");
         }
     }
 }

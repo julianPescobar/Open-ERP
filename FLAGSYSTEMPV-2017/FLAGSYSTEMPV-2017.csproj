@@ -66,6 +66,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActualizaPrecios.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ActualizaPrecios.Designer.cs">
+      <DependentUpon>ActualizaPrecios.cs</DependentUpon>
+    </Compile>
     <Compile Include="Articulos.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -140,6 +146,12 @@
     </Compile>
     <Compile Include="AgregarAltabaja.designer.cs">
       <DependentUpon>AgregarAltabaja.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IngreseMonto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IngreseMonto.Designer.cs">
+      <DependentUpon>IngreseMonto.cs</DependentUpon>
     </Compile>
     <Compile Include="CrearEmpleados.cs">
       <SubType>Form</SubType>
@@ -273,6 +285,9 @@
     <Compile Include="Ventas.Designer.cs">
       <DependentUpon>Ventas.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="ActualizaPrecios.resx">
+      <DependentUpon>ActualizaPrecios.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Articulos.resx">
       <DependentUpon>Articulos.cs</DependentUpon>
     </EmbeddedResource>
@@ -308,6 +323,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AgregarAltabaja.resx">
       <DependentUpon>AgregarAltabaja.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IngreseMonto.resx">
+      <DependentUpon>IngreseMonto.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CrearEmpleados.resx">
       <DependentUpon>CrearEmpleados.cs</DependentUpon>

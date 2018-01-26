@@ -35,6 +35,7 @@ namespace FLAGSYSTEMPV_2017
         public static string codprodbuscado;    //lo uso para cuando se apreta f5 guardo el cod del prod en esta variable
         public static string compraoventa;      //lo uso para saber si estoy en form compra o venta, para no crear 2 forms uso el mismo pero uso una variable para mostrar una cosa o la otra
         public static string proveedcompra;     //lo uso para no crear 2 buscadores de articulos, le paso el proveedor y hago el where proveedor = este string
-    //
+        public static float montocompra;        //lo uso para cuando se apreta f3 guarda el monto de compra del prod selecc
+        //
     }
 }

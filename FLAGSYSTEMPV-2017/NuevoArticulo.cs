@@ -24,17 +24,54 @@ namespace FLAGSYSTEMPV_2017
 
         private void NuevoArticulo_Load(object sender, EventArgs e)
         {
-            Conexion.abrir();
-            DataTable rubros = Conexion.Consultar("nombrerubro", "Rubros", "", "", new SqlCeCommand());
-            DataTable proveedores = Conexion.Consultar("nombre", "Proveedores", "", "", new SqlCeCommand());
-            Conexion.cerrar();
-            for (int i = 0; i < rubros.Rows.Count; i++)
+            if (createorupdate.status == "create")
             {
-                comboBox1.Items.Add(rubros.Rows[i][0].ToString());
+                Conexion.abrir();
+                DataTable rubros = Conexion.Consultar("nombrerubro", "Rubros", "", "", new SqlCeCommand());
+                DataTable proveedores = Conexion.Consultar("nombre", "Proveedores", "", "", new SqlCeCommand());
+                Conexion.cerrar();
+                for (int i = 0; i < rubros.Rows.Count; i++)
+                {
+                    comboBox1.Items.Add(rubros.Rows[i][0].ToString());
+                }
+                for (int i = 0; i < proveedores.Rows.Count; i++)
+                {
+                    comboBox2.Items.Add(proveedores.Rows[i][0].ToString());
+                }
             }
-            for (int i = 0; i < proveedores.Rows.Count; i++)
+            if (createorupdate.status == "update")
             {
-                comboBox2.Items.Add(proveedores.Rows[i][0].ToString());
+                SqlCeCommand idprod = new SqlCeCommand();
+                idprod.Parameters.AddWithValue("id", createorupdate.itemid);
+                Conexion.abrir();
+                DataTable rubros = Conexion.Consultar("nombrerubro", "Rubros", "", "", new SqlCeCommand());
+                DataTable proveedores = Conexion.Consultar("nombre", "Proveedores", "", "", new SqlCeCommand());
+                DataTable datosprod = Conexion.Consultar("codigoart,descripcion,marca,rubro,precio,costo,iva,stockminimo,porcentaje,compraminima,proveedor", "Articulos", "WHERE idarticulo = @id", "", idprod);
+                
+                Conexion.cerrar();
+                for (int i = 0; i < rubros.Rows.Count; i++)
+                {
+                    comboBox1.Items.Add(rubros.Rows[i][0].ToString());
+                }
+                for (int i = 0; i < proveedores.Rows.Count; i++)
+                {
+                    comboBox2.Items.Add(proveedores.Rows[i][0].ToString());
+                }
+                button1.Text = "Guardar cambios";
+                if(datosprod.Rows.Count > 0){
+                    textBox1.Text = datosprod.Rows[0][0].ToString();
+                    textBox2.Text = datosprod.Rows[0][1].ToString();
+                    textBox3.Text = datosprod.Rows[0][2].ToString();
+                    comboBox1.SelectedItem = datosprod.Rows[0][3].ToString();
+                    textBox4.Text = float.Parse(datosprod.Rows[0][4].ToString()).ToString("$0.00");
+                    textBox5.Text = float.Parse(datosprod.Rows[0][5].ToString()).ToString("$0.00");
+                    textBox6.Text = float.Parse(datosprod.Rows[0][6].ToString()).ToString("0.00");
+                    textBox7.Text = datosprod.Rows[0][7].ToString();
+                    textBox8.Text = float.Parse(datosprod.Rows[0][8].ToString()).ToString("0.00");
+                    textBox9.Text = datosprod.Rows[0][9].ToString();
+                    comboBox2.SelectedItem = datosprod.Rows[0][10].ToString();
+                    calcular();
+                }
             }
         }
         protected override void WndProc(ref Message m)
@@ -55,57 +92,115 @@ namespace FLAGSYSTEMPV_2017
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (textBox1.Text.Length < 1 ||
-                textBox4.Text.Length < 1 ||
-                textBox5.Text.Length < 1 ||
-                textBox7.Text.Length < 1 ||
-                textBox8.Text.Length < 1 ||
-                textBox9.Text.Length < 1 ||
-                comboBox1.SelectedIndex  < 0 ||
-                comboBox2.SelectedIndex < 0)
+            if (createorupdate.status == "create")
             {
-                MessageBox.Show("Debe completar los campos con asterisco obligatorios");
-            }
-            else
-            {
-                string codigo, descripcion, marca, rubro, precio, costo, iva, stkmin, porcent, compramin, proveed;
-                descripcion = textBox2.Text;
-                marca = textBox3.Text;
-                rubro = comboBox1.SelectedItem.ToString();
-                precio = textBox4.Text;
-                costo = textBox5.Text;
-                iva = textBox6.Text;
-                stkmin = textBox7.Text;
-                porcent = textBox8.Text;
-                compramin = textBox9.Text;
-                codigo = textBox1.Text;
-                proveed = comboBox2.SelectedItem.ToString();
-                SqlCeCommand nuevoarticulo = new SqlCeCommand();
-                nuevoarticulo.Parameters.Clear();
-                nuevoarticulo.Parameters.AddWithValue("@n", "0");
-                nuevoarticulo.Parameters.AddWithValue("@o", "0");
-                nuevoarticulo.Parameters.AddWithValue("@a", codigo);
-                nuevoarticulo.Parameters.AddWithValue("@b", descripcion);
-                nuevoarticulo.Parameters.AddWithValue("@c", marca);
-                nuevoarticulo.Parameters.AddWithValue("@d", rubro);
-                nuevoarticulo.Parameters.AddWithValue("@e", precio.ToString().Replace("$",""));
-                nuevoarticulo.Parameters.AddWithValue("@f", costo.ToString().Replace("$", ""));
-                nuevoarticulo.Parameters.AddWithValue("@g", iva);
-                nuevoarticulo.Parameters.AddWithValue("@l", "0");
-                nuevoarticulo.Parameters.AddWithValue("@h", stkmin);
-                nuevoarticulo.Parameters.AddWithValue("@i", porcent);
-                nuevoarticulo.Parameters.AddWithValue("@j", compramin);
-                nuevoarticulo.Parameters.AddWithValue("@k", proveed);
-                Conexion.abrir();
-                Conexion.Insertar("Articulos", "faltante,sobrante,codigoart,descripcion,marca,rubro,precio,costo,iva,stockactual,stockminimo,porcentaje,compraminima,proveedor", "@n,@o,@a,@b,@c,@d,@e,@f,@g,@l,@h,@i,@j,@k", nuevoarticulo);
-                Conexion.cerrar();
-                if (Application.OpenForms.OfType<Articulos>().Count() == 1)
+                if (textBox1.Text.Length < 1 ||
+                    textBox4.Text.Length < 1 ||
+                    textBox5.Text.Length < 1 ||
+                    textBox7.Text.Length < 1 ||
+                    textBox8.Text.Length < 1 ||
+                    textBox9.Text.Length < 1 ||
+                    comboBox1.SelectedIndex < 0 ||
+                    comboBox2.SelectedIndex < 0)
                 {
-                    Application.OpenForms.OfType<Articulos>().First().Close();
-                    Articulos openagain = new Articulos();
-                    openagain.Show();
+                    MessageBox.Show("Debe completar los campos con asterisco obligatorios");
                 }
-                this.Close();
+                else
+                {
+                    string codigo, descripcion, marca, rubro, precio, costo, iva, stkmin, porcent, compramin, proveed;
+                    descripcion = textBox2.Text;
+                    marca = textBox3.Text;
+                    rubro = comboBox1.SelectedItem.ToString();
+                    precio = textBox4.Text;
+                    costo = textBox5.Text;
+                    iva = textBox6.Text;
+                    stkmin = textBox7.Text;
+                    porcent = textBox8.Text;
+                    compramin = textBox9.Text;
+                    codigo = textBox1.Text;
+                    proveed = comboBox2.SelectedItem.ToString();
+                    SqlCeCommand nuevoarticulo = new SqlCeCommand();
+                    nuevoarticulo.Parameters.Clear();
+                    nuevoarticulo.Parameters.AddWithValue("@n", "0");
+                    nuevoarticulo.Parameters.AddWithValue("@o", "0");
+                    nuevoarticulo.Parameters.AddWithValue("@a", codigo);
+                    nuevoarticulo.Parameters.AddWithValue("@b", descripcion);
+                    nuevoarticulo.Parameters.AddWithValue("@c", marca);
+                    nuevoarticulo.Parameters.AddWithValue("@d", rubro);
+                    nuevoarticulo.Parameters.AddWithValue("@e", precio.ToString().Replace("$", ""));
+                    nuevoarticulo.Parameters.AddWithValue("@f", costo.ToString().Replace("$", ""));
+                    nuevoarticulo.Parameters.AddWithValue("@g", iva);
+                    nuevoarticulo.Parameters.AddWithValue("@l", "0");
+                    nuevoarticulo.Parameters.AddWithValue("@h", stkmin);
+                    nuevoarticulo.Parameters.AddWithValue("@i", porcent);
+                    nuevoarticulo.Parameters.AddWithValue("@j", compramin);
+                    nuevoarticulo.Parameters.AddWithValue("@k", proveed);
+                    Conexion.abrir();
+                    Conexion.Insertar("Articulos", "faltante,sobrante,codigoart,descripcion,marca,rubro,precio,costo,iva,stockactual,stockminimo,porcentaje,compraminima,proveedor", "@n,@o,@a,@b,@c,@d,@e,@f,@g,@l,@h,@i,@j,@k", nuevoarticulo);
+                    Conexion.cerrar();
+                    if (Application.OpenForms.OfType<Articulos>().Count() == 1)
+                    {
+                        Application.OpenForms.OfType<Articulos>().First().Close();
+                        Articulos openagain = new Articulos();
+                        openagain.Show();
+                    }
+                    this.Close();
+                }
+            }
+            if (createorupdate.status == "update")
+            {
+                if (textBox1.Text.Length < 1 ||
+                    textBox4.Text.Length < 1 ||
+                    textBox5.Text.Length < 1 ||
+                    textBox7.Text.Length < 1 ||
+                    textBox8.Text.Length < 1 ||
+                    textBox9.Text.Length < 1 ||
+                    comboBox1.SelectedIndex < 0 ||
+                    comboBox2.SelectedIndex < 0)
+                {
+                    MessageBox.Show("Debe completar los campos con asterisco obligatorios");
+                }
+                else
+                {
+                    string codigo, descripcion, marca, rubro, precio, costo, iva, stkmin, porcent, compramin, proveed;
+                    descripcion = textBox2.Text;
+                    marca = textBox3.Text;
+                    rubro = comboBox1.SelectedItem.ToString();
+                    precio = textBox4.Text;
+                    costo = textBox5.Text;
+                    iva = textBox6.Text;
+                    stkmin = textBox7.Text;
+                    porcent = textBox8.Text;
+                    compramin = textBox9.Text;
+                    codigo = textBox1.Text;
+                    proveed = comboBox2.SelectedItem.ToString();
+                    SqlCeCommand nuevoarticulo = new SqlCeCommand();
+                    nuevoarticulo.Parameters.Clear();
+                    nuevoarticulo.Parameters.AddWithValue("@id", createorupdate.itemid);
+                    nuevoarticulo.Parameters.AddWithValue("@a", codigo);
+                    nuevoarticulo.Parameters.AddWithValue("@b", descripcion);
+                    nuevoarticulo.Parameters.AddWithValue("@c", marca);
+                    nuevoarticulo.Parameters.AddWithValue("@d", rubro);
+                    nuevoarticulo.Parameters.AddWithValue("@e", precio.ToString().Replace("$", ""));
+                    nuevoarticulo.Parameters.AddWithValue("@f", costo.ToString().Replace("$", ""));
+                    nuevoarticulo.Parameters.AddWithValue("@g", iva);
+                    nuevoarticulo.Parameters.AddWithValue("@h", stkmin);
+                    nuevoarticulo.Parameters.AddWithValue("@i", porcent);
+                    nuevoarticulo.Parameters.AddWithValue("@j", compramin);
+                    nuevoarticulo.Parameters.AddWithValue("@k", proveed);
+                    Conexion.abrir();
+                    Conexion.Actualizar("Articulos", "codigoart = @a,descripcion = @b,marca = @c,rubro = @d,precio = @e,costo = @f,iva = @g,stockminimo = @h,porcentaje = @i,compraminima = @j,proveedor = @k",  "WHERE idarticulo = @id", "", nuevoarticulo);
+
+                    //Conexion.Insertar("Articulos", "faltante,sobrante,codigoart,descripcion,marca,rubro,precio,costo,iva,stockactual,stockminimo,porcentaje,compraminima,proveedor", "@n,@o,@a,@b,@c,@d,@e,@f,@g,@l,@h,@i,@j,@k", nuevoarticulo);
+                    Conexion.cerrar();
+                    if (Application.OpenForms.OfType<Articulos>().Count() == 1)
+                    {
+                        Application.OpenForms.OfType<Articulos>().First().Close();
+                        Articulos openagain = new Articulos();
+                        openagain.Show();
+                    }
+                    this.Close();
+                }
             }
         }
 
@@ -184,8 +279,8 @@ namespace FLAGSYSTEMPV_2017
             try
             {
                 float porcom = float.Parse(textBox8.Text);
-                textBox8.Text = (porcom > 0) ? porcom.ToString("0.00") : "";
-                if (textBox8.Text.Length > 0)
+                textBox8.Text = (porcom >= 0) ? porcom.ToString("0.00") : "";
+                if (textBox8.Text.Length >= 0)
                 {
                     calcular();
                 }
@@ -223,7 +318,7 @@ namespace FLAGSYSTEMPV_2017
                 float ivacompra = float.Parse(textBox8.Text);
                 float costomasganancia = compra + (compra * (ivacompra / 100));
                 float precioconiva = precio + (precio * (ivaprecio / 100));
-                if (costomasganancia > precioconiva)
+                if (costomasganancia > precio)
                 {
                     DialogResult wrongprice = MessageBox.Show("El precio de compra del producto mas su porcentaje de ganancia de es mayor al precio de venta + iva que usted ingresó, desea actualizar el precio de venta para que pueda obtener mas ganancia?", "Advertencia", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                     if (wrongprice == DialogResult.Yes)

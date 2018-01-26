@@ -141,9 +141,9 @@
             this.label10.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.Location = new System.Drawing.Point(4, 211);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(130, 17);
+            this.label10.Size = new System.Drawing.Size(135, 17);
             this.label10.TabIndex = 8;
-            this.label10.Text = "*Porcent. Compra:";
+            this.label10.Text = "*Porcent.Ganancia:";
             // 
             // label11
             // 
