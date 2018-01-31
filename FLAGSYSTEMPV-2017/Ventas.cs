@@ -161,8 +161,6 @@ namespace FLAGSYSTEMPV_2017
                         dt.Rows.Add(dr);
                     }
                     totalventa.detalle = dt;
-
-                    
                     totalventa.totventa = textBox5.Text;
                     Total total = new Total();
                     total.Show();
@@ -174,7 +172,8 @@ namespace FLAGSYSTEMPV_2017
                     Conexion.abrir();
                     SqlCeCommand metocodigo = new SqlCeCommand();
                     metocodigo.Parameters.AddWithValue("@cod", textBox4.Text);
-                    DataTable producto = Conexion.Consultar("idarticulo,codigoart,descripcion,marca,precio", "Articulos", "WHERE codigoart = @cod", "", metocodigo);
+                    metocodigo.Parameters.AddWithValue("@elim", "Eliminado");
+                    DataTable producto = Conexion.Consultar("idarticulo,codigoart,descripcion,marca,precio,tipo", "Articulos", "WHERE codigoart = @cod and eliminado !=@elim", "", metocodigo);
                     Conexion.cerrar();
                     if (producto.Rows.Count > 0)
                     {
@@ -188,9 +187,6 @@ namespace FLAGSYSTEMPV_2017
                         dataGridView1.Rows.Add(idproducto,cantidad, codigo, desc, mca, prec.ToString("$0.00"), total.ToString("$0.00"));
                         textBox4.Text = "";
                         dataGridView1.Rows[(dataGridView1.Rows.Count - 1)].Cells[1].Selected = true;
-
-
-                       
                     }
                     else
                     {
@@ -209,7 +205,7 @@ namespace FLAGSYSTEMPV_2017
                     Conexion.abrir();
                     SqlCeCommand metocodigo = new SqlCeCommand();
                     metocodigo.Parameters.AddWithValue("@cod", totalventa.codprodbuscado);
-                    DataTable producto = Conexion.Consultar("idarticulo,codigoart,descripcion,marca,precio", "Articulos", "WHERE codigoart = @cod", "", metocodigo);
+                    DataTable producto = Conexion.Consultar("idarticulo,codigoart,descripcion,marca,precio,tipo", "Articulos", "WHERE codigoart = @cod", "", metocodigo);
                     Conexion.cerrar();
                     if (producto.Rows.Count > 0)
                     {
@@ -219,9 +215,11 @@ namespace FLAGSYSTEMPV_2017
                         string desc = producto.Rows[0][2].ToString();
                         string mca = producto.Rows[0][3].ToString();
                         float prec = float.Parse(producto.Rows[0][4].ToString());
+                        string tipo = producto.Rows[0][5].ToString();
                         float total = prec * cantidad;
-                        dataGridView1.Rows.Add(idproducto, cantidad, codigo, desc, mca, prec.ToString("$0.00"), total.ToString("$0.00"));
+                        dataGridView1.Rows.Add(idproducto, cantidad, codigo, desc, mca, prec.ToString("$0.00"), total.ToString("$0.00"),tipo.ToString());
                         textBox4.Text = "";
+                        //MessageBox.Show(dataGridView1.Rows[0].Cells[7].Value.ToString());
                         dataGridView1.Rows[(dataGridView1.Rows.Count - 1)].Cells[1].Selected = true;
                     }
                 }

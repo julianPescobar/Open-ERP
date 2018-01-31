@@ -19,6 +19,94 @@ namespace FLAGSYSTEMPV_2017
         }
         public bool b1wasclicked = false;
         public bool b2wasclicked = false;
+        
+        private void generarResumenFinal()
+        {
+            Conexion.abrir();
+            SqlCeCommand hoy = new SqlCeCommand();
+            hoy.Parameters.AddWithValue("hoy",DateTime.Now.ToShortDateString()+" 00:00:00");
+            hoy.Parameters.AddWithValue("hoy2", DateTime.Now.ToShortDateString() + " 23:59:59");
+            DataTable ventas = Conexion.Consultar("nfactura,vendedor,total", "Ventas", "Where estadoVenta != 'Anulada' and fechaventa between @hoy and @hoy2", "", hoy);
+            DataTable compras = Conexion.Consultar("nfactura,vendedor,CAST(totalfactura as FLOAT)", "Compras", "Where fechacompra between @hoy and @hoy2", "", hoy);
+            DataTable gastos = Conexion.Consultar("area,descripcion,importe", "Gastos", "Where fecha between @hoy and @hoy2", "", hoy);
+            DataTable entradas = Conexion.Consultar("tipo,motivo,total", "EntradaCaja", "Where fecha between @hoy and @hoy2", "", hoy);
+            DataTable salidas = Conexion.Consultar("tipo,motivo,total", "SalidaCaja", "Where fecha between @hoy and @hoy2", "", hoy);
+            string[] Ventas = new string[ventas.Rows.Count];
+             string[] Compras = new string[compras.Rows.Count];
+             string[] Gastos = new string[gastos.Rows.Count];
+             string[] Entradas = new string[entradas.Rows.Count];
+             string[] Salidas = new string[salidas.Rows.Count];
+            float tv = 0;
+                float tc = 0;
+                    float tg = 0;
+                        float te = 0;
+                            float ts = 0;
+
+                            if (ventas.Rows.Count > 0)
+                            {
+                                for(int i = 0; i < ventas.Rows.Count ; i++)
+                                {
+                                tv += float.Parse(ventas.Rows[i][2].ToString());
+                                Ventas[i] = ventas.Rows[i][0].ToString() + "\t" + ventas.Rows[i][1].ToString() + "\t" + tv.ToString("$0.00");
+                                }
+                            }
+                            else tv = 0;
+
+                            if (compras.Rows.Count > 0 )
+                            {
+                                for(int i = 0; i < compras.Rows.Count ; i++)
+                                {
+                                tc += float.Parse(compras.Rows[i][2].ToString());
+                                Compras[i] = compras.Rows[i][0].ToString() + "\t" + compras.Rows[i][1].ToString() + "\t" + tc.ToString("$0.00") ;
+                                }
+                            }
+                            else tc = 0;
+
+                            if (gastos.Rows.Count > 0 )
+                            {
+                                for(int i = 0; i < gastos.Rows.Count ; i++)
+                                {
+                                tg += float.Parse(gastos.Rows[i][2].ToString());
+                                Gastos[i] = gastos.Rows[i][0].ToString() + "\t" + gastos.Rows[i][1].ToString() + "\t" + tg.ToString("$0.00") ;
+                                }
+                            }
+                            else tg = 0;
+
+                            if (entradas.Rows.Count > 0 )
+                            {
+                                for(int i = 0; i < entradas.Rows.Count ; i++)
+                                {
+                                te += float.Parse(entradas.Rows[i][2].ToString());
+                                Entradas[i] = entradas.Rows[i][0].ToString() +"\t"+ entradas.Rows[i][1].ToString() +"\t"+ te.ToString("$0.00");
+                                }
+                            }
+                            else te = 0;
+
+                            if (salidas.Rows.Count > 0 )
+                            {
+                                for(int i = 0; i < salidas.Rows.Count ; i++)
+                                {
+                                ts += float.Parse(salidas.Rows[i][2].ToString());
+                                Salidas[i] = salidas.Rows[i][0].ToString() +"\t"+ salidas.Rows[i][1].ToString() +"\t"+ ts.ToString("$0.00");
+                                }
+                            }
+                            else ts = 0;
+
+                            File.WriteAllText(app.dir + "\\Cierre" + DateTime.Now.ToShortDateString().Replace("/", "") + ".txt", registereduser.registeredlicense + "\r\n" + "Informe de cierre del dia " + DateTime.Now.ToShortDateString() + "\r\nTotal Ventas:\t" + tv.ToString("$0.00") + "\r\nTotal Compras:\t" + tc.ToString("$0.00") + "\r\nTotal Gastos:\t" + tg.ToString("$0.00") + "\r\nTotal Entrada Caja:\t" + te.ToString("$0.00") + "\r\nTotal Salida Caja:\t" + ts.ToString("$0.00") + "\r\nTotal del Día:\t" + ((tv+tc+te)-(tg+ts)).ToString("$0.00"));
+                            File.AppendAllText(app.dir + "\\Cierre" + DateTime.Now.ToShortDateString().Replace("/", "") + ".txt", "\r\n");
+                            File.AppendAllText(app.dir + "\\Cierre" + DateTime.Now.ToShortDateString().Replace("/", "") + ".txt", "\r\nDetalle de Ventas:\r\nN° Venta\tVendedor\tTotal\t\r\n");
+                            File.AppendAllLines(app.dir + "\\Cierre" + DateTime.Now.ToShortDateString().Replace("/", "") + ".txt", Ventas);
+                            File.AppendAllText(app.dir + "\\Cierre" + DateTime.Now.ToShortDateString().Replace("/", "") + ".txt", "\r\nDetalle de Compras:\r\nN° Compra\tVendedor\tTotal\t\r\n");
+                            File.AppendAllLines(app.dir + "\\Cierre" + DateTime.Now.ToShortDateString().Replace("/", "") + ".txt", Compras);
+                            File.AppendAllText(app.dir + "\\Cierre" + DateTime.Now.ToShortDateString().Replace("/", "") + ".txt", "\r\nDetalle de Gastos:\r\nArea\tDescripcion\tImporte\t\r\n");
+                            File.AppendAllLines(app.dir + "\\Cierre" + DateTime.Now.ToShortDateString().Replace("/", "") + ".txt", Gastos);
+                            File.AppendAllText(app.dir + "\\Cierre" + DateTime.Now.ToShortDateString().Replace("/", "") + ".txt", "\r\nDetalle de Entradas de Caja:\r\nTipo\tMotivo\tTotal\t\r\n");
+                            File.AppendAllLines(app.dir + "\\Cierre" + DateTime.Now.ToShortDateString().Replace("/", "") + ".txt", Entradas);
+                            File.AppendAllText(app.dir + "\\Cierre" + DateTime.Now.ToShortDateString().Replace("/", "") + ".txt", "\r\nDetalle de Salidas de Caja:\r\nTipo\tMotivo\tTotal\t\r\n");
+                            File.AppendAllLines(app.dir + "\\Cierre" + DateTime.Now.ToShortDateString().Replace("/", "") + ".txt", Salidas);
+                           
+        }
+        
         private void Inicio_Load(object sender, EventArgs e)
         {
             label2.BringToFront();
@@ -30,16 +118,15 @@ namespace FLAGSYSTEMPV_2017
                 label3.Text = Demo.demolicense;
                 label2.Text = "Conectado como: Usuario Demo";
                 label5.Text = "Jerarquía : Operador";
-                 toolStripMenuItem11.Enabled = false;
+                toolStripMenuItem11.Enabled = false;
                 toolStripMenuItem15.Enabled = false;
                 toolStripMenuItem18.Enabled = false;
                 altasYBajasDeStockToolStripMenuItem.Enabled = false;
-                
-               // diferenciaStockPorArtículoToolStripMenuItem.Enabled = false;
+                // diferenciaStockPorArtículoToolStripMenuItem.Enabled = false;
                 gestionarUsuariosToolStripMenuItem.Enabled = false;
                 configuraciónToolStripMenuItem.Enabled = false;
                 enviarInformeToolStripMenuItem.Enabled = false;
-               // mantenimientoToolStripMenuItem.Enabled = false;
+                // mantenimientoToolStripMenuItem.Enabled = false;
                 button6.Visible = true;
                 button6.Enabled = true;
                 toolStripButton1.Visible = false;
@@ -117,12 +204,14 @@ namespace FLAGSYSTEMPV_2017
             e.Graphics.DrawRectangle(new Pen(Color.Black, 4),
                            this.DisplayRectangle);      
         }
+
         protected override void WndProc(ref Message m)
         {
             base.WndProc(ref m);
             if (m.Msg == WM_NCHITTEST)
                 m.Result = (IntPtr)(HT_CAPTION);
         }
+
         private const int WM_NCHITTEST = 0x84;
         private const int HT_CLIENT = 0x1;
         private const int HT_CAPTION = 0x2;
@@ -211,7 +300,6 @@ namespace FLAGSYSTEMPV_2017
         {
             try
             {
-
                 System.Diagnostics.Process.Start(Directory.GetCurrentDirectory() + "\\faqs.html");
             }
             catch (Exception err) { MessageBox.Show(err.Message); }
@@ -767,5 +855,23 @@ namespace FLAGSYSTEMPV_2017
                 frm.Show();
             }
         }
+
+        private void enviarInformeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Application.OpenForms.OfType<EnviarMail>().Count() == 1)
+                Application.OpenForms.OfType<EnviarMail>().First().Focus();
+            else
+            {
+                EnviarMail frm = new EnviarMail();
+                frm.Show();
+            }
+        }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            generarResumenFinal();
+        }
+
+        
     }
 }

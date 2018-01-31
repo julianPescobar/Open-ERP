@@ -314,6 +314,7 @@
             this.textBox10.Name = "textBox10";
             this.textBox10.Size = new System.Drawing.Size(202, 27);
             this.textBox10.TabIndex = 25;
+            this.textBox10.UseSystemPasswordChar = true;
             // 
             // label12
             // 
@@ -362,7 +363,7 @@
             // 
             this.button2.BackColor = System.Drawing.Color.LightSkyBlue;
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Location = new System.Drawing.Point(12, 489);
+            this.button2.Location = new System.Drawing.Point(15, 489);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 36);
             this.button2.TabIndex = 16;

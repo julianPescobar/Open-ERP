@@ -43,18 +43,24 @@ namespace FLAGSYSTEMPV_2017
                 DataTable consultaTest = Conexion.Consultar("*", "Configuracion",/* "WHERE master_user_id = @id or slavea_user_id = @id or slaveb_user_id = @id or slavec_user_id = @id "*/"", "", myid);
 
                 if (consultaTest.Rows.Count >= 1)
-                {/*
-                string usaimpfis = consultaTest.Rows[0][21].ToString();
+                {
+                string usaimpfis = consultaTest.Rows[0][12].ToString();
                 if (usaimpfis == "si") ConfigFiscal.usaImpFiscal = "si";
                 if (usaimpfis == "no") ConfigFiscal.usaImpFiscal = "no";
                 if (ConfigFiscal.usaImpFiscal == "si")
                 {
-                    ConfigFiscal.comport = short.Parse(consultaTest.Rows[0][18].ToString().Replace("COM", ""));
-                    ConfigFiscal.marca = consultaTest.Rows[0][19].ToString();
-                    ConfigFiscal.modelo = consultaTest.Rows[0][20].ToString();
+                    ConfigFiscal.comport = short.Parse(consultaTest.Rows[0][9].ToString().Replace("COM", ""));
+                    ConfigFiscal.marca = consultaTest.Rows[0][10].ToString();
+                    ConfigFiscal.modelo = consultaTest.Rows[0][11].ToString();
                 }
-                */
-
+                registereduser.smtp = consultaTest.Rows[0][17].ToString();
+                registereduser.puerto = consultaTest.Rows[0][18].ToString();
+                registereduser.ssl = consultaTest.Rows[0][19].ToString();
+                registereduser.mail = consultaTest.Rows[0][20].ToString();
+                registereduser.clave = consultaTest.Rows[0][21].ToString();
+                registereduser.para = consultaTest.Rows[0][22].ToString();
+                registereduser.titulo = consultaTest.Rows[0][23].ToString();
+                registereduser.cuerpo = consultaTest.Rows[0][24].ToString();
                     registereduser.saldoinicial = float.Parse(consultaTest.Rows[0][0].ToString());
                     Login lgn = new Login();
                     lgn.Show();
@@ -62,7 +68,6 @@ namespace FLAGSYSTEMPV_2017
                 else
                 {
                     MessageBox.Show("Esta base de datos está protegida por la licencia. Si sos el dueño de esta licencia contactanos para hacer el cambio de dispositivo asociado a la licencia");
-
                 }
             }
             else
@@ -70,22 +75,19 @@ namespace FLAGSYSTEMPV_2017
                 RegistrarProducto reg = new RegistrarProducto();
                 reg.ShowDialog();
             }
-           
-
             Conexion.cerrar();
         }
-
         string getprocid()
         {
-            ManagementObjectCollection mbsList = null;
-    ManagementObjectSearcher mbs = new ManagementObjectSearcher("Select * From Win32_processor");
-    mbsList = mbs.Get();
-    string id = "";
-    foreach (ManagementObject mo in mbsList)
-    {
-        id = mo["ProcessorID"].ToString();
-    }
-    return id;
+        ManagementObjectCollection mbsList = null;
+        ManagementObjectSearcher mbs = new ManagementObjectSearcher("Select * From Win32_processor");
+        mbsList = mbs.Get();
+        string id = "";
+        foreach (ManagementObject mo in mbsList)
+        {
+            id = mo["ProcessorID"].ToString();
+        }
+        return id;
         }
 
         public static SecurityIdentifier GetComputerSid()

@@ -12,6 +12,7 @@ namespace FLAGSYSTEMPV_2017
         public static string level;
         public static string registeredlicense = getRegLicense();
         public static float saldoinicial;
+        public static string smtp, puerto, ssl, mail, clave, para, titulo, cuerpo;
 
         public static string getRegLicense()
         {

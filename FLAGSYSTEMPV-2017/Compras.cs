@@ -372,7 +372,7 @@ namespace FLAGSYSTEMPV_2017
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             textBox4.Focus();
-            MessageBox.Show("Enter: Finaliza Compra (si se cargaron articulos)\nEscape: Cancela toda la compra si hay articulos cargados, de lo contrario cierra la ventana\nAbajo: Mueve el cursor de la lista de productos hacia abajo (si hay articulos cargados)\nArriba: Idem anterior pero para arriba.\nIzquierda: Disminuye en 1 las unidades del producto seleccionado.\nDerecha Aumenta en 1 las unidades del producto seleccionado.\nF5: Abre panel de busqueda de articulos.\n F4: abre una ventana en donde se puede escribir cuantas unidades asignar a un articulo.","Atajos del teclado",MessageBoxButtons.OK,MessageBoxIcon.Information);
+            MessageBox.Show("Enter: Finaliza Compra (si se cargaron articulos)\nEscape: Cancela toda la compra si hay articulos cargados, de lo contrario cierra la ventana\nAbajo: Mueve el cursor de la lista de productos hacia abajo (si hay articulos cargados)\nArriba: Idem anterior pero para arriba.\nIzquierda: Disminuye en 1 las unidades del producto seleccionado.\nDerecha Aumenta en 1 las unidades del producto seleccionado.\nF5: Abre panel de busqueda de articulos.\n F4: abre una ventana en donde se puede escribir cuantas unidades asignar a un articulo.\nF3: Modifica el Costo de un producto (es util cuando el precio del proveedor varia sobre lo que figura en el sistema)","Atajos del teclado",MessageBoxButtons.OK,MessageBoxIcon.Information);
         }
 
         private void rectangleShape1_Click(object sender, EventArgs e)

@@ -22,7 +22,8 @@ namespace FLAGSYSTEMPV_2017
             if (totalventa.compraoventa == "Ventas" || totalventa.compraoventa == "NC" || totalventa.compraoventa == "ND")
             {
                 Conexion.abrir();
-                DataTable showarts = Conexion.Consultar("idarticulo,codigoart as [Codigo Articulo],descripcion as [Descripcion del Articulo],proveedor as Proveedor,precio as Precio,costo as Costo,stockactual as Stock,stockminimo as [Stock Mínimo],iva as IVA", "Articulos", "", "", new SqlCeCommand());
+
+                DataTable showarts = Conexion.Consultar("idarticulo,codigoart as [Codigo Articulo],descripcion as [Descripcion del Articulo],proveedor as Proveedor,precio as Precio,costo as Costo,stockactual as Stock,stockminimo as [Stock Mínimo],iva as IVA", "Articulos", "WHERE eliminado != 'Eliminado'", "", new SqlCeCommand());
                 Conexion.cerrar();
                 BindingSource SBind = new BindingSource();
                 SBind.DataSource = showarts;
@@ -39,7 +40,7 @@ namespace FLAGSYSTEMPV_2017
                 Conexion.abrir();
                 SqlCeCommand prove = new SqlCeCommand();
                 prove.Parameters.AddWithValue("pr", totalventa.proveedcompra);
-                DataTable showarts = Conexion.Consultar("idarticulo,codigoart as [Codigo Articulo],descripcion as [Descripcion del Articulo],marca as Marca, proveedor as Proveedor,precio as Precio,costo as Costo,stockactual as Stock,iva as IVA,porcentaje as Ganancia", "Articulos", "WHERE proveedor = @pr", "", prove);
+                DataTable showarts = Conexion.Consultar("idarticulo,codigoart as [Codigo Articulo],descripcion as [Descripcion del Articulo],marca as Marca, proveedor as Proveedor,precio as Precio,costo as Costo,stockactual as Stock,iva as IVA,porcentaje as Ganancia", "Articulos", "WHERE proveedor = @pr and eliminado != 'Eliminado'", "", prove);
                 Conexion.cerrar();
                 BindingSource SBind = new BindingSource();
                 SBind.DataSource = showarts;

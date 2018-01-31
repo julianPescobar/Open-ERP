@@ -28,9 +28,9 @@ namespace FLAGSYSTEMPV_2017
                     comboBox1.Items.Add(port);
                 }
                 if (ConfigFiscal.usaImpFiscal == "no") checkBox1.Checked = true;
-                if (ConfigFiscal.usaImpFiscal == "si") checkBox1.Checked = false;
                 if (ConfigFiscal.usaImpFiscal == "si")
                 {
+                    checkBox1.Checked = false;
                     comboBox1.Text = "COM" + ConfigFiscal.comport.ToString();
                     comboBox2.Text = ConfigFiscal.marca.ToString();
                     comboBox3.Text = ConfigFiscal.modelo.ToString();

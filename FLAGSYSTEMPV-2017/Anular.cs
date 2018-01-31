@@ -18,25 +18,21 @@ namespace FLAGSYSTEMPV_2017
         {
             InitializeComponent();
         }
-
         private void button1_Click(object sender, EventArgs e)
         {
             this.Close();
         }
-
         private void Consultas_Load(object sender, EventArgs e)
         {
-            this.Focus();
-            
-
+            if (ConfigFiscal.usaImpFiscal == "no")
+            {
+                this.Focus();
                 label1.Text = "Listado de Ventas de hoy";
-                
                 Conexion.abrir();
                 SqlCeCommand fechahoy = new SqlCeCommand();
                 fechahoy.Parameters.AddWithValue("hoy", DateTime.Now.ToShortDateString());
                 fechahoy.Parameters.AddWithValue("anulada", "Anulada");
-                DataTable showv = Conexion.Consultar("nfactura as [N° Fact.], vendedor as Usuario, fechaventa as Fecha, total as Importe, estadoventa as Estado, tipoFactura as Factura", "Ventas","WHERE datediff(day,fechaventa,@hoy) =  0 AND estadoventa != @anulada", " order by nfactura desc", fechahoy);
-
+                DataTable showv = Conexion.Consultar("nfactura as [N° Fact.], vendedor as Usuario, fechaventa as Fecha, total as Importe, estadoventa as Estado, tipoFactura as Factura", "Ventas", "WHERE datediff(day,fechaventa,@hoy) =  0 AND estadoventa != @anulada", " order by nfactura desc", fechahoy);
                 Conexion.cerrar();
                 BindingSource SBind = new BindingSource();
                 SBind.DataSource = showv;
@@ -45,7 +41,6 @@ namespace FLAGSYSTEMPV_2017
                 dataGridView1.DataSource = SBind;
                 dataGridView1.Columns[4].DefaultCellStyle.Format = "c";
                 dataGridView1.Refresh();
-
                 if (showv.Rows.Count > 0)
                     dataGridView1.DataSource = showv; //mostramos lo que hay
                 textBox1.Focus();
@@ -53,16 +48,19 @@ namespace FLAGSYSTEMPV_2017
                 {
                     button2.Enabled = false;
                 }
-            
+            }
+            else
+            {
+                MessageBox.Show("Solo se pueden anular ventas cuando el sistema no hace uso de la facturación fiscal");
+                    this.Close();
+            }
         }
 
         void get(string what1, string fromwhere1, string where,string valuedata, DataGridView whatview1)
         {
-            Conexion.abrir();
-            
-            DataTable showv = Conexion.Consultar(what1, fromwhere1, where, "", new SqlCeCommand());
-            
-            Conexion.cerrar();
+           Conexion.abrir();
+           DataTable showv = Conexion.Consultar(what1, fromwhere1, where, "", new SqlCeCommand());
+           Conexion.cerrar();
             BindingSource SBind = new BindingSource();
             SBind.DataSource = showv;
             whatview1.AutoGenerateColumns = true;
@@ -104,7 +102,6 @@ namespace FLAGSYSTEMPV_2017
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            
             if (Conexion.data == "Ventas")
             {
                 try
@@ -116,7 +113,6 @@ namespace FLAGSYSTEMPV_2017
                 }
                 catch (Exception) { }
             }
-            
         }
 
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
@@ -129,8 +125,7 @@ namespace FLAGSYSTEMPV_2017
 
         private void button2_Click(object sender, EventArgs e)
         {
-           
-            int rowIndex = dataGridView1.CurrentCell.RowIndex;
+           int rowIndex = dataGridView1.CurrentCell.RowIndex;
            string id =  dataGridView1.Rows[rowIndex].Cells[0].Value.ToString();
            DialogResult seguro =  MessageBox.Show("Está seguro de anular esta venta?\nFactura n°:"+id,"Anular esta factura?",MessageBoxButtons.YesNo,MessageBoxIcon.Question);
            if (seguro == DialogResult.Yes)
@@ -141,13 +136,24 @@ namespace FLAGSYSTEMPV_2017
                anular.Parameters.AddWithValue("id", id);
                Conexion.abrir();
                Conexion.Actualizar("Ventas", "estadoventa = @anul", "WHERE nfactura = @id", "", anular);
+              DataTable detalle =  Conexion.Consultar("idproducto,cantidproducto,tipo","DetalleVentas","where nfactura = @id","", anular);
+              for (int i = 0; i < detalle.Rows.Count; i++)
+              {
+                  string idprod = detalle.Rows[i][0].ToString();
+                  string cantidad = detalle.Rows[i][1].ToString();
+                  string tipo = detalle.Rows[i][2].ToString();
+                  SqlCeCommand stockreturn = new SqlCeCommand();
+                  stockreturn.Parameters.Clear();
+                  stockreturn.Parameters.AddWithValue("id", idprod);
+                  stockreturn.Parameters.AddWithValue("x", cantidad);
+                  if (tipo.Contains("Producto"))
+                      Conexion.Actualizar("Articulos", "stockactual = (stockactual + @x) ", "WHERE idarticulo = @id", "", stockreturn);
+              }
                Conexion.cerrar();
                Anular refresh = new Anular();
-             
                refresh.Show();
                refresh.Focus();
                this.Close();
-               
            }
         }
       

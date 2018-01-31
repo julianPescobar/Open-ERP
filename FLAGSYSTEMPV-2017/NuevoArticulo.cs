@@ -46,7 +46,7 @@ namespace FLAGSYSTEMPV_2017
                 Conexion.abrir();
                 DataTable rubros = Conexion.Consultar("nombrerubro", "Rubros", "", "", new SqlCeCommand());
                 DataTable proveedores = Conexion.Consultar("nombre", "Proveedores", "", "", new SqlCeCommand());
-                DataTable datosprod = Conexion.Consultar("codigoart,descripcion,marca,rubro,precio,costo,iva,stockminimo,porcentaje,compraminima,proveedor", "Articulos", "WHERE idarticulo = @id", "", idprod);
+                DataTable datosprod = Conexion.Consultar("codigoart,descripcion,marca,rubro,precio,costo,iva,stockminimo,porcentaje,compraminima,proveedor,tipo", "Articulos", "WHERE idarticulo = @id", "", idprod);
                 
                 Conexion.cerrar();
                 for (int i = 0; i < rubros.Rows.Count; i++)
@@ -70,6 +70,7 @@ namespace FLAGSYSTEMPV_2017
                     textBox8.Text = float.Parse(datosprod.Rows[0][8].ToString()).ToString("0.00");
                     textBox9.Text = datosprod.Rows[0][9].ToString();
                     comboBox2.SelectedItem = datosprod.Rows[0][10].ToString();
+                    comboBox3.SelectedItem = datosprod.Rows[0][11].ToString();
                     calcular();
                 }
             }
@@ -135,8 +136,10 @@ namespace FLAGSYSTEMPV_2017
                     nuevoarticulo.Parameters.AddWithValue("@i", porcent);
                     nuevoarticulo.Parameters.AddWithValue("@j", compramin);
                     nuevoarticulo.Parameters.AddWithValue("@k", proveed);
+                    nuevoarticulo.Parameters.AddWithValue("@p", "Activo");
+                    nuevoarticulo.Parameters.AddWithValue("@q", comboBox3.SelectedItem.ToString());
                     Conexion.abrir();
-                    Conexion.Insertar("Articulos", "faltante,sobrante,codigoart,descripcion,marca,rubro,precio,costo,iva,stockactual,stockminimo,porcentaje,compraminima,proveedor", "@n,@o,@a,@b,@c,@d,@e,@f,@g,@l,@h,@i,@j,@k", nuevoarticulo);
+                    Conexion.Insertar("Articulos", "faltante,sobrante,codigoart,descripcion,marca,rubro,precio,costo,iva,stockactual,stockminimo,porcentaje,compraminima,proveedor,eliminado,tipo", "@n,@o,@a,@b,@c,@d,@e,@f,@g,@l,@h,@i,@j,@k,@p,@q", nuevoarticulo);
                     Conexion.cerrar();
                     if (Application.OpenForms.OfType<Articulos>().Count() == 1)
                     {
@@ -188,8 +191,10 @@ namespace FLAGSYSTEMPV_2017
                     nuevoarticulo.Parameters.AddWithValue("@i", porcent);
                     nuevoarticulo.Parameters.AddWithValue("@j", compramin);
                     nuevoarticulo.Parameters.AddWithValue("@k", proveed);
+                    nuevoarticulo.Parameters.AddWithValue("@p", "Activo");
+                    nuevoarticulo.Parameters.AddWithValue("@q", comboBox3.SelectedItem.ToString());
                     Conexion.abrir();
-                    Conexion.Actualizar("Articulos", "codigoart = @a,descripcion = @b,marca = @c,rubro = @d,precio = @e,costo = @f,iva = @g,stockminimo = @h,porcentaje = @i,compraminima = @j,proveedor = @k",  "WHERE idarticulo = @id", "", nuevoarticulo);
+                    Conexion.Actualizar("Articulos", " eliminado = @p, tipo = @q, codigoart = @a,descripcion = @b,marca = @c,rubro = @d,precio = @e,costo = @f,iva = @g,stockminimo = @h,porcentaje = @i,compraminima = @j,proveedor = @k",  "WHERE idarticulo = @id", "", nuevoarticulo);
 
                     //Conexion.Insertar("Articulos", "faltante,sobrante,codigoart,descripcion,marca,rubro,precio,costo,iva,stockactual,stockminimo,porcentaje,compraminima,proveedor", "@n,@o,@a,@b,@c,@d,@e,@f,@g,@l,@h,@i,@j,@k", nuevoarticulo);
                     Conexion.cerrar();

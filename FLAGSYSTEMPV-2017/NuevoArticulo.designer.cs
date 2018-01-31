@@ -53,6 +53,8 @@
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
+            this.comboBox3 = new System.Windows.Forms.ComboBox();
+            this.label13 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -268,7 +270,7 @@
             // 
             this.button1.BackColor = System.Drawing.Color.LightSkyBlue;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Location = new System.Drawing.Point(9, 294);
+            this.button1.Location = new System.Drawing.Point(11, 319);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(131, 30);
             this.button1.TabIndex = 12;
@@ -280,7 +282,7 @@
             // 
             this.button2.BackColor = System.Drawing.Color.LightSkyBlue;
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Location = new System.Drawing.Point(322, 294);
+            this.button2.Location = new System.Drawing.Point(324, 319);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(131, 30);
             this.button2.TabIndex = 13;
@@ -298,12 +300,37 @@
             this.label7.TabIndex = 24;
             this.label7.Text = "Precio con IVA:";
             // 
+            // comboBox3
+            // 
+            this.comboBox3.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.comboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox3.FormattingEnabled = true;
+            this.comboBox3.Items.AddRange(new object[] {
+            "Producto (Descuenta de un stock)",
+            "Servicio   (No posee stock)"});
+            this.comboBox3.Location = new System.Drawing.Point(146, 283);
+            this.comboBox3.Name = "comboBox3";
+            this.comboBox3.Size = new System.Drawing.Size(307, 24);
+            this.comboBox3.TabIndex = 26;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Location = new System.Drawing.Point(26, 285);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(108, 17);
+            this.label13.TabIndex = 25;
+            this.label13.Text = "*Tipo Producto:";
+            // 
             // NuevoArticulo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SteelBlue;
-            this.ClientSize = new System.Drawing.Size(467, 329);
+            this.ClientSize = new System.Drawing.Size(467, 356);
+            this.Controls.Add(this.comboBox3);
+            this.Controls.Add(this.label13);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
@@ -373,5 +400,7 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.ComboBox comboBox3;
+        private System.Windows.Forms.Label label13;
     }
 }

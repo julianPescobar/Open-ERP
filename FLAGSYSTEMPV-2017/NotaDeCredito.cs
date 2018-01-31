@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Data.SqlServerCe;
-using FiscalPrinterLib;
 namespace FLAGSYSTEMPV_2017
 {
     public partial class NotaDeCredito : Form

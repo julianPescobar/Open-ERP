@@ -56,12 +56,10 @@ namespace FLAGSYSTEMPV_2017
             }
         }
 
-      
-
         void getarts()
         {
             Conexion.abrir();
-            DataTable showarts = Conexion.Consultar("idarticulo,codigoart as [Codigo de Articulo],descripcion as [Descripcion del Articulo],proveedor as Proveedor,precio as Precio,costo as Costo,stockactual as Stock,stockminimo as [Stock Minimo],iva as IVA", "Articulos", "", "", new SqlCeCommand());
+            DataTable showarts = Conexion.Consultar("idarticulo,codigoart as [Codigo de Articulo],descripcion as [Descripcion del Articulo],proveedor as Proveedor,precio as Precio,costo as Costo,stockactual as Stock,stockminimo as [Stock Minimo],iva as IVA", "Articulos", "WHERE eliminado != 'Eliminado' and tipo NOT LIKE 'Servicio%'", "", new SqlCeCommand());
             Conexion.cerrar();
             BindingSource SBind = new BindingSource();
             SBind.DataSource = showarts;
@@ -72,21 +70,19 @@ namespace FLAGSYSTEMPV_2017
             dataGridView1.Columns[5].DefaultCellStyle.Format = "c";
             dataGridView1.DataSource = SBind;
             dataGridView1.Refresh();
-
             if (showarts.Rows.Count > 0)
             {
                 label2.Visible = false; //sacamos label
                 dataGridView1.DataSource = showarts; //mostramos lo que hay
-                            }
+            }
             else
             {
                 label2.Visible = true; //mostramos que no hay registros  
                 button1.Enabled = false;
                 comboBox1.Enabled = false;
-                numericUpDown1.Enabled = false;
+                comboBox2.Enabled = false;
                 numericUpDown2.Enabled = false;
             }
-           
         }
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
@@ -106,7 +102,7 @@ namespace FLAGSYSTEMPV_2017
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            if (comboBox1.SelectedIndex >= 0 && (numericUpDown1.Value > 0 || numericUpDown2.Value > 0))
+            if (comboBox1.SelectedIndex >= 0 &&  comboBox2.SelectedIndex >= 0 && numericUpDown2.Value > 0)
             {
                 int rowIndex = dataGridView1.CurrentCell.RowIndex;
                 string pid = dataGridView1.Rows[rowIndex].Cells[0].Value.ToString();
@@ -114,23 +110,31 @@ namespace FLAGSYSTEMPV_2017
                 string des = dataGridView1.Rows[rowIndex].Cells[2].Value.ToString();
                 SqlCeCommand nuevaaltabaja = new SqlCeCommand();
                 nuevaaltabaja.Parameters.AddWithValue("prid", pid);
-                 nuevaaltabaja.Parameters.AddWithValue("vend", registereduser.reguser);
+                nuevaaltabaja.Parameters.AddWithValue("vend", registereduser.reguser);
                 nuevaaltabaja.Parameters.AddWithValue("codi", cod);
                 nuevaaltabaja.Parameters.AddWithValue("desc", des);
-                nuevaaltabaja.Parameters.AddWithValue("alta", numericUpDown1.Value);
-                nuevaaltabaja.Parameters.AddWithValue("baja", numericUpDown2.Value);
+                nuevaaltabaja.Parameters.AddWithValue("cantidad", numericUpDown2.Value);
                 nuevaaltabaja.Parameters.AddWithValue("moti", comboBox1.SelectedItem.ToString());
                 nuevaaltabaja.Parameters.AddWithValue("fecha", DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString());
                 Conexion.abrir();
-                Conexion.Insertar("Altasbajas", "fecha,codigo,descripcion,altas,bajas,motivo,vendedor", "@fecha,@codi,@desc,@alta,@baja,@moti, @vend", nuevaaltabaja);
+                if (comboBox2.SelectedItem.ToString() == "Alta")
+                {
+                    Conexion.Insertar("Altasbajas", "fecha,codigo,descripcion,altas,bajas,motivo,vendedor", "@fecha,@codi,@desc,@cantidad,'0',@moti, @vend", nuevaaltabaja);
+                    Conexion.Actualizar("Articulos", "stockactual = (stockactual + @cantidad)", "WHERE idarticulo = @prid","", nuevaaltabaja);
+
+                }
+                else
+                {
+                    Conexion.Insertar("Altasbajas", "fecha,codigo,descripcion,bajas,altas,motivo,vendedor", "@fecha,@codi,@desc,@cantidad,'0',@moti, @vend", nuevaaltabaja);
+                    Conexion.Actualizar("Articulos", "stockactual = (stockactual - @cantidad)", "WHERE idarticulo = @prid", "", nuevaaltabaja);
+
+                }
                 Conexion.cerrar();
                 this.Close();
                 if (Application.OpenForms.OfType<ABStock>().Count() == 1)
-                    Application.OpenForms.OfType<ABStock>().First().Close();
-
-                    ABStock frm = new ABStock();
-                    frm.Show();
-                
+                Application.OpenForms.OfType<ABStock>().First().Close();
+                ABStock frm = new ABStock();
+                frm.Show();
             }
             else MessageBox.Show("Debe completar todos los datos para poder cargar un alta o baja de stock");
         }

@@ -71,12 +71,20 @@ namespace FLAGSYSTEMPV_2017
             {
                 button2.Enabled = true;
                 button9.Enabled = true;
+                button4.Enabled = true;
             }
             else
             {
                 button2.Enabled = false;
                 button9.Enabled = false;
+                button4.Enabled = true;
             }
+            if (registereduser.level == "Supervisor" || registereduser.level == "Admin")
+            {
+                button4.Enabled = true;
+            }
+            else
+                button4.Enabled = false;
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -137,6 +145,17 @@ namespace FLAGSYSTEMPV_2017
                 }
             }
             else MessageBox.Show("Este usuario está protegido");
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (Application.OpenForms.OfType<Permisos>().Count() == 1)
+                Application.OpenForms.OfType<Permisos>().First().Focus();
+            else
+            {
+                Permisos frm = new Permisos();
+                frm.Show();
+            }
         }
     }
 }

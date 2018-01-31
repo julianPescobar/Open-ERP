@@ -70,7 +70,8 @@ namespace FLAGSYSTEMPV_2017
                 Conexion.abrir();
                 SqlCeCommand del = new SqlCeCommand();
                 del.Parameters.AddWithValue("@id", id);
-                Conexion.Eliminar("Articulos", "idarticulo = @id", del);
+                del.Parameters.AddWithValue("@el", "Eliminado");
+                Conexion.Actualizar("Articulos","eliminado = @el", "WHERE idarticulo = @id","", del);
                  Conexion.cerrar();
             }
             getarts();
@@ -78,8 +79,10 @@ namespace FLAGSYSTEMPV_2017
 
         void getarts()
         {
+            SqlCeCommand elim = new SqlCeCommand();
+            elim.Parameters.AddWithValue("el","Eliminado");
             Conexion.abrir();
-            DataTable showarts = Conexion.Consultar("idarticulo,codigoart as [Codigo prod.],descripcion as [Descripcion del Articulo],proveedor as Proveedor,precio as [Pr Venta],costo as [Pr Compra],stockactual as Stock,stockminimo as [Stock Minimo],iva as IVA", "Articulos", "", "", new SqlCeCommand());
+            DataTable showarts = Conexion.Consultar("idarticulo,codigoart as [Codigo prod.],descripcion as [Descripcion del Articulo],proveedor as Proveedor,precio as [Pr Venta],costo as [Pr Compra],stockactual as Stock,stockminimo as [Stock Minimo],iva as IVA", "Articulos", "WHERE eliminado != @el", "", elim);
             Conexion.cerrar();
             BindingSource SBind = new BindingSource();
             SBind.DataSource = showarts;
@@ -103,7 +106,7 @@ namespace FLAGSYSTEMPV_2017
                
                 button9.Enabled = true;
                 Conexion.abrir();
-                DataTable valorizacion = Conexion.Consultar("precio,costo,stockactual", "Articulos", "", "", new SqlCeCommand());
+                DataTable valorizacion = Conexion.Consultar("precio,costo,stockactual", "Articulos", "WHERE eliminado != 'Eliminado'", "", new SqlCeCommand());
                 Conexion.cerrar();
                 float precio = 0;
                 float costo = 0;

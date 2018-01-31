@@ -98,7 +98,15 @@ namespace FLAGSYSTEMPV_2017
             Conexion.abrir();
             Conexion.Actualizar("Configuracion", "DireccionFisica = @b,Email= @c,Telefono1= @d,Localidad= @e,SaldoInicial= @g,SMTP= @h,PUERTO= @i,SSL= @j,MAIL= @k,CLAVE= @l,PARA= @m,TITULO= @n,CUERPO= @o", "", "", inserto);
                 Conexion.cerrar();
-                this.Close();
+                registereduser.smtp = textBox14.ToString();
+                registereduser.puerto = textBox13.ToString();
+                registereduser.ssl = textBox12.ToString();
+                registereduser.mail = textBox11.ToString();
+                registereduser.clave = textBox10.ToString();
+                registereduser.para = textBox9.ToString();
+                registereduser.titulo = textBox8.ToString();
+                registereduser.cuerpo = textBox16.ToString();    
+            this.Close();
           
         }
     }

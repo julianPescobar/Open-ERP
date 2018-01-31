@@ -99,25 +99,6 @@ namespace FLAGSYSTEMPV_2017
                 float total = 0;
                 textBox3.Text = total.ToString("$0.00");
             }
-            /*
-            float debe = float.Parse(textBox3.Text.Replace("$",""));
-            float haber = float.Parse(textBox2.Text.Replace("$",""));*/
-           /* float saldoinicial;
-            if (Demo.EsDemo == true)
-            {
-                saldoinicial = 0;
-            }
-            else
-             saldoinicial= registereduser.saldoinicial;*/
-           /* textBox1.Text = (saldoinicial + haber - debe).ToString("$0.00");*/
-            /*if (float.Parse(textBox1.Text.ToString().Replace("$", "")) >= 0)
-            {
-                textBox1.BackColor = Color.LightGreen;
-            }
-            else
-            {
-                textBox1.BackColor = Color.IndianRed;
-            }*/
         }
        
         void getdebehaber()
@@ -166,15 +147,7 @@ namespace FLAGSYSTEMPV_2017
             dataGridView1.DataSource = SBind2;
             dataGridView1.Refresh();
             
-            if (showhaber.Rows.Count >  0 || showdebe.Rows.Count > 0)
-            {
-                button1.Enabled = true;
-            }
-            else
-            {
-                button1.Enabled = false;
-
-            }
+            
         }
 
         private void label2_Click(object sender, EventArgs e)

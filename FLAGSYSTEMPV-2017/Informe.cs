@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using Microsoft.Reporting.WinForms;
 using System.Data.SqlServerCe;
+using System.IO;
 namespace FLAGSYSTEMPV_2017
 {
     public partial class Informe : Form
@@ -17,7 +18,7 @@ namespace FLAGSYSTEMPV_2017
             InitializeComponent();
         }
 
-
+        public string extension = "";
 
 
         protected override void WndProc(ref Message m)
@@ -38,7 +39,7 @@ namespace FLAGSYSTEMPV_2017
             if (Conexion.data == "Articulos")
             {
                 Conexion.abrir();
-                DataTable arts = Conexion.Consultar("idarticulo,codigoart as [Codigo],descripcion as [Nombre],marca as [Marca],precio as [Precio],costo as [Costo],iva as [IVA],stockactual as [Stock],stockminimo as [Stock mín.],proveedor as [Proveedor],compraminima as [Compra mín.] ,porcentaje as [%]", "Articulos", "", "", new SqlCeCommand());
+                DataTable arts = Conexion.Consultar("idarticulo,codigoart as [Codigo],descripcion as [Nombre],marca as [Marca],precio as [Precio],costo as [Costo],iva as [IVA],stockactual as [Stock],stockminimo as [Stock mín.],proveedor as [Proveedor],compraminima as [Compra mín.] ,porcentaje as [%]", "Articulos", "WHERE eliminado != 'Eliminado'", "", new SqlCeCommand());
                 Conexion.cerrar();
                 BindingSource SBind = new BindingSource();
                 SBind.DataSource = arts;
@@ -246,6 +247,94 @@ namespace FLAGSYSTEMPV_2017
         private void button1_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (comboBox1.SelectedIndex >= 0)
+            {
+               
+              
+                if (comboBox1.SelectedItem.ToString() == "Excel")
+                {
+                    saveFileDialog1.Filter = "Excel Files (*.xlsx)|*.xlsx";
+                    extension = ".xlsx";
+                }
+                if (comboBox1.SelectedItem.ToString() == "TXT")
+                {
+                    saveFileDialog1.Filter = "Text Files (*.txt)|*.txt";
+                    extension = ".txt";
+                }
+               
+                saveFileDialog1.FileName = "Informe_" + Conexion.data + DateTime.Now.ToShortDateString().Replace("/","")+DateTime.Now.ToShortTimeString().Replace(":","")+extension;
+                saveFileDialog1.ShowDialog();
+            }
+            else MessageBox.Show("Debe seleccionar un tipo de archivo");
+        }
+
+        private void saveFileDialog1_FileOk(object sender, CancelEventArgs e)
+        {
+                if (extension == ".txt")
+                {
+
+                    int columnas = dataGridView1.Columns.Count;
+                    //MessageBox.Show(columnas.ToString());
+                    string columns = "";
+                    string rows = "";
+                    for (int i = 0; i < columnas; i++)
+                    {
+                        columns += dataGridView1.Columns[i].Name.ToString() + "\t\t\t";
+                    }
+                    File.AppendAllText(saveFileDialog1.FileName, columns + "\r\n");
+                    columns = "";
+                    for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                    {
+                        for (int j = 0; j < columnas; j++)
+                        {
+                            rows += dataGridView1.Rows[i].Cells[j].Value.ToString() + "\t\t\t";
+                        }
+                        File.AppendAllText(saveFileDialog1.FileName, rows + "\r\n");
+                        rows = "";
+                    }
+                }
+                if (extension == ".xlsx")
+                {
+                    try
+                    {
+                        Microsoft.Office.Interop.Excel.Application aplicacion;
+                        Microsoft.Office.Interop.Excel.Workbook libros_trabajo;
+                        Microsoft.Office.Interop.Excel.Worksheet hoja_trabajo;
+                        aplicacion = new Microsoft.Office.Interop.Excel.Application();
+                        libros_trabajo = aplicacion.Workbooks.Add();
+                        hoja_trabajo =
+                            (Microsoft.Office.Interop.Excel.Worksheet)libros_trabajo.Worksheets.get_Item(1);
+                        //Recorremos el DataGridView rellenando la hoja de trabajo
+                        for (int i = 0; i < dataGridView1.Rows.Count - 1; i++)
+                        {
+                            for (int j = 0; j < dataGridView1.Columns.Count; j++)
+                            {
+                                hoja_trabajo.Cells[i + 1, j + 1] = dataGridView1.Rows[i].Cells[j].Value.ToString();
+                            }
+                        }
+                        libros_trabajo.SaveAs(saveFileDialog1.FileName,
+                            Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookNormal);
+                        libros_trabajo.Close(true);
+                        aplicacion.Quit();
+                    }
+                    catch (Exception)
+                    {
+                        this.Close();
+                        MessageBox.Show("Revise si tiene instalado excel, si lo tiene instalado por favor reinstalelo");
+                    }
+                }
+            
+        }
+        private void copyAlltoClipboard()
+        {
+            dataGridView1.SelectAll();
+            DataObject dataObj = dataGridView1.GetClipboardContent();
+            if (dataObj != null)
+                Clipboard.SetDataObject(dataObj);
         }
     }
 }

@@ -60,6 +60,7 @@
             this.previsiónDeComprasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.comprasDelDíaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.faltantesDeStockToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSplitButton10 = new System.Windows.Forms.ToolStripSplitButton();
             this.toolStripMenuItem11 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem15 = new System.Windows.Forms.ToolStripMenuItem();
@@ -94,7 +95,10 @@
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
-            this.faltantesDeStockToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.button11 = new System.Windows.Forms.Button();
+            this.button12 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -411,6 +415,13 @@
             this.comprasDelDíaToolStripMenuItem.Text = "Compras";
             this.comprasDelDíaToolStripMenuItem.Click += new System.EventHandler(this.comprasDelDíaToolStripMenuItem_Click);
             // 
+            // faltantesDeStockToolStripMenuItem
+            // 
+            this.faltantesDeStockToolStripMenuItem.Name = "faltantesDeStockToolStripMenuItem";
+            this.faltantesDeStockToolStripMenuItem.Size = new System.Drawing.Size(272, 22);
+            this.faltantesDeStockToolStripMenuItem.Text = "Faltantes de Stock";
+            this.faltantesDeStockToolStripMenuItem.Click += new System.EventHandler(this.faltantesDeStockToolStripMenuItem_Click);
+            // 
             // toolStripSplitButton10
             // 
             this.toolStripSplitButton10.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
@@ -475,15 +486,15 @@
             // configuraciónToolStripMenuItem
             // 
             this.configuraciónToolStripMenuItem.Name = "configuraciónToolStripMenuItem";
-            this.configuraciónToolStripMenuItem.Size = new System.Drawing.Size(248, 22);
-            this.configuraciónToolStripMenuItem.Text = "Configuración General";
+            this.configuraciónToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
+            this.configuraciónToolStripMenuItem.Text = "Configuración";
             this.configuraciónToolStripMenuItem.Click += new System.EventHandler(this.configuraciónToolStripMenuItem_Click);
             // 
             // gestionarUsuariosToolStripMenuItem
             // 
             this.gestionarUsuariosToolStripMenuItem.Name = "gestionarUsuariosToolStripMenuItem";
-            this.gestionarUsuariosToolStripMenuItem.Size = new System.Drawing.Size(248, 22);
-            this.gestionarUsuariosToolStripMenuItem.Text = "Crear o Eliminar Empleados";
+            this.gestionarUsuariosToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
+            this.gestionarUsuariosToolStripMenuItem.Text = "Empleados";
             this.gestionarUsuariosToolStripMenuItem.Click += new System.EventHandler(this.gestionarUsuariosToolStripMenuItem_Click);
             // 
             // toolStripSeparator11
@@ -496,6 +507,7 @@
             this.enviarInformeToolStripMenuItem.Name = "enviarInformeToolStripMenuItem";
             this.enviarInformeToolStripMenuItem.Size = new System.Drawing.Size(248, 22);
             this.enviarInformeToolStripMenuItem.Text = "Enviar Informes via Email";
+            this.enviarInformeToolStripMenuItem.Click += new System.EventHandler(this.enviarInformeToolStripMenuItem_Click);
             // 
             // toolStripSeparator12
             // 
@@ -560,7 +572,7 @@
             this.button1.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.Font = new System.Drawing.Font("Lucida Sans Unicode", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(669, 473);
+            this.button1.Location = new System.Drawing.Point(341, 473);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(119, 48);
             this.button1.TabIndex = 4;
@@ -574,7 +586,7 @@
             this.button2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button2.Font = new System.Drawing.Font("Lucida Sans Unicode", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.Location = new System.Drawing.Point(15, 259);
+            this.button2.Location = new System.Drawing.Point(11, 259);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(119, 48);
             this.button2.TabIndex = 7;
@@ -588,7 +600,7 @@
             this.button3.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button3.Font = new System.Drawing.Font("Lucida Sans Unicode", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.Location = new System.Drawing.Point(15, 330);
+            this.button3.Location = new System.Drawing.Point(11, 330);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(119, 48);
             this.button3.TabIndex = 8;
@@ -602,7 +614,7 @@
             this.button4.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button4.Font = new System.Drawing.Font("Lucida Sans Unicode", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button4.Location = new System.Drawing.Point(15, 402);
+            this.button4.Location = new System.Drawing.Point(11, 402);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(119, 48);
             this.button4.TabIndex = 9;
@@ -615,7 +627,7 @@
             this.button5.BackColor = System.Drawing.Color.LightSkyBlue;
             this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button5.Font = new System.Drawing.Font("Lucida Sans Unicode", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button5.Location = new System.Drawing.Point(15, 473);
+            this.button5.Location = new System.Drawing.Point(11, 473);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(119, 48);
             this.button5.TabIndex = 10;
@@ -628,7 +640,7 @@
             this.button9.BackColor = System.Drawing.Color.LightSkyBlue;
             this.button9.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button9.Font = new System.Drawing.Font("Lucida Sans Unicode", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button9.Location = new System.Drawing.Point(669, 259);
+            this.button9.Location = new System.Drawing.Point(341, 259);
             this.button9.Name = "button9";
             this.button9.Size = new System.Drawing.Size(119, 48);
             this.button9.TabIndex = 11;
@@ -641,7 +653,7 @@
             this.button8.BackColor = System.Drawing.Color.LightSkyBlue;
             this.button8.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button8.Font = new System.Drawing.Font("Lucida Sans Unicode", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button8.Location = new System.Drawing.Point(669, 330);
+            this.button8.Location = new System.Drawing.Point(341, 330);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(119, 48);
             this.button8.TabIndex = 12;
@@ -654,7 +666,7 @@
             this.button7.BackColor = System.Drawing.Color.LightSkyBlue;
             this.button7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button7.Font = new System.Drawing.Font("Lucida Sans Unicode", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button7.Location = new System.Drawing.Point(669, 402);
+            this.button7.Location = new System.Drawing.Point(341, 402);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(119, 48);
             this.button7.TabIndex = 13;
@@ -665,105 +677,137 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.BackColor = System.Drawing.Color.DeepSkyBlue;
-            this.label6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label6.Font = new System.Drawing.Font("Lucida Sans Unicode", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(15, 259);
+            this.label6.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.label6.Font = new System.Drawing.Font("Lucida Sans Unicode", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(12, 291);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(27, 18);
+            this.label6.Size = new System.Drawing.Size(22, 15);
             this.label6.TabIndex = 16;
             this.label6.Text = "F1";
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.BackColor = System.Drawing.Color.DeepSkyBlue;
-            this.label7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label7.Font = new System.Drawing.Font("Lucida Sans Unicode", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(15, 330);
+            this.label7.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.label7.Font = new System.Drawing.Font("Lucida Sans Unicode", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(12, 362);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(27, 18);
+            this.label7.Size = new System.Drawing.Size(22, 15);
             this.label7.TabIndex = 17;
             this.label7.Text = "F2";
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.BackColor = System.Drawing.Color.DeepSkyBlue;
-            this.label8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label8.Font = new System.Drawing.Font("Lucida Sans Unicode", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(15, 402);
+            this.label8.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.label8.Font = new System.Drawing.Font("Lucida Sans Unicode", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(12, 434);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(27, 18);
+            this.label8.Size = new System.Drawing.Size(22, 15);
             this.label8.TabIndex = 18;
             this.label8.Text = "F3";
             // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.BackColor = System.Drawing.Color.DeepSkyBlue;
-            this.label9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label9.Font = new System.Drawing.Font("Lucida Sans Unicode", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(15, 473);
+            this.label9.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.label9.Font = new System.Drawing.Font("Lucida Sans Unicode", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(12, 505);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(27, 18);
+            this.label9.Size = new System.Drawing.Size(22, 15);
             this.label9.TabIndex = 19;
             this.label9.Text = "F4";
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.BackColor = System.Drawing.Color.DeepSkyBlue;
-            this.label10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label10.Font = new System.Drawing.Font("Lucida Sans Unicode", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(669, 259);
+            this.label10.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.label10.Font = new System.Drawing.Font("Lucida Sans Unicode", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Location = new System.Drawing.Point(342, 291);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(27, 18);
+            this.label10.Size = new System.Drawing.Size(22, 15);
             this.label10.TabIndex = 20;
             this.label10.Text = "F5";
             // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.BackColor = System.Drawing.Color.DeepSkyBlue;
-            this.label11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label11.Font = new System.Drawing.Font("Lucida Sans Unicode", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(669, 330);
+            this.label11.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.label11.Font = new System.Drawing.Font("Lucida Sans Unicode", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.Location = new System.Drawing.Point(342, 362);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(27, 18);
+            this.label11.Size = new System.Drawing.Size(22, 15);
             this.label11.TabIndex = 21;
             this.label11.Text = "F6";
             // 
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.BackColor = System.Drawing.Color.DeepSkyBlue;
-            this.label12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label12.Font = new System.Drawing.Font("Lucida Sans Unicode", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(669, 402);
+            this.label12.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.label12.Font = new System.Drawing.Font("Lucida Sans Unicode", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.Location = new System.Drawing.Point(342, 434);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(27, 18);
+            this.label12.Size = new System.Drawing.Size(22, 15);
             this.label12.TabIndex = 22;
             this.label12.Text = "F7";
             // 
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.BackColor = System.Drawing.Color.DeepSkyBlue;
-            this.label13.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label13.Font = new System.Drawing.Font("Lucida Sans Unicode", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(669, 473);
+            this.label13.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.label13.Font = new System.Drawing.Font("Lucida Sans Unicode", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Location = new System.Drawing.Point(342, 505);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(27, 18);
+            this.label13.Size = new System.Drawing.Size(22, 15);
             this.label13.TabIndex = 23;
             this.label13.Text = "F8";
             // 
-            // faltantesDeStockToolStripMenuItem
+            // label15
             // 
-            this.faltantesDeStockToolStripMenuItem.Name = "faltantesDeStockToolStripMenuItem";
-            this.faltantesDeStockToolStripMenuItem.Size = new System.Drawing.Size(272, 22);
-            this.faltantesDeStockToolStripMenuItem.Text = "Faltantes de Stock";
-            this.faltantesDeStockToolStripMenuItem.Click += new System.EventHandler(this.faltantesDeStockToolStripMenuItem_Click);
+            this.label15.AutoSize = true;
+            this.label15.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.label15.Font = new System.Drawing.Font("Lucida Sans Unicode", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.Location = new System.Drawing.Point(672, 362);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(30, 15);
+            this.label15.TabIndex = 29;
+            this.label15.Text = "F10";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.label16.Font = new System.Drawing.Font("Lucida Sans Unicode", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label16.Location = new System.Drawing.Point(672, 291);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(22, 15);
+            this.label16.TabIndex = 28;
+            this.label16.Text = "F9";
+            // 
+            // button11
+            // 
+            this.button11.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.button11.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button11.Font = new System.Drawing.Font("Lucida Sans Unicode", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button11.Location = new System.Drawing.Point(671, 330);
+            this.button11.Name = "button11";
+            this.button11.Size = new System.Drawing.Size(119, 48);
+            this.button11.TabIndex = 26;
+            this.button11.Text = "Cierre del Día";
+            this.button11.UseVisualStyleBackColor = false;
+            this.button11.Click += new System.EventHandler(this.button11_Click);
+            // 
+            // button12
+            // 
+            this.button12.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.button12.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button12.Font = new System.Drawing.Font("Lucida Sans Unicode", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button12.Location = new System.Drawing.Point(671, 259);
+            this.button12.Name = "button12";
+            this.button12.Size = new System.Drawing.Size(119, 48);
+            this.button12.TabIndex = 25;
+            this.button12.Text = "Controlar Stock";
+            this.button12.UseVisualStyleBackColor = false;
             // 
             // Inicio
             // 
@@ -772,6 +816,10 @@
             this.BackColor = System.Drawing.Color.SteelBlue;
             this.ClientSize = new System.Drawing.Size(800, 533);
             this.ControlBox = false;
+            this.Controls.Add(this.label15);
+            this.Controls.Add(this.label16);
+            this.Controls.Add(this.button11);
+            this.Controls.Add(this.button12);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.label11);
@@ -882,5 +930,9 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.ToolStripMenuItem faltantesDeStockToolStripMenuItem;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Button button11;
+        private System.Windows.Forms.Button button12;
     }
 }

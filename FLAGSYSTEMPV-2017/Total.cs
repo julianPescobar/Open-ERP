@@ -18,7 +18,6 @@ namespace FLAGSYSTEMPV_2017
         {
             InitializeComponent();
         }
-
         void vender()
         {
             //guardo en base de datos
@@ -35,7 +34,10 @@ namespace FLAGSYSTEMPV_2017
                 item.Parameters.AddWithValue("ca", totalventa.detalle.Rows[i][1].ToString());
                 item.Parameters.AddWithValue("pp", totalventa.detalle.Rows[i][5].ToString().Replace("$", ""));
                 item.Parameters.AddWithValue("to", totalventa.detalle.Rows[i][6].ToString().Replace("$", ""));
-                Conexion.Insertar("DetalleVentas", "nfactura,idproducto, codigoproducto , descripproducto, marcaproducto, cantidproducto, precioproducto, totalproducto", "@nf,@idprod,@cp,@dp,@mc,@ca,@pp,@to", item);
+                item.Parameters.AddWithValue("ti", totalventa.detalle.Rows[i][7].ToString().Replace("$", ""));
+                string prodser = totalventa.detalle.Rows[i][7].ToString();
+                Conexion.Insertar("DetalleVentas", "nfactura,idproducto, codigoproducto , descripproducto, marcaproducto, cantidproducto, precioproducto, totalproducto,tipo", "@nf,@idprod,@cp,@dp,@mc,@ca,@pp,@to,@ti", item);
+                if(prodser.Contains("Producto"))
                 Conexion.Actualizar("Articulos", "stockactual = stockactual - @ca", "WHERE idarticulo = @idprod", "", item);
             }
             if (Demo.EsDemo == true)
@@ -63,7 +65,6 @@ namespace FLAGSYSTEMPV_2017
         private const int WM_NCHITTEST = 0x84;
         private const int HT_CLIENT = 0x1;
         private const int HT_CAPTION = 0x2;
-
         private void Total_Load(object sender, EventArgs e)
         {
             if (totalventa.compraoventa == "Ventas")
@@ -95,7 +96,7 @@ namespace FLAGSYSTEMPV_2017
             if (totalventa.compraoventa == "NC")
             {
                 float total = float.Parse(totalventa.totnotacred.Replace("$", ""));
-                textBox1.Text = (total ).ToString("$0.00");
+                textBox1.Text = (total).ToString("$0.00");
                 textBox3.Text = (0 + total).ToString("$0.00");
                 checkBox1.Enabled = false;
                 checkBox1.Visible = false;
@@ -266,7 +267,7 @@ namespace FLAGSYSTEMPV_2017
                     {
                         totalventa.impuestoextra = t3.ToString();
                         float porcentajefactura = float.Parse(totalventa.impuestoextra.ToString()) * 100 / float.Parse(totalventa.totcompra.ToString().Replace("$",""));
-                        MessageBox.Show(porcentajefactura.ToString("0.00"));
+                        //MessageBox.Show(porcentajefactura.ToString("0.00"));
                         
                         
                         //guardo en base de datos

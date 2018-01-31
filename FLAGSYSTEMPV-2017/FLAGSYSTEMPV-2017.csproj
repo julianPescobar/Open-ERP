@@ -43,6 +43,9 @@
     <OutputPath>bin\x86\Dotfuscated\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="Microsoft.ReportViewer.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="Microsoft.ReportViewer.WinForms, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.VisualBasic" />
@@ -72,6 +75,7 @@
     <Compile Include="ActualizaPrecios.Designer.cs">
       <DependentUpon>ActualizaPrecios.cs</DependentUpon>
     </Compile>
+    <Compile Include="app.cs" />
     <Compile Include="Articulos.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -147,6 +151,12 @@
     <Compile Include="AgregarAltabaja.designer.cs">
       <DependentUpon>AgregarAltabaja.cs</DependentUpon>
     </Compile>
+    <Compile Include="EnviarMail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EnviarMail.Designer.cs">
+      <DependentUpon>EnviarMail.cs</DependentUpon>
+    </Compile>
     <Compile Include="IngreseMonto.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -176,6 +186,12 @@
     </Compile>
     <Compile Include="NuevoUser.Designer.cs">
       <DependentUpon>NuevoUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Permisos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Permisos.Designer.cs">
+      <DependentUpon>Permisos.cs</DependentUpon>
     </Compile>
     <Compile Include="Ventaturnos.cs">
       <SubType>Form</SubType>
@@ -324,6 +340,9 @@
     <EmbeddedResource Include="AgregarAltabaja.resx">
       <DependentUpon>AgregarAltabaja.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="EnviarMail.resx">
+      <DependentUpon>EnviarMail.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="IngreseMonto.resx">
       <DependentUpon>IngreseMonto.cs</DependentUpon>
     </EmbeddedResource>
@@ -338,6 +357,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="NuevoUser.resx">
       <DependentUpon>NuevoUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Permisos.resx">
+      <DependentUpon>Permisos.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Ventaturnos.resx">
       <DependentUpon>Ventaturnos.cs</DependentUpon>

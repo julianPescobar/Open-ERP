@@ -1,0 +1,54 @@
+Flag Informática S.R.L
+Informe de cierre del dia 31/01/2018
+Total Ventas:	$10150,54
+Total Compras:	$53556,00
+Total Gastos:	$3063,00
+Total Entrada Caja:	$737,00
+Total Salida Caja:	$522,00
+Total del Día:	$60858,54
+
+Detalle de Ventas:
+N° Venta	Vendedor	Total	
+76	Desarrollador	$778,38
+77	Desarrollador	$1556,76
+78	Desarrollador	$2335,14
+79	Desarrollador	$2336,72
+80	Desarrollador	$2338,30
+81	Desarrollador	$2339,88
+82	Desarrollador	$2341,46
+83	Desarrollador	$2343,04
+84	Desarrollador	$2344,62
+85	Desarrollador	$2346,20
+86	Desarrollador	$2347,78
+87	Desarrollador	$2349,36
+88	Desarrollador	$2350,94
+89	Desarrollador	$2352,52
+90	Desarrollador	$2354,10
+91	Desarrollador	$2355,68
+92	Desarrollador	$2357,26
+93	Desarrollador	$2358,84
+94	Desarrollador	$2360,42
+95	Desarrollador	$2362,00
+96	Desarrollador	$2363,58
+97	Desarrollador	$2365,16
+98	Desarrollador	$2366,74
+99	Desarrollador	$10150,54
+
+Detalle de Compras:
+N° Compra	Vendedor	Total	
+99	Desarrollador	$23556,00
+100	Desarrollador	$53556,00
+
+Detalle de Gastos:
+Area	Descripcion	Importe	
+ABL	pepe	$33,00
+Honorarios	toto	$3063,00
+
+Detalle de Entradas de Caja:
+Tipo	Motivo	Total	
+EC	pplpleerere	$334,00
+EC	oolol	$737,00
+
+Detalle de Salidas de Caja:
+Tipo	Motivo	Total	
+SC	tetats	$522,00
