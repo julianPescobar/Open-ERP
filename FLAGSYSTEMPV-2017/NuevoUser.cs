@@ -70,23 +70,25 @@ namespace FLAGSYSTEMPV_2017
                     string userpassw = textBox2.Text;
                     string username = textBox3.Text;
                     string usrlevel = comboBox1.SelectedItem.ToString();
-
                     Conexion.abrir();
                     SqlCeCommand nu = new SqlCeCommand();
                     nu.Parameters.AddWithValue("lo", userlogin);
                     nu.Parameters.AddWithValue("cl", userpassw);
                     nu.Parameters.AddWithValue("le", usrlevel);
-                    nu.Parameters.AddWithValue("no", username);
+                    nu.Parameters.AddWithValue("nom", username);
                     nu.Parameters.AddWithValue("act", "Activo");
-                    Conexion.Insertar("Usuarios", "login,clave,level,nombreusuario,eliminado", "@lo,@cl,@le,@no,@act", nu);
+                    nu.Parameters.AddWithValue("si","si");
+                    nu.Parameters.AddWithValue("no","no");
+                    if(usrlevel == "Vendedor")
+                        Conexion.Insertar("Usuarios", "login,clave,level,nombreusuario,eliminado,p_venta,p_compra,p_articulo,p_clientes,p_proveedores,p_gastos,p_stock,p_cierredia,p_diferencia,p_consultaC,p_consultaV,p_EScaja,p_informes,p_anular,p_notac,p_notad,p_abstock,p_config,p_empleados,p_enviarinforme,p_fiscalconfig", "@lo,@cl,@le,@nom,@act,@si,@no,@no,@no,@no,@no,@si,@si,@no,@no,@si,@no,@si,@si,@no,@no,@no,@no,@no,@si,@no", nu);
+                    else
+                        Conexion.Insertar("Usuarios", "login,clave,level,nombreusuario,eliminado,p_venta,p_compra,p_articulo,p_clientes,p_proveedores,p_gastos,p_stock,p_cierredia,p_diferencia,p_consultaC,p_consultaV,p_EScaja,p_informes,p_anular,p_notac,p_notad,p_abstock,p_config,p_empleados,p_enviarinforme,p_fiscalconfig", "@lo,@cl,@le,@nom,@act,@si,@si,@si,@si,@si,@si,@si,@si,@si,@si,@si,@si,@si,@si,@si,@si,@si,@si,@si,@si,@si", nu);
                     Conexion.cerrar();
                     this.Close();
                     if (Application.OpenForms.OfType<CrearEmpleados>().Count() == 1)
                         Application.OpenForms.OfType<CrearEmpleados>().First().Close();
-
                     CrearEmpleados frm = new CrearEmpleados();
                     frm.Show();
-
                 }
                 else
                 {
@@ -101,21 +103,21 @@ namespace FLAGSYSTEMPV_2017
                     string userpassw = textBox2.Text;
                     string username = textBox3.Text;
                     string usrlevel = comboBox1.SelectedItem.ToString();
-
                     Conexion.abrir();
                     SqlCeCommand nu = new SqlCeCommand();
                     nu.Parameters.AddWithValue("id",createorupdate.itemid);
                     nu.Parameters.AddWithValue("lo", userlogin);
                     nu.Parameters.AddWithValue("cl", userpassw);
                     nu.Parameters.AddWithValue("le", usrlevel);
-                    nu.Parameters.AddWithValue("no", username);
+                    nu.Parameters.AddWithValue("nom", username);
                     nu.Parameters.AddWithValue("act", "Activo");
-                    Conexion.Actualizar("Usuarios", "login =@lo,clave =@cl,level =@le,nombreusuario =@no,eliminado =@act", "WHERE iduser = @id","", nu);
+                    nu.Parameters.AddWithValue("si", "si");
+                    nu.Parameters.AddWithValue("no", "no");
+                    Conexion.Actualizar("Usuarios", "login =@lo,clave =@cl,level =@le,nombreusuario =@nom,eliminado =@act", "WHERE iduser = @id","", nu);
                     Conexion.cerrar();
                     this.Close();
                     if (Application.OpenForms.OfType<CrearEmpleados>().Count() == 1)
                         Application.OpenForms.OfType<CrearEmpleados>().First().Close();
-
                     CrearEmpleados frm = new CrearEmpleados();
                     frm.Show();
 

@@ -13,14 +13,16 @@ namespace FLAGSYSTEMPV_2017
         public static string registeredlicense = getRegLicense();
         public static float saldoinicial;
         public static string smtp, puerto, ssl, mail, clave, para, titulo, cuerpo;
-
+        //permisos del usuario
+        public static string pventa, pcompra, particulo, pclientes, pproveedores, pgastos, pstock, pcierredia, pdiferencia, pconsultaC, pconsultaV, pEScaja, pinformes, panular, pnotac, pnotad, pabstock, pconfig, pempleados, penviarinforme, pfiscalconfig;
         public static string getRegLicense()
         {
             Conexion.abrir();
-           DataTable license= Conexion.Consultar("NombreEmpresa","Configuracion","","",new SqlCeCommand());
+            DataTable license= Conexion.Consultar("NombreEmpresa","Configuracion","","",new SqlCeCommand());
             Conexion.cerrar();
             string reglicense = license.Rows[0][0].ToString();
             return reglicense;
+
         }
     }
 }

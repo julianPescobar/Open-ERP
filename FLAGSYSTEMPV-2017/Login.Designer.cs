@@ -114,6 +114,7 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Load += new System.EventHandler(this.Login_Load);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.Login_Paint_1);
             this.ResumeLayout(false);
             this.PerformLayout();
 

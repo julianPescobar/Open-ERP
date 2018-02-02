@@ -137,32 +137,30 @@ namespace FLAGSYSTEMPV_2017
                 label3.Text = "Registrado por: " + registereduser.getRegLicense();
                 label2.Text = "Conectado como: " + registereduser.reguser;
                 label5.Text = "Jerarquía: " + registereduser.level;
-                button6.Visible = false;
-                button6.Enabled = false;
+                button6.Visible = false; //el boton de comprar licencia lo sacamos
+                button6.Enabled = false; //y lo desactivamos
                 if (registereduser.level == "Supervisor" || registereduser.level == "Admin")
                 {
                     toolStripMenuItem11.Enabled = true;
                     toolStripMenuItem15.Enabled = true;
                     toolStripMenuItem18.Enabled = true;
                     altasYBajasDeStockToolStripMenuItem.Enabled = true;
-                   // diferenciaStockPorArtículoToolStripMenuItem.Enabled = true;
                     gestionarUsuariosToolStripMenuItem.Enabled = true;
                     configuraciónToolStripMenuItem.Enabled = true;
                     enviarInformeToolStripMenuItem.Enabled = true;
-                    //mantenimientoToolStripMenuItem.Enabled = true;
+                    
                 }
                 else
                 {
-                    toolStripMenuItem11.Enabled = false;
-                    toolStripMenuItem15.Enabled = false;
-                    toolStripMenuItem18.Enabled = false;
-                    altasYBajasDeStockToolStripMenuItem.Enabled = false;
-                    
-                    //diferenciaStockPorArtículoToolStripMenuItem.Enabled = false;
-                    gestionarUsuariosToolStripMenuItem.Enabled = false;
-                    configuraciónToolStripMenuItem.Enabled = false;
-                    enviarInformeToolStripMenuItem.Enabled = false;
-                   // mantenimientoToolStripMenuItem.Enabled = false;
+                    //toolStripMenuItem11.Enabled = false;
+                    //toolStripMenuItem15.Enabled = false;
+                    //toolStripMenuItem18.Enabled = false;
+                    //altasYBajasDeStockToolStripMenuItem.Enabled = false;
+                    //gestionarUsuariosToolStripMenuItem.Enabled = false;
+                    //configuraciónToolStripMenuItem.Enabled = false;
+                    //enviarInformeToolStripMenuItem.Enabled = false;
+                    setearPermisos();
+                  
                 }
             }
         }
@@ -407,77 +405,98 @@ namespace FLAGSYSTEMPV_2017
         {
             if (e.KeyCode == Keys.F1)
             {
-                if (Application.OpenForms.OfType<Ventas>().Count() == 1)
-                    Application.OpenForms.OfType<Ventas>().First().Focus();
-                else
+                if (button2.Enabled == true)
                 {
-                    Ventas frm = new Ventas();
-                    frm.Show();
+                    if (Application.OpenForms.OfType<Ventas>().Count() == 1)
+                        Application.OpenForms.OfType<Ventas>().First().Focus();
+                    else
+                    {
+                        Ventas frm = new Ventas();
+                        frm.Show();
+                    }
                 }
             }
             if (e.KeyCode == Keys.F2)
             {
-                if (Application.OpenForms.OfType<Compras>().Count() == 1)
-                    Application.OpenForms.OfType<Compras>().First().Focus();
-                else
+                if (button3.Enabled == true)
                 {
-                    Compras frm = new Compras();
-                    frm.Show();
+                    if (Application.OpenForms.OfType<Compras>().Count() == 1)
+                        Application.OpenForms.OfType<Compras>().First().Focus();
+                    else
+                    {
+                        Compras frm = new Compras();
+                        frm.Show();
+                    }
                 }
             }
 
             if (e.KeyCode == Keys.F3)
             {
-                if (Application.OpenForms.OfType<Articulos>().Count() == 1)
-                    Application.OpenForms.OfType<Articulos>().First().Focus();
-                else
+                if (button4.Enabled == true)
                 {
-                    Articulos frm = new Articulos();
-                    frm.Show();
+                    if (Application.OpenForms.OfType<Articulos>().Count() == 1)
+                        Application.OpenForms.OfType<Articulos>().First().Focus();
+                    else
+                    {
+                        Articulos frm = new Articulos();
+                        frm.Show();
+                    }
                 }
             }
             if (e.KeyCode == Keys.F4)
             {
-                if (Application.OpenForms.OfType<Caja>().Count() == 1)
-                    Application.OpenForms.OfType<Caja>().First().Focus();
-                else
+                if (button5.Enabled == true)
                 {
-                    Caja frm = new Caja();
-                    frm.Show();
+                    if (Application.OpenForms.OfType<Caja>().Count() == 1)
+                        Application.OpenForms.OfType<Caja>().First().Focus();
+                    else
+                    {
+                        Caja frm = new Caja();
+                        frm.Show();
+                    }
                 }
             }
 
             if (e.KeyCode == Keys.F5)
             {
-                if (Application.OpenForms.OfType<Clientes>().Count() == 1)
-                    Application.OpenForms.OfType<Clientes>().First().Focus();
-                else
+                if (button9.Enabled == true)
                 {
-                    Clientes frm = new Clientes();
-                    frm.Show();
+                    if (Application.OpenForms.OfType<Clientes>().Count() == 1)
+                        Application.OpenForms.OfType<Clientes>().First().Focus();
+                    else
+                    {
+                        Clientes frm = new Clientes();
+                        frm.Show();
+                    }
                 }
             }
 
 
             if (e.KeyCode == Keys.F6)
             {
-                if (Application.OpenForms.OfType<Proveedores>().Count() == 1)
-                    Application.OpenForms.OfType<Proveedores>().First().Focus();
-                else
+                if (button8.Enabled == true)
                 {
-                    Proveedores frm = new Proveedores();
-                    frm.Show();
+                    if (Application.OpenForms.OfType<Proveedores>().Count() == 1)
+                        Application.OpenForms.OfType<Proveedores>().First().Focus();
+                    else
+                    {
+                        Proveedores frm = new Proveedores();
+                        frm.Show();
+                    }
                 }
             }
 
             if (e.KeyCode == Keys.F7)
             {
-                if (Application.OpenForms.OfType<Gastos>().Count() == 1)
-                    Application.OpenForms.OfType<Gastos>().First().Focus();
-                else
+                if (button7.Enabled == true)
                 {
-                    Gastos frm = new Gastos();
-                    frm.Show();
+                    if (Application.OpenForms.OfType<Gastos>().Count() == 1)
+                        Application.OpenForms.OfType<Gastos>().First().Focus();
+                    else
+                    {
+                        Gastos frm = new Gastos();
+                        frm.Show();
+                    }
                 }
             }
             if (e.KeyCode == Keys.F8)
@@ -872,6 +891,29 @@ namespace FLAGSYSTEMPV_2017
             generarResumenFinal();
         }
 
-        
+        private void setearPermisos()
+        {
+            if (registereduser.pventa == "si") button2.Enabled = true; else button2.Enabled = false;
+            if (registereduser.pcompra == "si") button3.Enabled = true; else button3.Enabled = false;
+            if (registereduser.particulo == "si") button4.Enabled = true; else button4.Enabled = false;
+            if (registereduser.pclientes == "si") button9.Enabled = true; else button9.Enabled = false;
+            if (registereduser.pproveedores == "si") button8.Enabled = true; else button8.Enabled = false;
+            if (registereduser.pgastos == "si") button7.Enabled = true; else button7.Enabled = false;
+            if (registereduser.pstock == "si") button12.Enabled = true; else button12.Enabled = false;
+            if (registereduser.pcierredia == "si") button11.Enabled = true; else button11.Enabled = false;
+            if (registereduser.pdiferencia == "si") toolStripMenuItem21.Enabled = true; else toolStripMenuItem21.Enabled = false;
+            if (registereduser.pconsultaC == "si") toolStripMenuItem12.Enabled = true; else toolStripMenuItem12.Enabled = false;
+            if (registereduser.pconsultaV == "si") toolStripMenuItem8.Enabled = true; else toolStripMenuItem8.Enabled = false;
+            if (registereduser.pEScaja == "si") toolStripSplitButton3.Enabled = true; else toolStripSplitButton3.Enabled = false;
+            if (registereduser.pinformes == "si") toolStripSplitButton1.Enabled = true; else toolStripSplitButton1.Enabled = false;
+            if (registereduser.panular == "si") toolStripMenuItem11.Enabled = true; else toolStripMenuItem11.Enabled = false;
+            if (registereduser.pnotac == "si") toolStripMenuItem15.Enabled = true; else toolStripMenuItem15.Enabled = false;
+            if (registereduser.pnotad == "si") toolStripMenuItem18.Enabled = true; else toolStripMenuItem18.Enabled = false;
+            if (registereduser.pabstock == "si") altasYBajasDeStockToolStripMenuItem.Enabled = true; else altasYBajasDeStockToolStripMenuItem.Enabled = false;
+            if (registereduser.pconfig == "si") configuraciónToolStripMenuItem.Enabled = true; else configuraciónToolStripMenuItem.Enabled = false;
+            if (registereduser.pempleados == "si") gestionarUsuariosToolStripMenuItem.Enabled = true; else gestionarUsuariosToolStripMenuItem.Enabled = false;
+            if (registereduser.penviarinforme == "si") enviarInformeToolStripMenuItem.Enabled = true; else enviarInformeToolStripMenuItem.Enabled = false;
+            if (registereduser.pfiscalconfig == "si") impresoraFiscalToolStripMenuItem.Enabled = true; else impresoraFiscalToolStripMenuItem.Enabled = false;
+        }
     }
 }

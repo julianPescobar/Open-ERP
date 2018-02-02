@@ -20,7 +20,6 @@ namespace FLAGSYSTEMPV_2017
         private void Permisos_Load(object sender, EventArgs e)
         {
             this.Focus();
-
             Conexion.abrir();
             SqlCeCommand notelim = new SqlCeCommand();
             notelim.Parameters.AddWithValue("elim", "Eliminado");

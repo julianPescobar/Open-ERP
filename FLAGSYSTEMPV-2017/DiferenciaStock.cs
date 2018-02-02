@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Data.SqlServerCe;
 using System.IO;
+using System.Data.OleDb;
 namespace FLAGSYSTEMPV_2017
 {
     public partial class DiferenciaStock : Form
@@ -175,30 +176,42 @@ namespace FLAGSYSTEMPV_2017
             {
                 try
                 {
-                    Microsoft.Office.Interop.Excel.Application aplicacion;
-                    Microsoft.Office.Interop.Excel.Workbook libros_trabajo;
-                    Microsoft.Office.Interop.Excel.Worksheet hoja_trabajo;
-                    aplicacion = new Microsoft.Office.Interop.Excel.Application();
-                    libros_trabajo = aplicacion.Workbooks.Add();
-                    hoja_trabajo =
-                        (Microsoft.Office.Interop.Excel.Worksheet)libros_trabajo.Worksheets.get_Item(1);
-                    //Recorremos el DataGridView rellenando la hoja de trabajo
-                    for (int i = 0; i < dataGridView1.Rows.Count - 1; i++)
+
+                    string tempfilename = saveFileDialog1.FileName;
+                    string xConnStr = "Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=" + tempfilename + ".xls;Extended Properties='Excel 8.0;HDR=YES'";
+
+                    string TabName = "Informe";
+                    var conn = new OleDbConnection(xConnStr);
+                    string columnas = "";
+                    for (int i = 0; i < dataGridView1.Columns.Count; i++)
                     {
+                        if (i == 0) columnas += "[" + dataGridView1.Columns[i].Name + "] varchar(255)";
+                        else columnas += ", [" + dataGridView1.Columns[i].Name + "] varchar(255)";
+
+                    }
+                    //MessageBox.Show(columnas);
+                    string ColumnName = columnas;
+                    conn.Open();
+                    var cmd = new OleDbCommand("CREATE TABLE [" + TabName + "] (" + ColumnName + ")", conn);
+                    cmd.ExecuteNonQuery();
+                    for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                    {
+                        string values = "";
                         for (int j = 0; j < dataGridView1.Columns.Count; j++)
                         {
-                            hoja_trabajo.Cells[i + 1, j + 1] = dataGridView1.Rows[i].Cells[j].Value.ToString();
+                            if (j == 0) values += "'" + dataGridView1.Rows[i].Cells[j].Value.ToString() + "'";
+                            else values += ", '" + dataGridView1.Rows[i].Cells[j].Value.ToString() + "'";
                         }
+                        var insert = new OleDbCommand("INSERT INTO [" + TabName + "] (" + ColumnName.Replace(" varchar(255)", "") + ") VALUES (" + values + ")", conn);
+                        insert.ExecuteNonQuery();
                     }
-                    libros_trabajo.SaveAs(saveFileDialog1.FileName,
-                        Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookNormal);
-                    libros_trabajo.Close(true);
-                    aplicacion.Quit();
+                    conn.Close();
+
                 }
-                catch (Exception)
+                catch (Exception ee)
                 {
                     this.Close();
-                    MessageBox.Show("Revise si tiene instalado excel, si lo tiene instalado por favor reinstalelo");
+                    MessageBox.Show("Hubo un error al querer exportar a excel:\n"+ee.Message);
                 }
             }
         }
