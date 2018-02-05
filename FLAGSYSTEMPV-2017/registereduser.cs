@@ -14,7 +14,7 @@ namespace FLAGSYSTEMPV_2017
         public static float saldoinicial;
         public static string smtp, puerto, ssl, mail, clave, para, titulo, cuerpo;
         //permisos del usuario
-        public static string pventa, pcompra, particulo, pclientes, pproveedores, pgastos, pstock, pcierredia, pdiferencia, pconsultaC, pconsultaV, pEScaja, pinformes, panular, pnotac, pnotad, pabstock, pconfig, pempleados, penviarinforme, pfiscalconfig;
+        public static string pventa,pcaja, pcompra, particulo, pclientes, pproveedores, pgastos, pstock, pcierredia, pdiferencia, pconsultaC, pconsultaV, pEScaja, pinformes, panular, pnotac, pnotad, pabstock, pconfig, pempleados, penviarinforme, pfiscalconfig;
         public static string getRegLicense()
         {
             Conexion.abrir();

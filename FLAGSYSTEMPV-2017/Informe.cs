@@ -32,7 +32,7 @@ namespace FLAGSYSTEMPV_2017
         private const int HT_CLIENT = 0x1;
         private const int HT_CAPTION = 0x2;
 
-
+        
 
 
         private void InformeVentas_Load(object sender, EventArgs e)
@@ -196,7 +196,7 @@ namespace FLAGSYSTEMPV_2017
             if (Conexion.data == "AutoPedido")
             {
                 Conexion.abrir();
-                DataTable arts = Conexion.Consultar("idarticulo,descripcion as [Nombre],proveedor as [Proveedor],marca as [Marca],precio as [Precio],costo as [Costo],stockactual as [Stock],stockminimo as [Stock min.],compraminima as [Compra min.]", "Articulos", " order by proveedor asc", "", new SqlCeCommand());
+                DataTable arts = Conexion.Consultar("idarticulo,descripcion as [Nombre],proveedor as [Proveedor],marca as [Marca],precio as [Precio],costo as [Costo],stockactual as [Stock],stockminimo as [Stock min.],compraminima as [Compra min.], stockmax as [Stock max.]", "Articulos", " order by proveedor asc", "", new SqlCeCommand());
                 Conexion.cerrar();
                 BindingSource SBind = new BindingSource();
                 SBind.DataSource = arts;
@@ -211,16 +211,22 @@ namespace FLAGSYSTEMPV_2017
 
                 dataGridView1.Refresh();
                 dataGridView1.Columns.Add("pedir", "Pedir");
-                  float stockactual, stockminimo,compraminima;
+                  float stockactual, stockminimo,compraminima,stockmax;
                 for (int i = 0; i < dataGridView1.Rows.Count; i++)
                 {
 
                     stockactual = Convert.ToInt32(dataGridView1.Rows[i].Cells[6].Value.ToString());
                     stockminimo = Convert.ToInt32(dataGridView1.Rows[i].Cells[7].Value.ToString());
                     compraminima = Convert.ToInt32(dataGridView1.Rows[i].Cells[8].Value.ToString());
-
-                    if (stockactual < stockminimo) dataGridView1.Rows[i].Cells[9].Value = compraminima.ToString();
-                    else dataGridView1.Rows[i].Cells[9].Value = "0";
+                    stockmax = Convert.ToInt32(dataGridView1.Rows[i].Cells[9].Value.ToString());
+                    if (stockactual < stockminimo)
+                    {
+                        if((stockactual + compraminima) > stockmax)
+                            dataGridView1.Rows[i].Cells[10].Value = (stockmax - stockactual).ToString();
+                        else
+                        dataGridView1.Rows[i].Cells[10].Value = compraminima.ToString();
+                    }
+                    else dataGridView1.Rows[i].Cells[10].Value = "0";
                 }
             }
             if (Conexion.data == "Faltantes")

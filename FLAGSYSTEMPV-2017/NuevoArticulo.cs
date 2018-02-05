@@ -46,7 +46,7 @@ namespace FLAGSYSTEMPV_2017
                 Conexion.abrir();
                 DataTable rubros = Conexion.Consultar("nombrerubro", "Rubros", "", "", new SqlCeCommand());
                 DataTable proveedores = Conexion.Consultar("nombre", "Proveedores", "", "", new SqlCeCommand());
-                DataTable datosprod = Conexion.Consultar("codigoart,descripcion,marca,rubro,precio,costo,iva,stockminimo,porcentaje,compraminima,proveedor,tipo", "Articulos", "WHERE idarticulo = @id", "", idprod);
+                DataTable datosprod = Conexion.Consultar("codigoart,descripcion,marca,rubro,precio,costo,iva,stockminimo,porcentaje,compraminima,proveedor,tipo,stockmax", "Articulos", "WHERE idarticulo = @id", "", idprod);
                 
                 Conexion.cerrar();
                 for (int i = 0; i < rubros.Rows.Count; i++)
@@ -71,6 +71,7 @@ namespace FLAGSYSTEMPV_2017
                     textBox9.Text = datosprod.Rows[0][9].ToString();
                     comboBox2.SelectedItem = datosprod.Rows[0][10].ToString();
                     comboBox3.SelectedItem = datosprod.Rows[0][11].ToString();
+                    textBox10.Text = datosprod.Rows[0][12].ToString();
                     calcular();
                 }
             }
@@ -96,11 +97,14 @@ namespace FLAGSYSTEMPV_2017
             if (createorupdate.status == "create")
             {
                 if (textBox1.Text.Length < 1 ||
+                    textBox2.Text.Length < 1 ||
                     textBox4.Text.Length < 1 ||
                     textBox5.Text.Length < 1 ||
+                     textBox6.Text.Length < 1 ||
                     textBox7.Text.Length < 1 ||
                     textBox8.Text.Length < 1 ||
                     textBox9.Text.Length < 1 ||
+                     textBox10.Text.Length < 1 ||
                     comboBox1.SelectedIndex < 0 ||
                     comboBox2.SelectedIndex < 0)
                 {
@@ -122,6 +126,7 @@ namespace FLAGSYSTEMPV_2017
                     proveed = comboBox2.SelectedItem.ToString();
                     SqlCeCommand nuevoarticulo = new SqlCeCommand();
                     nuevoarticulo.Parameters.Clear();
+                    nuevoarticulo.Parameters.AddWithValue("@sm", textBox10.Text.ToString());
                     nuevoarticulo.Parameters.AddWithValue("@n", "0");
                     nuevoarticulo.Parameters.AddWithValue("@o", "0");
                     nuevoarticulo.Parameters.AddWithValue("@a", codigo);
@@ -139,7 +144,7 @@ namespace FLAGSYSTEMPV_2017
                     nuevoarticulo.Parameters.AddWithValue("@p", "Activo");
                     nuevoarticulo.Parameters.AddWithValue("@q", comboBox3.SelectedItem.ToString());
                     Conexion.abrir();
-                    Conexion.Insertar("Articulos", "faltante,sobrante,codigoart,descripcion,marca,rubro,precio,costo,iva,stockactual,stockminimo,porcentaje,compraminima,proveedor,eliminado,tipo", "@n,@o,@a,@b,@c,@d,@e,@f,@g,@l,@h,@i,@j,@k,@p,@q", nuevoarticulo);
+                    Conexion.Insertar("Articulos", "stockmax,faltante,sobrante,codigoart,descripcion,marca,rubro,precio,costo,iva,stockactual,stockminimo,porcentaje,compraminima,proveedor,eliminado,tipo", "@sm,@n,@o,@a,@b,@c,@d,@e,@f,@g,@l,@h,@i,@j,@k,@p,@q", nuevoarticulo);
                     Conexion.cerrar();
                     if (Application.OpenForms.OfType<Articulos>().Count() == 1)
                     {
@@ -153,11 +158,14 @@ namespace FLAGSYSTEMPV_2017
             if (createorupdate.status == "update")
             {
                 if (textBox1.Text.Length < 1 ||
+                    textBox2.Text.Length < 1 ||
                     textBox4.Text.Length < 1 ||
                     textBox5.Text.Length < 1 ||
+                     textBox6.Text.Length < 1 ||
                     textBox7.Text.Length < 1 ||
                     textBox8.Text.Length < 1 ||
                     textBox9.Text.Length < 1 ||
+                     textBox10.Text.Length < 1 ||
                     comboBox1.SelectedIndex < 0 ||
                     comboBox2.SelectedIndex < 0)
                 {
@@ -180,6 +188,7 @@ namespace FLAGSYSTEMPV_2017
                     SqlCeCommand nuevoarticulo = new SqlCeCommand();
                     nuevoarticulo.Parameters.Clear();
                     nuevoarticulo.Parameters.AddWithValue("@id", createorupdate.itemid);
+                    nuevoarticulo.Parameters.AddWithValue("@sm", textBox10.Text.ToString());
                     nuevoarticulo.Parameters.AddWithValue("@a", codigo);
                     nuevoarticulo.Parameters.AddWithValue("@b", descripcion);
                     nuevoarticulo.Parameters.AddWithValue("@c", marca);
@@ -194,7 +203,7 @@ namespace FLAGSYSTEMPV_2017
                     nuevoarticulo.Parameters.AddWithValue("@p", "Activo");
                     nuevoarticulo.Parameters.AddWithValue("@q", comboBox3.SelectedItem.ToString());
                     Conexion.abrir();
-                    Conexion.Actualizar("Articulos", " eliminado = @p, tipo = @q, codigoart = @a,descripcion = @b,marca = @c,rubro = @d,precio = @e,costo = @f,iva = @g,stockminimo = @h,porcentaje = @i,compraminima = @j,proveedor = @k",  "WHERE idarticulo = @id", "", nuevoarticulo);
+                    Conexion.Actualizar("Articulos", " stockmax = @sm, eliminado = @p, tipo = @q, codigoart = @a,descripcion = @b,marca = @c,rubro = @d,precio = @e,costo = @f,iva = @g,stockminimo = @h,porcentaje = @i,compraminima = @j,proveedor = @k",  "WHERE idarticulo = @id", "", nuevoarticulo);
 
                     //Conexion.Insertar("Articulos", "faltante,sobrante,codigoart,descripcion,marca,rubro,precio,costo,iva,stockactual,stockminimo,porcentaje,compraminima,proveedor", "@n,@o,@a,@b,@c,@d,@e,@f,@g,@l,@h,@i,@j,@k", nuevoarticulo);
                     Conexion.cerrar();
@@ -346,6 +355,18 @@ namespace FLAGSYSTEMPV_2017
            
            
            
+        }
+
+        private void textBox10_Leave(object sender, EventArgs e)
+        {
+            try{
+                
+                textBox10.Text = float.Parse(textBox10.Text).ToString(); 
+            }
+                catch(Exception)
+            {
+                textBox10.Text = "";
+                }
         }
     }
 }

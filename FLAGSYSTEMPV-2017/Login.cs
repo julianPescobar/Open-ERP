@@ -50,7 +50,7 @@ namespace FLAGSYSTEMPV_2017
             userypass.Parameters.AddWithValue("@a", usuario);
             userypass.Parameters.AddWithValue("@b", clave);
             userypass.Parameters.AddWithValue("elim", "Eliminado");
-            user = Conexion.Consultar("login,clave,level,nombreusuario, eliminado, p_venta, p_compra,p_articulo,p_clientes,p_proveedores,p_gastos,p_stock,p_cierredia,p_diferencia,p_consultaC,p_consultaV,p_EScaja,p_informes,p_anular,p_notac,p_notad,p_abstock,p_config,p_empleados,p_enviarinforme,p_fiscalconfig", "Usuarios", "WHERE login = @a AND clave = @b AND eliminado !=  @elim", "", userypass);
+            user = Conexion.Consultar("login,clave,level,nombreusuario, eliminado, p_venta, p_compra,p_articulo,p_clientes,p_proveedores,p_gastos,p_stock,p_cierredia,p_diferencia,p_consultaC,p_consultaV,p_EScaja,p_informes,p_anular,p_notac,p_notad,p_abstock,p_config,p_empleados,p_enviarinforme,p_fiscalconfig,p_caja", "Usuarios", "WHERE login = @a AND clave = @b AND eliminado !=  @elim", "", userypass);
             DataTable turnos = Conexion.Consultar("*", "Turnos", "", "", new SqlCeCommand());
             Conexion.cerrar();
             if (user.Rows.Count > 0)
@@ -80,6 +80,7 @@ namespace FLAGSYSTEMPV_2017
                 registereduser.pempleados = user.Rows[0][23].ToString();
                 registereduser.penviarinforme = user.Rows[0][24].ToString();
                 registereduser.pfiscalconfig= user.Rows[0][25].ToString();
+                registereduser.pcaja = user.Rows[0][26].ToString();
                 if (turnos.Rows.Count > 0 && turnos.Rows[turnos.Rows.Count - 1][3].ToString() == "")
                 {
                     if (turnos.Rows[turnos.Rows.Count - 1][1].ToString() == nombre)
@@ -95,8 +96,8 @@ namespace FLAGSYSTEMPV_2017
                             this.Close();
                             IngreseFecha fecha = new IngreseFecha();
                             fecha.ShowDialog();
-                            Inicio inicio = new Inicio();
-                            inicio.Show();
+                          //  Inicio inicio = new Inicio();
+                           // inicio.Show();
 
                         }
                         if (cerraryo == DialogResult.No)
@@ -104,8 +105,10 @@ namespace FLAGSYSTEMPV_2017
 
                             registereduser.reguser = nombre;
                             registereduser.level = jerarquia;
-                            Inicio inicio = new Inicio();
-                            inicio.Show();
+                            IngreseFecha fecha = new IngreseFecha();
+                            fecha.ShowDialog();
+                          //  Inicio inicio = new Inicio();
+                           // inicio.Show();
                             this.Close();
 
                         }
@@ -124,8 +127,8 @@ namespace FLAGSYSTEMPV_2017
                             this.Close();
                             IngreseFecha fecha = new IngreseFecha();
                             fecha.ShowDialog();
-                            Inicio inicio = new Inicio();
-                            inicio.Show();
+                            //Inicio inicio = new Inicio();
+                            //inicio.Show();
                            
 
                         }
@@ -146,8 +149,8 @@ namespace FLAGSYSTEMPV_2017
                     this.Close();
                     IngreseFecha fecha = new IngreseFecha();
                     fecha.ShowDialog();
-                    Inicio inicio = new Inicio();
-                    inicio.Show();
+                   // Inicio inicio = new Inicio();
+                    //inicio.Show();
                     
                 }
 

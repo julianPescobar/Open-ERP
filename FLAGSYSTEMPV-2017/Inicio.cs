@@ -109,6 +109,7 @@ namespace FLAGSYSTEMPV_2017
         
         private void Inicio_Load(object sender, EventArgs e)
         {
+            label4.Text = "Fecha de Trabajo: " + app.hoy;
             label2.BringToFront();
             label5.BringToFront();
             button6.BringToFront();
@@ -894,6 +895,7 @@ namespace FLAGSYSTEMPV_2017
         private void setearPermisos()
         {
             if (registereduser.pventa == "si") button2.Enabled = true; else button2.Enabled = false;
+            if (registereduser.pcaja == "si") button5.Enabled = true; else button5.Enabled = false;
             if (registereduser.pcompra == "si") button3.Enabled = true; else button3.Enabled = false;
             if (registereduser.particulo == "si") button4.Enabled = true; else button4.Enabled = false;
             if (registereduser.pclientes == "si") button9.Enabled = true; else button9.Enabled = false;

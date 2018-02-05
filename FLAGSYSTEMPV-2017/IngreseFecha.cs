@@ -63,6 +63,8 @@ namespace FLAGSYSTEMPV_2017
                         Application.OpenForms.OfType<Inicio>().First().Focus();
                     else
                     {
+                        app.hoy = fechaactual.ToShortDateString();
+                        this.Close();
                         Inicio frm = new Inicio();
                         frm.Show();
                     }
@@ -81,6 +83,8 @@ namespace FLAGSYSTEMPV_2017
                         Application.OpenForms.OfType<Inicio>().First().Focus();
                     else
                     {
+                        app.hoy = Convert.ToDateTime(fechasupervisor).ToShortDateString();
+                        this.Close();
                         Inicio frm = new Inicio();
                         frm.Show();
                     }

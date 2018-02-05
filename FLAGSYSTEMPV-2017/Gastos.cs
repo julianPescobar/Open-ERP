@@ -37,6 +37,7 @@ namespace FLAGSYSTEMPV_2017
 
         private void Gastos_Load(object sender, EventArgs e)
         {
+            dateTimePicker1.Value = Convert.ToDateTime(app.hoy + " " + DateTime.Now.Hour.ToString() + ":" + DateTime.Now.Minute.ToString() + ":59");
             SqlCeCommand dates = new SqlCeCommand();
             dates.Parameters.AddWithValue("d2", dateTimePicker1.Value.Month);
             dates.Parameters.AddWithValue("d3", dateTimePicker1.Value.Year);

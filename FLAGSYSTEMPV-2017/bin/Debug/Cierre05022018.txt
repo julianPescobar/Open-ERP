@@ -1,0 +1,29 @@
+Flag Informática S.R.L
+Informe de cierre del dia 05/02/2018
+Total Ventas:	$33645,74
+Total Compras:	$0,00
+Total Gastos:	$0,00
+Total Entrada Caja:	$0,00
+Total Salida Caja:	$0,00
+Total del Día:	$33645,74
+
+Detalle de Ventas:
+N° Venta	Vendedor	Total	
+102	Desarrollador	$1,58
+103	Desarrollador	$3893,48
+104	Desarrollador	$18027,08
+105	Desarrollador	$19676,00
+107	loco	$20454,38
+108	Guliansito	$33645,74
+
+Detalle de Compras:
+N° Compra	Vendedor	Total	
+
+Detalle de Gastos:
+Area	Descripcion	Importe	
+
+Detalle de Entradas de Caja:
+Tipo	Motivo	Total	
+
+Detalle de Salidas de Caja:
+Tipo	Motivo	Total	

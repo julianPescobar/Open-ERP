@@ -19,6 +19,7 @@ namespace FLAGSYSTEMPV_2017
 
         private void CajaIO_Load(object sender, EventArgs e)
         {
+            dateTimePicker1.Value = Convert.ToDateTime(app.hoy + " " + DateTime.Now.Hour.ToString() + ":" + DateTime.Now.Minute.ToString() + ":" + DateTime.Now.Second.ToString());
             float total = 0;
             textBox2.Text = total.ToString("0.00");
             if (CIO.entradaosalida == "Entrada")

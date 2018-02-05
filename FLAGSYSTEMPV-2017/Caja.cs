@@ -40,7 +40,8 @@ namespace FLAGSYSTEMPV_2017
 
         private void Caja_Load(object sender, EventArgs e)
         {
-            dateTimePicker1.Text = DateTime.Now.ToShortDateString();
+            dateTimePicker1.Text = app.hoy;
+            dateTimePicker2.Text = app.hoy + " " + DateTime.Now.Hour.ToString() + ":" + DateTime.Now.Minute.ToString() + ":59";
             //dateTimePicker2.Text = DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString();
             getdebehaber();
             calculardht();

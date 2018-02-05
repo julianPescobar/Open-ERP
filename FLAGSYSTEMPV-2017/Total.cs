@@ -48,7 +48,7 @@ namespace FLAGSYSTEMPV_2017
             {
                 item.Parameters.AddWithValue("ve", registereduser.reguser);
             }
-            item.Parameters.AddWithValue("fv", DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString());
+            item.Parameters.AddWithValue("fv", app.hoy + " " + DateTime.Now.ToShortTimeString());
             item.Parameters.AddWithValue("tt", totalventa.totventa.Replace("$", ""));
             item.Parameters.AddWithValue("ev", "Finalizado");
             item.Parameters.AddWithValue("tf", "FC");
@@ -318,7 +318,7 @@ namespace FLAGSYSTEMPV_2017
                         {
                             item.Parameters.AddWithValue("ve", registereduser.reguser);
                         }
-                        item.Parameters.AddWithValue("fv", DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString());
+                        item.Parameters.AddWithValue("fv", app.hoy + " " + DateTime.Now.ToShortTimeString());
                         item.Parameters.AddWithValue("tt", totalventa.totcompra.Replace("$", ""));
                         item.Parameters.AddWithValue("ev", "Finalizado");
                         item.Parameters.AddWithValue("pro", totalventa.proveedcompra);
@@ -352,7 +352,7 @@ namespace FLAGSYSTEMPV_2017
                         {
                             item.Parameters.AddWithValue("ve", registereduser.reguser);
                         }
-                        item.Parameters.AddWithValue("fv", DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString());
+                        item.Parameters.AddWithValue("fv", app.hoy + " " + DateTime.Now.ToShortTimeString());
                         item.Parameters.AddWithValue("tt", totalventa.totnotacred.Replace("$", ""));
                         item.Parameters.AddWithValue("ev", "Finalizado");
                         item.Parameters.AddWithValue("tf", "NC");
@@ -386,7 +386,7 @@ namespace FLAGSYSTEMPV_2017
                         {
                             item.Parameters.AddWithValue("ve", registereduser.reguser);
                         }
-                        item.Parameters.AddWithValue("fv", DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString());
+                        item.Parameters.AddWithValue("fv", app.hoy + " " + DateTime.Now.ToShortTimeString());
                         item.Parameters.AddWithValue("tt", totalventa.totnotadeb.Replace("$", ""));
                         item.Parameters.AddWithValue("ev", "Finalizado");
                         item.Parameters.AddWithValue("tf", "NC");

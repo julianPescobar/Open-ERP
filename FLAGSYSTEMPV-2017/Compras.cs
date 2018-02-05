@@ -33,7 +33,7 @@ namespace FLAGSYSTEMPV_2017
             {
                 comboBox1.Items.Add(proveedores.Rows[i][0].ToString());
             }
-            textBox3.Text = DateTime.Now.ToShortDateString();
+            textBox3.Text = app.hoy;
             Conexion.abrir();
             DataTable nextid = new DataTable();
             nextid = Conexion.Consultar("AUTOINC_NEXT", "INFORMATION_SCHEMA.COLUMNS", " WHERE (TABLE_NAME = 'Compras') AND (COLUMN_NAME = 'idcompra')", "", new SqlCeCommand());

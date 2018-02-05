@@ -8,5 +8,6 @@ namespace FLAGSYSTEMPV_2017
     class app
     {
         public static string dir = Directory.GetCurrentDirectory();
+        public static string hoy;
     }
 }

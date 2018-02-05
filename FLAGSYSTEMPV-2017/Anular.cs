@@ -30,9 +30,15 @@ namespace FLAGSYSTEMPV_2017
                 label1.Text = "Listado de Ventas de hoy";
                 Conexion.abrir();
                 SqlCeCommand fechahoy = new SqlCeCommand();
-                fechahoy.Parameters.AddWithValue("hoy", DateTime.Now.ToShortDateString());
+                fechahoy.Parameters.AddWithValue("hoy", app.hoy);
+                fechahoy.Parameters.AddWithValue("ven", registereduser.reguser);
                 fechahoy.Parameters.AddWithValue("anulada", "Anulada");
-                DataTable showv = Conexion.Consultar("nfactura as [N° Fact.], vendedor as Usuario, fechaventa as Fecha, total as Importe, estadoventa as Estado, tipoFactura as Factura", "Ventas", "WHERE datediff(day,fechaventa,@hoy) =  0 AND estadoventa != @anulada", " order by nfactura desc", fechahoy);
+                DataTable showv = new DataTable();
+                if(registereduser.level == "Admin" || registereduser.level == "Supervisor")
+                showv = Conexion.Consultar("nfactura as [N° Fact.], vendedor as Usuario, fechaventa as Fecha, total as Importe, estadoventa as Estado, tipoFactura as Factura", "Ventas", "WHERE datediff(day,fechaventa,@hoy) =  0 AND estadoventa != @anulada ", " order by nfactura desc", fechahoy);
+                else
+                showv = Conexion.Consultar("nfactura as [N° Fact.], vendedor as Usuario, fechaventa as Fecha, total as Importe, estadoventa as Estado, tipoFactura as Factura", "Ventas", "WHERE datediff(day,fechaventa,@hoy) =  0 AND estadoventa != @anulada and vendedor =@ven ", " order by nfactura desc", fechahoy);
+                
                 Conexion.cerrar();
                 BindingSource SBind = new BindingSource();
                 SBind.DataSource = showv;
