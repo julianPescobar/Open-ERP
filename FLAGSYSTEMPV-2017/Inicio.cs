@@ -20,12 +20,12 @@ namespace FLAGSYSTEMPV_2017
         public bool b1wasclicked = false;
         public bool b2wasclicked = false;
         
-        private void generarResumenFinal()
+        public static void generarResumenFinal()
         {
             Conexion.abrir();
             SqlCeCommand hoy = new SqlCeCommand();
-            hoy.Parameters.AddWithValue("hoy",DateTime.Now.ToShortDateString()+" 00:00:00");
-            hoy.Parameters.AddWithValue("hoy2", DateTime.Now.ToShortDateString() + " 23:59:59");
+            hoy.Parameters.AddWithValue("hoy", app.hoy + " 00:00:00");
+            hoy.Parameters.AddWithValue("hoy2", app.hoy + " 23:59:59");
             DataTable ventas = Conexion.Consultar("nfactura,vendedor,total", "Ventas", "Where estadoVenta != 'Anulada' and fechaventa between @hoy and @hoy2", "", hoy);
             DataTable compras = Conexion.Consultar("nfactura,vendedor,CAST(totalfactura as FLOAT)", "Compras", "Where fechacompra between @hoy and @hoy2", "", hoy);
             DataTable gastos = Conexion.Consultar("area,descripcion,importe", "Gastos", "Where fecha between @hoy and @hoy2", "", hoy);
@@ -92,18 +92,18 @@ namespace FLAGSYSTEMPV_2017
                             }
                             else ts = 0;
 
-                            File.WriteAllText(app.dir + "\\Cierre" + DateTime.Now.ToShortDateString().Replace("/", "") + ".txt", registereduser.registeredlicense + "\r\n" + "Informe de cierre del dia " + DateTime.Now.ToShortDateString() + "\r\nTotal Ventas:\t" + tv.ToString("$0.00") + "\r\nTotal Compras:\t" + tc.ToString("$0.00") + "\r\nTotal Gastos:\t" + tg.ToString("$0.00") + "\r\nTotal Entrada Caja:\t" + te.ToString("$0.00") + "\r\nTotal Salida Caja:\t" + ts.ToString("$0.00") + "\r\nTotal del Día:\t" + ((tv+tc+te)-(tg+ts)).ToString("$0.00"));
-                            File.AppendAllText(app.dir + "\\Cierre" + DateTime.Now.ToShortDateString().Replace("/", "") + ".txt", "\r\n");
-                            File.AppendAllText(app.dir + "\\Cierre" + DateTime.Now.ToShortDateString().Replace("/", "") + ".txt", "\r\nDetalle de Ventas:\r\nN° Venta\tVendedor\tTotal\t\r\n");
-                            File.AppendAllLines(app.dir + "\\Cierre" + DateTime.Now.ToShortDateString().Replace("/", "") + ".txt", Ventas);
-                            File.AppendAllText(app.dir + "\\Cierre" + DateTime.Now.ToShortDateString().Replace("/", "") + ".txt", "\r\nDetalle de Compras:\r\nN° Compra\tVendedor\tTotal\t\r\n");
-                            File.AppendAllLines(app.dir + "\\Cierre" + DateTime.Now.ToShortDateString().Replace("/", "") + ".txt", Compras);
-                            File.AppendAllText(app.dir + "\\Cierre" + DateTime.Now.ToShortDateString().Replace("/", "") + ".txt", "\r\nDetalle de Gastos:\r\nArea\tDescripcion\tImporte\t\r\n");
-                            File.AppendAllLines(app.dir + "\\Cierre" + DateTime.Now.ToShortDateString().Replace("/", "") + ".txt", Gastos);
-                            File.AppendAllText(app.dir + "\\Cierre" + DateTime.Now.ToShortDateString().Replace("/", "") + ".txt", "\r\nDetalle de Entradas de Caja:\r\nTipo\tMotivo\tTotal\t\r\n");
-                            File.AppendAllLines(app.dir + "\\Cierre" + DateTime.Now.ToShortDateString().Replace("/", "") + ".txt", Entradas);
-                            File.AppendAllText(app.dir + "\\Cierre" + DateTime.Now.ToShortDateString().Replace("/", "") + ".txt", "\r\nDetalle de Salidas de Caja:\r\nTipo\tMotivo\tTotal\t\r\n");
-                            File.AppendAllLines(app.dir + "\\Cierre" + DateTime.Now.ToShortDateString().Replace("/", "") + ".txt", Salidas);
+                            File.WriteAllText(app.dir + "\\Cierre" + app.hoy.Replace("/", "") + ".txt", registereduser.registeredlicense + "\r\n" + "Informe de cierre del dia " + DateTime.Now.ToShortDateString() + "\r\nTotal Ventas:\t" + tv.ToString("$0.00") + "\r\nTotal Compras:\t" + tc.ToString("$0.00") + "\r\nTotal Gastos:\t" + tg.ToString("$0.00") + "\r\nTotal Entrada Caja:\t" + te.ToString("$0.00") + "\r\nTotal Salida Caja:\t" + ts.ToString("$0.00") + "\r\nTotal del Día:\t" + ((tv+tc+te)-(tg+ts)).ToString("$0.00"));
+                            File.AppendAllText(app.dir + "\\Cierre" + app.hoy.Replace("/", "") + ".txt", "\r\n");
+                            File.AppendAllText(app.dir + "\\Cierre" + app.hoy.Replace("/", "") + ".txt", "\r\nDetalle de Ventas:\r\nN° Venta\tVendedor\tTotal\t\r\n");
+                            File.AppendAllLines(app.dir + "\\Cierre" + app.hoy.Replace("/", "") + ".txt", Ventas);
+                            File.AppendAllText(app.dir + "\\Cierre" + app.hoy.Replace("/", "") + ".txt", "\r\nDetalle de Compras:\r\nN° Compra\tVendedor\tTotal\t\r\n");
+                            File.AppendAllLines(app.dir + "\\Cierre" + app.hoy.Replace("/", "") + ".txt", Compras);
+                            File.AppendAllText(app.dir + "\\Cierre" + app.hoy.Replace("/", "") + ".txt", "\r\nDetalle de Gastos:\r\nArea\tDescripcion\tImporte\t\r\n");
+                            File.AppendAllLines(app.dir + "\\Cierre" + app.hoy.Replace("/", "") + ".txt", Gastos);
+                            File.AppendAllText(app.dir + "\\Cierre" + app.hoy.Replace("/", "") + ".txt", "\r\nDetalle de Entradas de Caja:\r\nTipo\tMotivo\tTotal\t\r\n");
+                            File.AppendAllLines(app.dir + "\\Cierre" + app.hoy.Replace("/", "") + ".txt", Entradas);
+                            File.AppendAllText(app.dir + "\\Cierre" + app.hoy.Replace("/", "") + ".txt", "\r\nDetalle de Salidas de Caja:\r\nTipo\tMotivo\tTotal\t\r\n");
+                            File.AppendAllLines(app.dir + "\\Cierre" + app.hoy.Replace("/", "") + ".txt", Salidas);
                            
         }
         
@@ -649,7 +649,7 @@ namespace FLAGSYSTEMPV_2017
             Conexion.cerrar();
             SqlCeCommand cierro = new SqlCeCommand();
             cierro.Parameters.AddWithValue("id", turnos.Rows[turnos.Rows.Count - 1][0].ToString());
-            cierro.Parameters.AddWithValue("ff", DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString());
+            cierro.Parameters.AddWithValue("ff", app.hoy + " " + DateTime.Now.ToShortTimeString());
             Conexion.abrir();
             Conexion.Actualizar("Turnos", "FechaFin = @ff", "WHERE idturno = @id", "", cierro);
             Conexion.cerrar();
@@ -671,8 +671,7 @@ namespace FLAGSYSTEMPV_2017
             else
             {
                 DiferenciaStock frm = new DiferenciaStock();
-               
-                frm.ShowDialog();
+                frm.Show();
             }
         }
 
@@ -767,7 +766,7 @@ namespace FLAGSYSTEMPV_2017
             else
             {
                 Informe frm = new Informe();
-                Conexion.data = "Compras";
+                Conexion.data = "ControlStock";
                 frm.Show();
             }
         }
@@ -889,7 +888,25 @@ namespace FLAGSYSTEMPV_2017
 
         private void button11_Click(object sender, EventArgs e)
         {
-            generarResumenFinal();
+            DialogResult continuar =  MessageBox.Show("Esta funcion genera el informe final, lo envia por email y cierra la aplicación para que se ingrese un nuevo día. Continuar?","Advertencia",MessageBoxButtons.YesNo,MessageBoxIcon.Warning);
+            if (continuar == DialogResult.Yes)
+            {
+                generarResumenFinal();
+                Conexion.abrir();
+                DataTable turnos = Conexion.Consultar("*", "Turnos", "", "", new SqlCeCommand());
+                Conexion.cerrar();
+                SqlCeCommand cierro = new SqlCeCommand();
+                cierro.Parameters.AddWithValue("id", turnos.Rows[turnos.Rows.Count - 1][0].ToString());
+                cierro.Parameters.AddWithValue("ff", app.hoy + " " + DateTime.Now.ToShortTimeString());
+                Conexion.abrir();
+                Conexion.Actualizar("Turnos", "FechaFin = @ff", "WHERE idturno = @id", "", cierro);
+                Conexion.cerrar();
+
+                Login lgn = new Login();
+                lgn.Show();
+                this.Close();
+            }
+
         }
 
         private void setearPermisos()
@@ -917,5 +934,18 @@ namespace FLAGSYSTEMPV_2017
             if (registereduser.penviarinforme == "si") enviarInformeToolStripMenuItem.Enabled = true; else enviarInformeToolStripMenuItem.Enabled = false;
             if (registereduser.pfiscalconfig == "si") impresoraFiscalToolStripMenuItem.Enabled = true; else impresoraFiscalToolStripMenuItem.Enabled = false;
         }
+
+        private void button12_Click(object sender, EventArgs e)
+        {
+            if (Application.OpenForms.OfType<ControlStockVendedores>().Count() == 1)
+                Application.OpenForms.OfType<ControlStockVendedores>().First().Focus();
+            else
+            {
+                ControlStockVendedores frm = new ControlStockVendedores();
+                
+                frm.Show();
+            }
+        }
+
     }
 }

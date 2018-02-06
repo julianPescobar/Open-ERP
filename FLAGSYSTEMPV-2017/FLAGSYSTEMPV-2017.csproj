@@ -151,6 +151,12 @@
     <Compile Include="AgregarAltabaja.designer.cs">
       <DependentUpon>AgregarAltabaja.cs</DependentUpon>
     </Compile>
+    <Compile Include="ControlStockVendedores.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ControlStockVendedores.Designer.cs">
+      <DependentUpon>ControlStockVendedores.cs</DependentUpon>
+    </Compile>
     <Compile Include="EnviarMail.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -345,6 +351,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AgregarAltabaja.resx">
       <DependentUpon>AgregarAltabaja.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ControlStockVendedores.resx">
+      <DependentUpon>ControlStockVendedores.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EnviarMail.resx">
       <DependentUpon>EnviarMail.cs</DependentUpon>

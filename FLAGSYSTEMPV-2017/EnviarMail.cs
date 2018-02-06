@@ -10,6 +10,7 @@ using System.IO;
 using System.Net;
 using System.Net.Mail;
 using System.Net.Mime;
+using System.Data.SqlServerCe;
 namespace FLAGSYSTEMPV_2017
 {
     public partial class EnviarMail : Form
@@ -41,7 +42,7 @@ namespace FLAGSYSTEMPV_2017
 
         private void EnviarMail_Load(object sender, EventArgs e)
         {
-            
+            dateTimePicker1.Value = Convert.ToDateTime(app.hoy);
             string fecha = dateTimePicker1.Value.ToShortDateString();
             if (File.Exists(app.dir + "\\Cierre" + fecha.Replace("/","") + ".txt") == true)
             {
@@ -57,7 +58,7 @@ namespace FLAGSYSTEMPV_2017
         }
         private void getdata()
         {
-            //todo, hacer que llene los datos del form.
+           
               string fecha = dateTimePicker1.Value.ToShortDateString();
             string[] data = File.ReadAllLines(app.dir + "\\Cierre" + fecha.Replace("/", "") + ".txt");
             float venta = float.Parse(data[2].ToString().Replace("Total Ventas:", "").Replace("$", ""));
@@ -136,6 +137,119 @@ namespace FLAGSYSTEMPV_2017
                 textBox6.Text = "";
 
             }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                createfile();
+                string fecha = dateTimePicker1.Value.ToShortDateString();
+                if (File.Exists(app.dir + "\\Cierre" + fecha.Replace("/", "") + ".txt") == true)
+                {
+                    getdata();
+                    button1.Enabled = true;
+                    button3.Visible = false;
+                }
+                else
+                {
+                    button3.Visible = true;
+                    button1.Enabled = false;
+                    textBox1.Text = "";
+                    textBox2.Text = "";
+                    textBox3.Text = "";
+                    textBox4.Text = "";
+                    textBox5.Text = "";
+                    textBox6.Text = "";
+                }
+            }
+            catch (Exception ec) { MessageBox.Show(ec.Message); }
+        }
+        private void createfile()
+        {
+            Conexion.abrir();
+            SqlCeCommand hoy = new SqlCeCommand();
+            hoy.Parameters.AddWithValue("hoy", dateTimePicker1.Value.ToShortDateString()+ " 00:00:00");
+            hoy.Parameters.AddWithValue("hoy2", dateTimePicker1.Value.ToShortDateString() + " 23:59:59");
+            DataTable ventas = Conexion.Consultar("nfactura,vendedor,total", "Ventas", "Where estadoVenta != 'Anulada' and fechaventa between @hoy and @hoy2", "", hoy);
+            DataTable compras = Conexion.Consultar("nfactura,vendedor,CAST(totalfactura as FLOAT)", "Compras", "Where fechacompra between @hoy and @hoy2", "", hoy);
+            DataTable gastos = Conexion.Consultar("area,descripcion,importe", "Gastos", "Where fecha between @hoy and @hoy2", "", hoy);
+            DataTable entradas = Conexion.Consultar("tipo,motivo,total", "EntradaCaja", "Where fecha between @hoy and @hoy2", "", hoy);
+            DataTable salidas = Conexion.Consultar("tipo,motivo,total", "SalidaCaja", "Where fecha between @hoy and @hoy2", "", hoy);
+            string[] Ventas = new string[ventas.Rows.Count];
+            string[] Compras = new string[compras.Rows.Count];
+            string[] Gastos = new string[gastos.Rows.Count];
+            string[] Entradas = new string[entradas.Rows.Count];
+            string[] Salidas = new string[salidas.Rows.Count];
+            float tv = 0;
+            float tc = 0;
+            float tg = 0;
+            float te = 0;
+            float ts = 0;
+
+            if (ventas.Rows.Count > 0)
+            {
+                for (int i = 0; i < ventas.Rows.Count; i++)
+                {
+                    tv += float.Parse(ventas.Rows[i][2].ToString());
+                    Ventas[i] = ventas.Rows[i][0].ToString() + "\t" + ventas.Rows[i][1].ToString() + "\t" + tv.ToString("$0.00");
+                }
+            }
+            else tv = 0;
+
+            if (compras.Rows.Count > 0)
+            {
+                for (int i = 0; i < compras.Rows.Count; i++)
+                {
+                    tc += float.Parse(compras.Rows[i][2].ToString());
+                    Compras[i] = compras.Rows[i][0].ToString() + "\t" + compras.Rows[i][1].ToString() + "\t" + tc.ToString("$0.00");
+                }
+            }
+            else tc = 0;
+
+            if (gastos.Rows.Count > 0)
+            {
+                for (int i = 0; i < gastos.Rows.Count; i++)
+                {
+                    tg += float.Parse(gastos.Rows[i][2].ToString());
+                    Gastos[i] = gastos.Rows[i][0].ToString() + "\t" + gastos.Rows[i][1].ToString() + "\t" + tg.ToString("$0.00");
+                }
+            }
+            else tg = 0;
+
+            if (entradas.Rows.Count > 0)
+            {
+                for (int i = 0; i < entradas.Rows.Count; i++)
+                {
+                    te += float.Parse(entradas.Rows[i][2].ToString());
+                    Entradas[i] = entradas.Rows[i][0].ToString() + "\t" + entradas.Rows[i][1].ToString() + "\t" + te.ToString("$0.00");
+                }
+            }
+            else te = 0;
+
+            if (salidas.Rows.Count > 0)
+            {
+                for (int i = 0; i < salidas.Rows.Count; i++)
+                {
+                    ts += float.Parse(salidas.Rows[i][2].ToString());
+                    Salidas[i] = salidas.Rows[i][0].ToString() + "\t" + salidas.Rows[i][1].ToString() + "\t" + ts.ToString("$0.00");
+                }
+            }
+            else ts = 0;
+
+            File.WriteAllText(app.dir + "\\Cierre" + dateTimePicker1.Value.ToShortDateString().Replace("/", "") + ".txt", registereduser.registeredlicense + "\r\n" + "Informe de cierre del dia " + dateTimePicker1.Value.ToShortDateString() + "\r\nTotal Ventas:\t" + tv.ToString("$0.00") + "\r\nTotal Compras:\t" + tc.ToString("$0.00") + "\r\nTotal Gastos:\t" + tg.ToString("$0.00") + "\r\nTotal Entrada Caja:\t" + te.ToString("$0.00") + "\r\nTotal Salida Caja:\t" + ts.ToString("$0.00") + "\r\nTotal del Día:\t" + ((tv + tc + te) - (tg + ts)).ToString("$0.00"));
+            File.AppendAllText(app.dir + "\\Cierre" + dateTimePicker1.Value.ToShortDateString().Replace("/", "") + ".txt", "\r\n");
+            File.AppendAllText(app.dir + "\\Cierre" + dateTimePicker1.Value.ToShortDateString().Replace("/", "") + ".txt", "\r\nDetalle de Ventas:\r\nN° Venta\tVendedor\tTotal\t\r\n");
+            File.AppendAllLines(app.dir + "\\Cierre" + dateTimePicker1.Value.ToShortDateString().Replace("/", "") + ".txt", Ventas);
+            File.AppendAllText(app.dir + "\\Cierre" + dateTimePicker1.Value.ToShortDateString().Replace("/", "") + ".txt", "\r\nDetalle de Compras:\r\nN° Compra\tVendedor\tTotal\t\r\n");
+            File.AppendAllLines(app.dir + "\\Cierre" + dateTimePicker1.Value.ToShortDateString().Replace("/", "") + ".txt", Compras);
+            File.AppendAllText(app.dir + "\\Cierre" + dateTimePicker1.Value.ToShortDateString().Replace("/", "") + ".txt", "\r\nDetalle de Gastos:\r\nArea\tDescripcion\tImporte\t\r\n");
+            File.AppendAllLines(app.dir + "\\Cierre" + dateTimePicker1.Value.ToShortDateString().Replace("/", "") + ".txt", Gastos);
+            File.AppendAllText(app.dir + "\\Cierre" + dateTimePicker1.Value.ToShortDateString().Replace("/", "") + ".txt", "\r\nDetalle de Entradas de Caja:\r\nTipo\tMotivo\tTotal\t\r\n");
+            File.AppendAllLines(app.dir + "\\Cierre" + dateTimePicker1.Value.ToShortDateString().Replace("/", "") + ".txt", Entradas);
+            File.AppendAllText(app.dir + "\\Cierre" + dateTimePicker1.Value.ToShortDateString().Replace("/", "") + ".txt", "\r\nDetalle de Salidas de Caja:\r\nTipo\tMotivo\tTotal\t\r\n");
+            File.AppendAllLines(app.dir + "\\Cierre" + dateTimePicker1.Value.ToShortDateString().Replace("/", "") + ".txt", Salidas);
+                   
         }
     }
 }

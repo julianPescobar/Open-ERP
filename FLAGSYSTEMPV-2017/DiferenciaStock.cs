@@ -114,6 +114,7 @@ namespace FLAGSYSTEMPV_2017
                         Application.OpenForms.OfType<DiferenciaStock>().First().Close();
                         DiferenciaStock frm = new DiferenciaStock();
                         frm.Show();
+                        frm.BringToFront();
                  }
             }
         }

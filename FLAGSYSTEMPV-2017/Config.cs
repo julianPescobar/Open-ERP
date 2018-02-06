@@ -124,5 +124,10 @@ namespace FLAGSYSTEMPV_2017
         {
             MessageBox.Show("en construccion");
         }
+
+        private void checkBox3_CheckedChanged(object sender, EventArgs e)
+        {
+            MessageBox.Show("en construccion");
+        }
     }
 }

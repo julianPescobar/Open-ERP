@@ -172,10 +172,22 @@ namespace FLAGSYSTEMPV_2017
             {
                 try
                 {
-                var bd = dataGridView1.DataSource;
-                var dt = (DataTable)bd;
-                dt.DefaultView.RowFilter = string.Format("CONVERT([N° Fact.],System.String) like '%{0}%' or CONVERT([Fecha],System.String) like '%{0}%'  or CONVERT([Importe],System.String) like '%{0}%' or [Usuario] like '%{0}%'", textBox1.Text.Trim().Replace("'", "''"));
-                dataGridView1.Refresh();
+
+
+                    var bd = dataGridView1.DataSource;
+                    var dt = (DataTable)bd;
+                    string formatstring = "";
+                    for (int i = 0; i < dt.Columns.Count; i++)
+                    {
+                        if (i == 0) formatstring += " CONVERT([" + dt.Columns[i].ColumnName + "],System.String) like '%{0}%' ";
+                        else formatstring += " or CONVERT([" + dt.Columns[i].ColumnName + "],System.String) like '%{0}%' ";
+
+                    }
+
+                    //MessageBox.Show(formatstring);
+                    dt.DefaultView.RowFilter = string.Format(formatstring, textBox1.Text.Trim().Replace("'", "''"));
+                    dataGridView1.Refresh();
+
                 }
                 catch (Exception) { }
             }
@@ -183,10 +195,22 @@ namespace FLAGSYSTEMPV_2017
             {
                 try
                 {
+
+
                     var bd = dataGridView1.DataSource;
                     var dt = (DataTable)bd;
-                    dt.DefaultView.RowFilter = string.Format("CONVERT([N° Factura],System.String) like '%{0}%' or CONVERT([Vendedor],System.String) like '%{0}%' or CONVERT([Fecha],System.String) like '%{0}%' or CONVERT([Proveedor],System.String) like '%{0}%' or CONVERT([Total],System.String) like '%{0}%' or CONVERT([Estado],System.String) like '%{0}%'", textBox1.Text.Trim().Replace("'", "''"));
+                    string formatstring = "";
+                    for (int i = 0; i < dt.Columns.Count; i++)
+                    {
+                        if (i == 0) formatstring += " CONVERT([" + dt.Columns[i].ColumnName + "],System.String) like '%{0}%' ";
+                        else formatstring += " or CONVERT([" + dt.Columns[i].ColumnName + "],System.String) like '%{0}%' ";
+
+                    }
+
+                    //MessageBox.Show(formatstring);
+                    dt.DefaultView.RowFilter = string.Format(formatstring, textBox1.Text.Trim().Replace("'", "''"));
                     dataGridView1.Refresh();
+
                 }
                 catch (Exception) { }
             }

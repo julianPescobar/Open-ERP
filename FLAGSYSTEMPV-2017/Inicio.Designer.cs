@@ -220,7 +220,7 @@
             this.button6.BackColor = System.Drawing.Color.LightSkyBlue;
             this.button6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button6.Font = new System.Drawing.Font("Lucida Sans Unicode", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button6.Location = new System.Drawing.Point(25, 154);
+            this.button6.Location = new System.Drawing.Point(13, 155);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(171, 28);
             this.button6.TabIndex = 14;
@@ -429,7 +429,7 @@
             // 
             this.comprasDelDíaToolStripMenuItem.Name = "comprasDelDíaToolStripMenuItem";
             this.comprasDelDíaToolStripMenuItem.Size = new System.Drawing.Size(272, 22);
-            this.comprasDelDíaToolStripMenuItem.Text = "Compras";
+            this.comprasDelDíaToolStripMenuItem.Text = "Control de Stock";
             this.comprasDelDíaToolStripMenuItem.Click += new System.EventHandler(this.comprasDelDíaToolStripMenuItem_Click);
             // 
             // faltantesDeStockToolStripMenuItem
@@ -789,6 +789,7 @@
             this.label15.Size = new System.Drawing.Size(30, 15);
             this.label15.TabIndex = 29;
             this.label15.Text = "F10";
+           
             // 
             // label16
             // 
@@ -810,7 +811,7 @@
             this.button11.Name = "button11";
             this.button11.Size = new System.Drawing.Size(119, 48);
             this.button11.TabIndex = 26;
-            this.button11.Text = "Cierre del Día";
+            this.button11.Text = "Cerrar el día";
             this.button11.UseVisualStyleBackColor = false;
             this.button11.Click += new System.EventHandler(this.button11_Click);
             // 
@@ -825,6 +826,7 @@
             this.button12.TabIndex = 25;
             this.button12.Text = "Controlar Stock";
             this.button12.UseVisualStyleBackColor = false;
+            this.button12.Click += new System.EventHandler(this.button12_Click);
             // 
             // Inicio
             // 

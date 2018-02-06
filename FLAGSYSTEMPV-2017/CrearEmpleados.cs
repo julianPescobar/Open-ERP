@@ -114,11 +114,26 @@ namespace FLAGSYSTEMPV_2017
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            var bd = (BindingSource)dataGridView1.DataSource;
-            var dt = (DataTable)bd.DataSource;
-            dt.DefaultView.RowFilter = string.Format("[Nombre Usuario] like '%{0}%' or [Jerarquía] like '%{0}%'  or [Nombre Real] like '%{0}%'", textBox1.Text.Trim().Replace("'", "''"));
-            dataGridView1.Refresh();
-           
+            try
+            {
+
+
+                BindingSource bd = (BindingSource)dataGridView1.DataSource;
+                DataTable dt = (DataTable)bd.DataSource;
+                string formatstring = "";
+                for (int i = 0; i < dt.Columns.Count; i++)
+                {
+                    if (i == 0) formatstring += " CONVERT([" + dt.Columns[i].ColumnName + "],System.String) like '%{0}%' ";
+                    else formatstring += " or CONVERT([" + dt.Columns[i].ColumnName + "],System.String) like '%{0}%' ";
+
+                }
+
+
+                dt.DefaultView.RowFilter = string.Format(formatstring, textBox1.Text.Trim().Replace("'", "''"));
+                dataGridView1.Refresh();
+
+            }
+            catch (Exception) { }
         }
 
         private void textBox1_KeyDown(object sender, KeyEventArgs e)

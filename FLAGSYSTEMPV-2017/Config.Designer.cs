@@ -518,9 +518,9 @@
             this.label20.AutoSize = true;
             this.label20.Location = new System.Drawing.Point(367, 134);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(229, 16);
+            this.label20.Size = new System.Drawing.Size(231, 16);
             this.label20.TabIndex = 26;
-            this.label20.Text = "Días anteriores: sólo modo lectura:";
+            this.label20.Text = "Login a fecha anterior: sólo lectura:";
             // 
             // checkBox2
             // 
@@ -550,6 +550,7 @@
             this.checkBox3.TabIndex = 27;
             this.checkBox3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.checkBox3.UseVisualStyleBackColor = true;
+            this.checkBox3.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
             // 
             // Config
             // 

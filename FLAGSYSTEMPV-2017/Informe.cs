@@ -52,6 +52,21 @@ namespace FLAGSYSTEMPV_2017
                 dataGridView1.DataSource = SBind;
                 dataGridView1.Refresh();
             }
+            if (Conexion.data == "ControlStock")
+            {
+                Conexion.abrir();
+                DataTable arts = Conexion.Consultar("idarticulo,codigoart as [Codigo],descripcion as [Nombre],marca as [Marca],proveedor as [Proveedor],stockactual as [Stock]", "Articulos", "WHERE eliminado != 'Eliminado'", "", new SqlCeCommand());
+                Conexion.cerrar();
+                BindingSource SBind = new BindingSource();
+                SBind.DataSource = arts;
+                dataGridView1.AutoGenerateColumns = true;
+                dataGridView1.DataSource = arts;
+                dataGridView1.Columns[0].Visible = false;
+               
+                dataGridView1.DataSource = SBind;
+                dataGridView1.Refresh();
+                dataGridView1.Columns.Add("stockreal", "StockReal");
+            }
             if (Conexion.data == "Caja")
             {
                 SqlCeCommand notdeleted = new SqlCeCommand();
@@ -348,6 +363,47 @@ namespace FLAGSYSTEMPV_2017
                     }
                 }
             
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (Conexion.data == "Ventas")
+                {
+                    var bd = dataGridView1.DataSource;
+                    var dt = (DataTable)bd;
+                    string formatstring = "";
+                    for (int i = 0; i < dt.Columns.Count; i++)
+                    {
+                        if (i == 0) formatstring += " CONVERT([" + dt.Columns[i].ColumnName + "],System.String) like '%{0}%' ";
+                        else formatstring += " or CONVERT([" + dt.Columns[i].ColumnName + "],System.String) like '%{0}%' ";
+
+                    }
+
+                    //MessageBox.Show(formatstring);
+                    dt.DefaultView.RowFilter = string.Format(formatstring, textBox1.Text.Trim().Replace("'", "''"));
+                    dataGridView1.Refresh();
+                }
+                else
+                {
+
+                    BindingSource bd = (BindingSource)dataGridView1.DataSource;
+                    DataTable dt = (DataTable)bd.DataSource;
+                    string formatstring = "";
+                    for (int i = 0; i < dt.Columns.Count; i++)
+                    {
+                        if (i == 0) formatstring += " CONVERT([" + dt.Columns[i].ColumnName + "],System.String) like '%{0}%' ";
+                        else formatstring += " or CONVERT([" + dt.Columns[i].ColumnName + "],System.String) like '%{0}%' ";
+
+                    }
+
+                  
+                    dt.DefaultView.RowFilter = string.Format(formatstring, textBox1.Text.Trim().Replace("'", "''"));
+                    dataGridView1.Refresh();
+                }
+            }
+            catch (Exception) { }
         }
       
       
