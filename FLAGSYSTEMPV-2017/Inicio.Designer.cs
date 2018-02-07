@@ -100,6 +100,8 @@
             this.label16 = new System.Windows.Forms.Label();
             this.button11 = new System.Windows.Forms.Button();
             this.button12 = new System.Windows.Forms.Button();
+            this.label14 = new System.Windows.Forms.Label();
+            this.button10 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -784,12 +786,11 @@
             this.label15.AutoSize = true;
             this.label15.BackColor = System.Drawing.Color.LightSkyBlue;
             this.label15.Font = new System.Drawing.Font("Lucida Sans Unicode", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label15.Location = new System.Drawing.Point(672, 362);
+            this.label15.Location = new System.Drawing.Point(670, 433);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(30, 15);
             this.label15.TabIndex = 29;
-            this.label15.Text = "F10";
-           
+            this.label15.Text = "F11";
             // 
             // label16
             // 
@@ -807,7 +808,7 @@
             this.button11.BackColor = System.Drawing.Color.LightSkyBlue;
             this.button11.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button11.Font = new System.Drawing.Font("Lucida Sans Unicode", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button11.Location = new System.Drawing.Point(671, 330);
+            this.button11.Location = new System.Drawing.Point(669, 401);
             this.button11.Name = "button11";
             this.button11.Size = new System.Drawing.Size(119, 48);
             this.button11.TabIndex = 26;
@@ -828,6 +829,30 @@
             this.button12.UseVisualStyleBackColor = false;
             this.button12.Click += new System.EventHandler(this.button12_Click);
             // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.label14.Font = new System.Drawing.Font("Lucida Sans Unicode", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.Location = new System.Drawing.Point(670, 361);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(30, 15);
+            this.label14.TabIndex = 31;
+            this.label14.Text = "F10";
+            // 
+            // button10
+            // 
+            this.button10.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.button10.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button10.Font = new System.Drawing.Font("Lucida Sans Unicode", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button10.Location = new System.Drawing.Point(669, 329);
+            this.button10.Name = "button10";
+            this.button10.Size = new System.Drawing.Size(119, 48);
+            this.button10.TabIndex = 30;
+            this.button10.Text = "Rubros";
+            this.button10.UseVisualStyleBackColor = false;
+            this.button10.Click += new System.EventHandler(this.button10_Click);
+            // 
             // Inicio
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -835,6 +860,8 @@
             this.BackColor = System.Drawing.Color.SteelBlue;
             this.ClientSize = new System.Drawing.Size(800, 533);
             this.ControlBox = false;
+            this.Controls.Add(this.label14);
+            this.Controls.Add(this.button10);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.label16);
             this.Controls.Add(this.button11);
@@ -954,5 +981,7 @@
         private System.Windows.Forms.Button button11;
         private System.Windows.Forms.Button button12;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Button button10;
     }
 }

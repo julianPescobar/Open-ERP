@@ -41,7 +41,6 @@ namespace FLAGSYSTEMPV_2017
                 SqlCeCommand myid = new SqlCeCommand();
                // myid.Parameters.AddWithValue("id", userID);
                 DataTable consultaTest = Conexion.Consultar("*", "Configuracion",/* "WHERE master_user_id = @id or slavea_user_id = @id or slaveb_user_id = @id or slavec_user_id = @id "*/"", "", myid);
-
                 if (consultaTest.Rows.Count >= 1)
                 {
                 string usaimpfis = consultaTest.Rows[0][12].ToString();
@@ -61,6 +60,10 @@ namespace FLAGSYSTEMPV_2017
                 registereduser.para = consultaTest.Rows[0][22].ToString();
                 registereduser.titulo = consultaTest.Rows[0][23].ToString();
                 registereduser.cuerpo = consultaTest.Rows[0][24].ToString();
+                registereduser.redondeo = consultaTest.Rows[0][27].ToString();
+                if (consultaTest.Rows[0][28].ToString() == "si") registereduser.closeandbkp = "si"; else registereduser.closeandbkp = "no";
+                if (consultaTest.Rows[0][29].ToString() == "si") registereduser.sololectura = "si"; else registereduser.sololectura = "no";
+                if (consultaTest.Rows[0][30].ToString() == "si") registereduser.alwaysprint = "si"; else registereduser.alwaysprint = "no";
                     registereduser.saldoinicial = float.Parse(consultaTest.Rows[0][0].ToString());
                     Login lgn = new Login();
                     lgn.Show();

@@ -93,16 +93,16 @@ namespace FLAGSYSTEMPV_2017
 
         private void button2_Click(object sender, EventArgs e)
         {
-            bool teolvidasteuno = false;
+            string teolvidasteuno = "no";
             SqlCeCommand sobfal = new SqlCeCommand();
             for (int i = 0; i < dataGridView1.Rows.Count; i++)
             {
                 if (dataGridView1.Rows[i].DefaultCellStyle.BackColor == Color.IndianRed || dataGridView1.Rows[i].Cells[6].Value == null || dataGridView1.Rows[i].Cells[6].Value.ToString().Length < 1)
                 {
-                    teolvidasteuno = true;
+                    teolvidasteuno = "si";
                 }
             }
-            if (teolvidasteuno = true)
+            if (teolvidasteuno == "si")
             {
                 MessageBox.Show("Usted se ha salteado el ingreso de stock real de uno o varios productos, o ha omitido el ingreso de stock real de algun producto por error. Por favor revise todos los articulos, si la linea es de color rojo debe corregirlo, si la linea es de color verde, no hay problemas","No se puede continuar",MessageBoxButtons.OK,MessageBoxIcon.Stop);
             }

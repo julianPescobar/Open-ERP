@@ -33,7 +33,7 @@ namespace FLAGSYSTEMPV_2017
             {
                 comboBox1.Items.Add(proveedores.Rows[i][0].ToString());
             }
-            textBox3.Text = app.hoy;
+            dateTimePicker1.Value = Convert.ToDateTime(app.hoy+" "+DateTime.Now.Hour.ToString()+":"+DateTime.Now.Minute.ToString()+":"+DateTime.Now.Second.ToString());
             Conexion.abrir();
             DataTable nextid = new DataTable();
             nextid = Conexion.Consultar("AUTOINC_NEXT", "INFORMATION_SCHEMA.COLUMNS", " WHERE (TABLE_NAME = 'Compras') AND (COLUMN_NAME = 'idcompra')", "", new SqlCeCommand());
@@ -177,6 +177,7 @@ namespace FLAGSYSTEMPV_2017
                     }
                     totalventa.detallecompra = dt;
                     totalventa.totcompra = textBox5.Text;
+                    totalventa.fechacompra = dateTimePicker1.Value.ToShortDateString() + " " + dateTimePicker1.Value.ToShortTimeString();
                     Total total = new Total();
                     total.Show();
                    
@@ -280,7 +281,7 @@ namespace FLAGSYSTEMPV_2017
                                 string codigo = producto.Rows[0][1].ToString();
                                 string desc = producto.Rows[0][2].ToString();
                                 string mca = producto.Rows[0][3].ToString();
-                                float prec = float.Parse(producto.Rows[0][4].ToString());
+                                float prec = float.Parse(producto.Rows[0][5].ToString());
                                 float total = prec * cantidad;
                                 float costo = float.Parse(producto.Rows[0][5].ToString());
                                 float iva = float.Parse(producto.Rows[0][6].ToString());
@@ -288,6 +289,7 @@ namespace FLAGSYSTEMPV_2017
                                 dataGridView1.Rows.Add(idproducto, cantidad, codigo, desc, mca, prec.ToString("$0.00"), total.ToString("$0.00"), costo.ToString("$0.00"), iva.ToString(), porcentaje.ToString());
                                 textBox4.Text = "";
                                 dataGridView1.Rows[(dataGridView1.Rows.Count - 1)].Cells[1].Selected = true;
+                                chequeartotal();
                             }
                         }
                     }
@@ -410,6 +412,19 @@ namespace FLAGSYSTEMPV_2017
         {
             comboBox1.Enabled = false;
             textBox4.Focus();
+        }
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+         
+            DateTime fechadatabase = Convert.ToDateTime(app.hoy + " " + dateTimePicker1.Value.ToShortTimeString());
+          
+             if (DateTime.Compare(dateTimePicker1.Value,fechadatabase) < 0 && registereduser.sololectura == "no")
+            {
+                
+                MessageBox.Show("No se puede ingresar una fecha anterior porque la opción \"Permitir cambios en fechas anteriores\" esta desactivada. Habilite esa opción si necesita cargar una compra con fecha anterior, esta opcion se encuentra en Administrador > Configuración.","No se pudo cambiar la fecha",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                dateTimePicker1.Value = fechadatabase;
+            }
         }
 
 

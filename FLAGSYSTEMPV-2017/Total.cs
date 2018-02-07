@@ -18,6 +18,25 @@ namespace FLAGSYSTEMPV_2017
         {
             InitializeComponent();
         }
+        public static Double Round(Double passednumber, Double roundto)
+        {
+            // 105.5 up to nearest 1 = 106
+            // 105.5 up to nearest 10 = 110
+            // 105.5 up to nearest 7 = 112
+            // 105.5 up to nearest 100 = 200
+            // 105.5 up to nearest 0.2 = 105.6
+            // 105.5 up to nearest 0.3 = 105.6
+
+            //if no rounto then just pass original number back
+            if (roundto == 0)
+            {
+                return passednumber;
+            }
+            else
+            {
+                return Math.Ceiling(passednumber / roundto) * roundto;
+            }
+        }
         void vender()
         {
             //guardo en base de datos
@@ -72,7 +91,10 @@ namespace FLAGSYSTEMPV_2017
                 float total = float.Parse(totalventa.totventa.Replace("$", ""));
                 textBox1.Text = total.ToString("$0.00");
                 textBox3.Text = (0 - total).ToString("$0.00");
-                checkBox1.Checked = true;
+                if (registereduser.alwaysprint == "si")
+                    checkBox1.Checked = true;
+                else
+                    checkBox1.Checked = false;
                 textBox1.Focus();
                 textBox2.Focus();
                 textBox3.Focus();
@@ -262,7 +284,7 @@ namespace FLAGSYSTEMPV_2017
                         }
                     }//todo esto es la parte de Ventas
 
-                    //TODO: arreglar los porcentajes.
+                 
                     if (totalventa.compraoventa == "Compras")
                     {
                         totalventa.impuestoextra = t3.ToString();
@@ -281,7 +303,7 @@ namespace FLAGSYSTEMPV_2017
                             float PorcentajeCosto = float.Parse(totalventa.detallecompra.Rows[i][9].ToString().Replace("$", ""));
                             float Costo = float.Parse(totalventa.detallecompra.Rows[i][7].ToString().Replace("$", ""));
                             float nuevocosto = (Costo + (Costo * (porcentajefactura / 100)));
-                            float nuevocostoconporcentaje = (nuevocosto + (nuevocosto * (PorcentajeCosto / 100)));
+                            float nuevocostoconporcentaje = float.Parse(Round(double.Parse((nuevocosto + (nuevocosto * (PorcentajeCosto / 100))).ToString()),double.Parse(registereduser.redondeo)).ToString());
 
                             item.Parameters.Clear();
                             item.Parameters.AddWithValue("nf", totalventa.idcompra);
@@ -318,7 +340,7 @@ namespace FLAGSYSTEMPV_2017
                         {
                             item.Parameters.AddWithValue("ve", registereduser.reguser);
                         }
-                        item.Parameters.AddWithValue("fv", app.hoy + " " + DateTime.Now.ToShortTimeString());
+                        item.Parameters.AddWithValue("fv", totalventa.fechacompra);
                         item.Parameters.AddWithValue("tt", totalventa.totcompra.Replace("$", ""));
                         item.Parameters.AddWithValue("ev", "Finalizado");
                         item.Parameters.AddWithValue("pro", totalventa.proveedcompra);

@@ -19,6 +19,7 @@ namespace FLAGSYSTEMPV_2017
         public static string impuestoextra;
         public static int idcompra;
         public static DataTable detallecompra;
+        public static string fechacompra;
         //
         //NOTAS DE CREDITO
         public static string totnotacred;

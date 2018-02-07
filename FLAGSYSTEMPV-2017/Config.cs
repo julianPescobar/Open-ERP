@@ -48,7 +48,6 @@ namespace FLAGSYSTEMPV_2017
                         textBox5.Text = datos.Rows[0][6].ToString();
                         textBox6.Text = datos.Rows[0][8].ToString();
                         textBox7.Text = float.Parse(datos.Rows[0][0].ToString()).ToString("$0.00");
-
                         textBox14.Text = datos.Rows[0][17].ToString();
                         textBox13.Text = datos.Rows[0][18].ToString();
                         textBox12.Text = datos.Rows[0][19].ToString();
@@ -57,7 +56,10 @@ namespace FLAGSYSTEMPV_2017
                         textBox9.Text = datos.Rows[0][22].ToString();
                         textBox8.Text = datos.Rows[0][23].ToString();
                         textBox16.Text = datos.Rows[0][24].ToString();
-                        
+                        numericUpDown1.Value = decimal.Parse(datos.Rows[0][27].ToString());
+                        if (datos.Rows[0][28].ToString() == "si") checkBox1.Checked = true;
+                        if (datos.Rows[0][29].ToString() == "si") checkBox2.Checked = true;
+                        if (datos.Rows[0][30].ToString() == "si") checkBox3.Checked = true;
                     }
             }
             else
@@ -78,14 +80,23 @@ namespace FLAGSYSTEMPV_2017
 
         private void button1_Click(object sender, EventArgs e)
         {
+            string box1;
+            string box2;
+            string box3;
+            if (checkBox1.Checked == true) box1 = "si"; else box1 = "no";
+            if (checkBox2.Checked == true) box2 = "si"; else box2 = "no";
+            if (checkBox3.Checked == true) box3 = "si"; else box3 = "no";
+
+            registereduser.closeandbkp = box1;
+            registereduser.sololectura = box2;
+            registereduser.alwaysprint = box3;
+            registereduser.redondeo = numericUpDown1.Value.ToString();
             SqlCeCommand inserto = new SqlCeCommand();
             inserto.Parameters.Clear();
-            //inserto.Parameters.AddWithValue("a", textBox1.Text);
             inserto.Parameters.AddWithValue("b", textBox2.Text);
             inserto.Parameters.AddWithValue("c", textBox3.Text);
             inserto.Parameters.AddWithValue("d", textBox4.Text);
             inserto.Parameters.AddWithValue("e", textBox5.Text);
-            //inserto.Parameters.AddWithValue("f", textBox6.Text);
             inserto.Parameters.AddWithValue("g", textBox7.Text.Replace("$",""));
             inserto.Parameters.AddWithValue("h", textBox14.Text);
             inserto.Parameters.AddWithValue("i", textBox13.Text);
@@ -95,39 +106,22 @@ namespace FLAGSYSTEMPV_2017
             inserto.Parameters.AddWithValue("m", textBox9.Text);
             inserto.Parameters.AddWithValue("n", textBox8.Text);
             inserto.Parameters.AddWithValue("o", textBox16.Text);
+            inserto.Parameters.AddWithValue("p", numericUpDown1.Value);
+            inserto.Parameters.AddWithValue("q", box1);
+            inserto.Parameters.AddWithValue("r", box2);
+            inserto.Parameters.AddWithValue("s", box3);
             Conexion.abrir();
-            Conexion.Actualizar("Configuracion", "DireccionFisica = @b,Email= @c,Telefono1= @d,Localidad= @e,SaldoInicial= @g,SMTP= @h,PUERTO= @i,SSL= @j,MAIL= @k,CLAVE= @l,PARA= @m,TITULO= @n,CUERPO= @o", "", "", inserto);
-                Conexion.cerrar();
-                registereduser.smtp = textBox14.ToString();
-                registereduser.puerto = textBox13.ToString();
-                registereduser.ssl = textBox12.ToString();
-                registereduser.mail = textBox11.ToString();
-                registereduser.clave = textBox10.ToString();
-                registereduser.para = textBox9.ToString();
-                registereduser.titulo = textBox8.ToString();
-                registereduser.cuerpo = textBox16.ToString();    
+            Conexion.Actualizar("Configuracion", "redondeo = @p,backupearsiemprealcerrardia = @q, nopermitircambiosendiasanteriores = @r, siempreimprimirtickets = @s, DireccionFisica = @b,Email= @c,Telefono1= @d,Localidad= @e,SaldoInicial= @g,SMTP= @h,PUERTO= @i,SSL= @j,MAIL= @k,CLAVE= @l,PARA= @m,TITULO= @n,CUERPO= @o", "", "", inserto);
+            Conexion.cerrar();
+            registereduser.smtp = textBox14.ToString();
+            registereduser.puerto = textBox13.ToString();
+            registereduser.ssl = textBox12.ToString();
+            registereduser.mail = textBox11.ToString();
+            registereduser.clave = textBox10.ToString();
+            registereduser.para = textBox9.ToString();
+            registereduser.titulo = textBox8.ToString();
+            registereduser.cuerpo = textBox16.ToString();    
             this.Close();
-          
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("en construccion");
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("en construccion");
-        }
-
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
-            MessageBox.Show("en construccion");
-        }
-
-        private void checkBox3_CheckedChanged(object sender, EventArgs e)
-        {
-            MessageBox.Show("en construccion");
         }
     }
 }

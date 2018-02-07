@@ -470,7 +470,6 @@
             this.button3.TabIndex = 20;
             this.button3.Text = "Abrir...";
             this.button3.UseVisualStyleBackColor = false;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // button4
             // 
@@ -482,7 +481,6 @@
             this.button4.TabIndex = 22;
             this.button4.Text = "Guardar...";
             this.button4.UseVisualStyleBackColor = false;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // label18
             // 
@@ -502,7 +500,6 @@
             this.checkBox1.TabIndex = 23;
             this.checkBox1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // label19
             // 
@@ -518,9 +515,9 @@
             this.label20.AutoSize = true;
             this.label20.Location = new System.Drawing.Point(367, 134);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(231, 16);
+            this.label20.Size = new System.Drawing.Size(226, 16);
             this.label20.TabIndex = 26;
-            this.label20.Text = "Login a fecha anterior: sólo lectura:";
+            this.label20.Text = "Permitir cambios a dias anteriores:";
             // 
             // checkBox2
             // 
@@ -550,7 +547,6 @@
             this.checkBox3.TabIndex = 27;
             this.checkBox3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.checkBox3.UseVisualStyleBackColor = true;
-            this.checkBox3.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
             // 
             // Config
             // 

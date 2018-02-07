@@ -187,7 +187,20 @@ namespace FLAGSYSTEMPV_2017
                     cierro.Parameters.AddWithValue("id", turnos.Rows[turnos.Rows.Count - 1][0].ToString());
                     cierro.Parameters.AddWithValue("ff", DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString());
                     Conexion.abrir();
-                    Conexion.Actualizar("Turnos", "FechaFin = @ff", "WHERE idturno = @id", "", cierro);
+                    string total;
+                    SqlCeCommand paraeltotal = new SqlCeCommand();
+                    paraeltotal.Parameters.Add("ven", registereduser.reguser);
+                    paraeltotal.Parameters.Add("fecA", app.hoy + " 00:00:00");
+                    paraeltotal.Parameters.Add("fecB", app.hoy + " " + DateTime.Now.ToShortTimeString());
+                    DataTable totalvendido = Conexion.Consultar("SUM(total)", "Ventas", "Where vendedor = @ven and estadoventa = 'Finalizado' and fechaventa between @fecA and @fecB", "", paraeltotal);
+                    if (totalvendido.Rows.Count > 0)
+                    {
+                        total = totalvendido.Rows[0][0].ToString();
+                    }
+                    else
+                        total = "0";
+                    cierro.Parameters.AddWithValue("to", total);
+                    Conexion.Actualizar("Turnos", "FechaFin = @ff, TotalVendido = @to", "WHERE idturno = @id", "", cierro);
                     Conexion.cerrar();
                     Application.Exit();
                 }
@@ -650,8 +663,21 @@ namespace FLAGSYSTEMPV_2017
             SqlCeCommand cierro = new SqlCeCommand();
             cierro.Parameters.AddWithValue("id", turnos.Rows[turnos.Rows.Count - 1][0].ToString());
             cierro.Parameters.AddWithValue("ff", app.hoy + " " + DateTime.Now.ToShortTimeString());
+            string total = "";
             Conexion.abrir();
-            Conexion.Actualizar("Turnos", "FechaFin = @ff", "WHERE idturno = @id", "", cierro);
+            SqlCeCommand paraeltotal = new SqlCeCommand();
+            paraeltotal.Parameters.Add("ven",registereduser.reguser);
+            paraeltotal.Parameters.Add("fecA",app.hoy+" 00:00:00");
+            paraeltotal.Parameters.Add("fecB",app.hoy + " " + DateTime.Now.ToShortTimeString());
+            DataTable totalvendido = Conexion.Consultar("SUM(total)", "Ventas", "Where vendedor = @ven and estadoventa = 'Finalizado' and fechaventa between @fecA and @fecB", "", paraeltotal);
+            if (totalvendido.Rows.Count > 0)
+            {
+                total = totalvendido.Rows[0][0].ToString();
+            }
+            else
+                total = "0";
+            cierro.Parameters.AddWithValue("to",total);
+            Conexion.Actualizar("Turnos", "FechaFin = @ff, TotalVendido = @to", "WHERE idturno = @id", "", cierro);
             Conexion.cerrar();
             
             Login lgn = new Login();
@@ -943,6 +969,18 @@ namespace FLAGSYSTEMPV_2017
             {
                 ControlStockVendedores frm = new ControlStockVendedores();
                 
+                frm.Show();
+            }
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            if (Application.OpenForms.OfType<Rubros>().Count() == 1)
+                Application.OpenForms.OfType<Rubros>().First().Focus();
+            else
+            {
+                Rubros frm = new Rubros();
+
                 frm.Show();
             }
         }

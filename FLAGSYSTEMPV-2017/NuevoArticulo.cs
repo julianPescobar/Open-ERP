@@ -337,6 +337,9 @@ namespace FLAGSYSTEMPV_2017
                     DialogResult wrongprice = MessageBox.Show("El precio de compra del producto mas su porcentaje de ganancia de es mayor al precio de venta + iva que usted ingresó, desea actualizar el precio de venta para que pueda obtener mas ganancia?", "Advertencia", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                     if (wrongprice == DialogResult.Yes)
                     {
+                        double rounded = Round(costomasganancia, float.Parse(registereduser.redondeo));
+                        //MessageBox.Show(rounded.ToString());
+                        costomasganancia = float.Parse(rounded.ToString()); 
                         textBox4.Text = costomasganancia.ToString("$0.00");
                         float nuevoprecio = costomasganancia + (costomasganancia * (ivaprecio / 100));
                         label7.Text = "Precio con IVA:" + nuevoprecio.ToString("$0.00");
@@ -355,6 +358,25 @@ namespace FLAGSYSTEMPV_2017
            
            
            
+        }
+        public static Double Round(Double passednumber, Double roundto)
+        {
+            // 105.5 up to nearest 1 = 106
+            // 105.5 up to nearest 10 = 110
+            // 105.5 up to nearest 7 = 112
+            // 105.5 up to nearest 100 = 200
+            // 105.5 up to nearest 0.2 = 105.6
+            // 105.5 up to nearest 0.3 = 105.6
+
+            //if no rounto then just pass original number back
+            if (roundto == 0)
+            {
+                return passednumber;
+            }
+            else
+            {
+                return Math.Ceiling(passednumber / roundto) * roundto;
+            }
         }
 
         private void textBox10_Leave(object sender, EventArgs e)
