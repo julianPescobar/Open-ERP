@@ -50,7 +50,7 @@ namespace FLAGSYSTEMPV_2017
             userypass.Parameters.AddWithValue("@a", usuario);
             userypass.Parameters.AddWithValue("@b", clave);
             userypass.Parameters.AddWithValue("elim", "Eliminado");
-            user = Conexion.Consultar("login,clave,level,nombreusuario, eliminado, p_venta, p_compra,p_articulo,p_clientes,p_proveedores,p_gastos,p_stock,p_cierredia,p_diferencia,p_consultaC,p_consultaV,p_EScaja,p_informes,p_anular,p_notac,p_notad,p_abstock,p_config,p_empleados,p_enviarinforme,p_fiscalconfig,p_caja", "Usuarios", "WHERE login = @a AND clave = @b AND eliminado !=  @elim", "", userypass);
+            user = Conexion.Consultar("login,clave,level,nombreusuario, eliminado, p_venta, p_compra,p_articulo,p_clientes,p_proveedores,p_gastos,p_stock,p_cierredia,p_diferencia,p_consultaC,p_consultaV,p_EScaja,p_informes,p_anular,p_notac,p_notad,p_abstock,p_config,p_empleados,p_enviarinforme,p_fiscalconfig,p_caja,p_rubro", "Usuarios", "WHERE login = @a AND clave = @b AND eliminado !=  @elim", "", userypass);
             DataTable turnos = Conexion.Consultar("*", "Turnos", "", "", new SqlCeCommand());
             Conexion.cerrar();
             if (user.Rows.Count > 0)
@@ -81,6 +81,7 @@ namespace FLAGSYSTEMPV_2017
                 registereduser.penviarinforme = user.Rows[0][24].ToString();
                 registereduser.pfiscalconfig= user.Rows[0][25].ToString();
                 registereduser.pcaja = user.Rows[0][26].ToString();
+                registereduser.prubro = user.Rows[0][27].ToString();
                 if (turnos.Rows.Count > 0 && turnos.Rows[turnos.Rows.Count - 1][3].ToString() == "")
                 {
                     if (turnos.Rows[turnos.Rows.Count - 1][1].ToString() == nombre)
@@ -89,7 +90,7 @@ namespace FLAGSYSTEMPV_2017
                         if (cerraryo == DialogResult.Yes)
                         {
 
-                            closeturno(turnos.Rows[turnos.Rows.Count - 1][0].ToString());
+                            closeturno(turnos.Rows[turnos.Rows.Count - 1][0].ToString(), nombre);
                             addturno(nombre);
                             registereduser.reguser = nombre;
                             registereduser.level = jerarquia;
@@ -119,7 +120,7 @@ namespace FLAGSYSTEMPV_2017
                         
                         if (cerrar == DialogResult.Yes)
                         {
-                            closeturno(turnos.Rows[turnos.Rows.Count - 1][0].ToString());
+                            closeturno(turnos.Rows[turnos.Rows.Count - 1][0].ToString(), nombre);
                             addturno(nombre);
                            
                             registereduser.reguser = nombre;
@@ -171,14 +172,37 @@ namespace FLAGSYSTEMPV_2017
             Conexion.Insertar("Turnos", "Usuario,FechaInicio,TotalVendido", "@u,@fi,@tot", usr);
             Conexion.cerrar();
         }
-        private void closeturno(string id)
+        private void closeturno(string id, string nombre)
         {
+
             SqlCeCommand cierro = new SqlCeCommand();
             cierro.Parameters.AddWithValue("id", id);
-            cierro.Parameters.AddWithValue("ff", DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString());
+            cierro.Parameters.AddWithValue("ff", app.hoy + " " + DateTime.Now.ToShortTimeString());
+            string total = "";
             Conexion.abrir();
-            Conexion.Actualizar("Turnos", "FechaFin = @ff", "WHERE idturno = @id", "", cierro);
-            Conexion.cerrar();
+            SqlCeCommand paraeltotal = new SqlCeCommand();
+            paraeltotal.Parameters.Add("ven", nombre);
+            paraeltotal.Parameters.Add("fecA", app.hoy + " 00:00:00");
+            paraeltotal.Parameters.Add("fecB", app.hoy + " " + DateTime.Now.ToShortTimeString());
+          
+            DataTable totalvendido = Conexion.Consultar("SUM(total)", "Ventas", "Where vendedor = @ven and estadoventa = 'Finalizado' and fechaventa between @fecA and @fecB", "", paraeltotal);
+            if (totalvendido.Rows.Count > 0)
+            {
+                try
+                {
+                    total = float.Parse(totalvendido.Rows[0][0].ToString()).ToString();
+                }
+                catch (Exception)
+                {
+                    total = "0";
+                }
+
+
+                cierro.Parameters.AddWithValue("tot", float.Parse(total));
+                Conexion.Actualizar("Turnos", "FechaFin = @ff, TotalVendido = @tot", "WHERE idturno = @id", "", cierro);
+                Conexion.Actualizar("Ventas", "estadoventa='Cerrado' ", "WHERE vendedor = @ven and fechaventa between @fecA and @fecB and estadoventa = 'Finalizado' ", "", paraeltotal);
+                Conexion.cerrar();
+            }
         }
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
         {
@@ -210,6 +234,18 @@ namespace FLAGSYSTEMPV_2017
         private const int WM_NCHITTEST = 0x84;
         private const int HT_CLIENT = 0x1;
         private const int HT_CAPTION = 0x2;
+
+        private void textBox1_Enter(object sender, EventArgs e)
+        {
+            ToolTip tt = new ToolTip();
+            tt.IsBalloon = false;
+
+            tt.ShowAlways = true;
+            tt.UseAnimation = true;
+            tt.ToolTipTitle = "Bienvenido a Flag System PV:";
+            tt.Show("Los tips están habilitados.\n para deshabilitarlos debe ser usuario de nivel Supervisor\n y luego ir a Administracion>Configuracion> y destildar la casilla \"Habilitar los tips informativos\"", button1);
+ 
+        }
 
 
        

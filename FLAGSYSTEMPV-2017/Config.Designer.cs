@@ -74,6 +74,8 @@
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.label21 = new System.Windows.Forms.Label();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.label22 = new System.Windows.Forms.Label();
+            this.checkBox4 = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
@@ -548,12 +550,33 @@
             this.checkBox3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.checkBox3.UseVisualStyleBackColor = true;
             // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(367, 189);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(201, 16);
+            this.label22.TabIndex = 30;
+            this.label22.Text = "Habilitar los tips informativos:";
+            // 
+            // checkBox4
+            // 
+            this.checkBox4.AutoSize = true;
+            this.checkBox4.Location = new System.Drawing.Point(611, 191);
+            this.checkBox4.Name = "checkBox4";
+            this.checkBox4.Size = new System.Drawing.Size(15, 14);
+            this.checkBox4.TabIndex = 29;
+            this.checkBox4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBox4.UseVisualStyleBackColor = true;
+            // 
             // Config
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SteelBlue;
             this.ClientSize = new System.Drawing.Size(631, 533);
+            this.Controls.Add(this.label22);
+            this.Controls.Add(this.checkBox4);
             this.Controls.Add(this.label21);
             this.Controls.Add(this.checkBox3);
             this.Controls.Add(this.label20);
@@ -647,5 +670,7 @@
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.CheckBox checkBox3;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.CheckBox checkBox4;
     }
 }

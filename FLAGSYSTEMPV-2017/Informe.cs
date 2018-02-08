@@ -40,7 +40,7 @@ namespace FLAGSYSTEMPV_2017
             if (Conexion.data == "Articulos")
             {
                 Conexion.abrir();
-                DataTable arts = Conexion.Consultar("idarticulo,codigoart as [Codigo],descripcion as [Nombre],marca as [Marca],precio as [Precio],costo as [Costo],iva as [IVA],stockactual as [Stock],stockminimo as [Stock mín.],proveedor as [Proveedor],compraminima as [Compra mín.] ,porcentaje as [%]", "Articulos", "WHERE eliminado != 'Eliminado'", "", new SqlCeCommand());
+                DataTable arts = Conexion.Consultar("idarticulo,codigoart as [Codigo],descripcion as [Nombre],marca as [Marca],precio as [Precio],costo as [Costo],iva as [IVA],stockactual as [Stock],stockminimo as [Stockminimo],proveedor as [Proveedor],compraminima as [Compraminima] ,porcentaje as [porcentganancia]", "Articulos", "WHERE eliminado != 'Eliminado'", "", new SqlCeCommand());
                 Conexion.cerrar();
                 BindingSource SBind = new BindingSource();
                 SBind.DataSource = arts;
@@ -66,6 +66,8 @@ namespace FLAGSYSTEMPV_2017
                 dataGridView1.DataSource = SBind;
                 dataGridView1.Refresh();
                 dataGridView1.Columns.Add("stockreal", "StockReal");
+                for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                    dataGridView1.Rows[i].Cells[6].Value = " ";
             }
             if (Conexion.data == "Caja")
             {
@@ -150,7 +152,7 @@ namespace FLAGSYSTEMPV_2017
             if (Conexion.data == "Clientes")
             {
                 Conexion.abrir();
-                DataTable showacls = Conexion.Consultar("idcliente,nombre as [Nombre del cliente],atencion as [Atencion],direccion as Domicilio,telefono as Telefono,mail as Email, cuit as CUIT", "Clientes", "", "", new SqlCeCommand());
+                DataTable showacls = Conexion.Consultar("idcliente,nombre as [Nombre],atencion as [Atencion],direccion as Domicilio,telefono as Telefono,mail as Email, cuit as CUIT", "Clientes", "", "", new SqlCeCommand());
                 Conexion.cerrar();
                 BindingSource SBind = new BindingSource();
                 SBind.DataSource = showacls;
@@ -163,7 +165,7 @@ namespace FLAGSYSTEMPV_2017
             if (Conexion.data == "Proveedores")
             {
                 Conexion.abrir();
-                DataTable showprovs = Conexion.Consultar("idproveedor,nombre as [Nombre del Proveedor],atencion as [Atencion],telefono as Telefono,mail as [Correo Electrónico],direccion as [Direccion],localidad as Localidad,cp as CP", "Proveedores", "", "", new SqlCeCommand());
+                DataTable showprovs = Conexion.Consultar("idproveedor,nombre as [Nombre],atencion as [Atencion],telefono as Telefono,mail as [Email],direccion as [Direccion],localidad as Localidad,cp as CP", "Proveedores", "", "", new SqlCeCommand());
                 Conexion.cerrar();
                 BindingSource SBind = new BindingSource();
                 SBind.DataSource = showprovs;
@@ -176,7 +178,7 @@ namespace FLAGSYSTEMPV_2017
             if (Conexion.data == "Compras")
             {
                 Conexion.abrir();
-                DataTable showv = Conexion.Consultar("nfactura as [N° Factura], vendedor as Vendedor, fechacompra as Fecha,proveedor as Proveedor, totalfactura as Total,estadocompra as Estado ", "Compras", " order by nfactura desc", "", new SqlCeCommand());
+                DataTable showv = Conexion.Consultar("nfactura as [NFactura], vendedor as Vendedor, fechacompra as Fecha,proveedor as Proveedor, totalfactura as Total,estadocompra as Estado ", "Compras", " order by nfactura desc", "", new SqlCeCommand());
 
                 Conexion.cerrar();
                 BindingSource SBind = new BindingSource();
@@ -191,7 +193,7 @@ namespace FLAGSYSTEMPV_2017
             if (Conexion.data == "Pedido")
             {
                 Conexion.abrir();
-                DataTable arts = Conexion.Consultar("idarticulo,descripcion as [Nombre],proveedor as [Proveedor],marca as [Marca],precio as [Precio],costo as [Costo],stockactual as [Stock],stockminimo as [Stock min.],compraminima as [Compra min.]", "Articulos", " order by proveedor asc", "", new SqlCeCommand());
+                DataTable arts = Conexion.Consultar("idarticulo,descripcion as [Nombre],proveedor as [Proveedor],marca as [Marca],precio as [Precio],costo as [Costo],stockactual as [Stock],stockminimo as [StockMinimo],compraminima as [CompraMinima]", "Articulos", " order by proveedor asc", "", new SqlCeCommand());
                 Conexion.cerrar();
                 BindingSource SBind = new BindingSource();
                 SBind.DataSource = arts;
@@ -206,12 +208,15 @@ namespace FLAGSYSTEMPV_2017
                
                 dataGridView1.Refresh();
                  dataGridView1.Columns.Add("pedir", "ingrese pedido");
-              
+                 for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                 {
+                     dataGridView1.Rows[i].Cells[9].Value = " ";
+                 }
             }
             if (Conexion.data == "AutoPedido")
             {
                 Conexion.abrir();
-                DataTable arts = Conexion.Consultar("idarticulo,descripcion as [Nombre],proveedor as [Proveedor],marca as [Marca],precio as [Precio],costo as [Costo],stockactual as [Stock],stockminimo as [Stock min.],compraminima as [Compra min.], stockmax as [Stock max.]", "Articulos", " order by proveedor asc", "", new SqlCeCommand());
+                DataTable arts = Conexion.Consultar("idarticulo,descripcion as [Nombre],proveedor as [Proveedor],marca as [Marca],precio as [Precio],costo as [Costo],stockactual as [Stock],stockminimo as [StockMinimo],compraminima as [CompraMinima], stockmax as [StockMaximo]", "Articulos", " order by proveedor asc", "", new SqlCeCommand());
                 Conexion.cerrar();
                 BindingSource SBind = new BindingSource();
                 SBind.DataSource = arts;
@@ -247,7 +252,7 @@ namespace FLAGSYSTEMPV_2017
             if (Conexion.data == "Faltantes")
             {
                 Conexion.abrir();
-                DataTable arts = Conexion.Consultar("idarticulo,descripcion as [Nombre],proveedor as [Proveedor],marca as [Marca],precio as [Precio],costo as [Costo],stockactual as [Stock],stockminimo as [Stock min.],compraminima as [Compra min.]", "Articulos", "where stockactual< stockminimo order by proveedor asc", "", new SqlCeCommand());
+                DataTable arts = Conexion.Consultar("idarticulo,descripcion as [Nombre],proveedor as [Proveedor],marca as [Marca],precio as [Precio],costo as [Costo],stockactual as [Stock],stockminimo as [StockMinimo],compraminima as [CompraMinima]", "Articulos", "where stockactual< stockminimo order by proveedor asc", "", new SqlCeCommand());
                 Conexion.cerrar();
                 BindingSource SBind = new BindingSource();
                 SBind.DataSource = arts;
@@ -323,36 +328,33 @@ namespace FLAGSYSTEMPV_2017
                 {
                     try
                     {
-                       
                          string tempfilename = saveFileDialog1.FileName;
                          string xConnStr = "Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source="  +     tempfilename +".xls;Extended Properties='Excel 8.0;HDR=YES'";
-
- string TabName ="Informe";
- var conn = new OleDbConnection(xConnStr);
-                        string columnas = "";
- for (int i = 0; i < dataGridView1.Columns.Count; i++)
- {
-    if(i == 0) columnas += "[" + dataGridView1.Columns[i].Name + "] varchar(255)";
-    else columnas += ", [" + dataGridView1.Columns[i].Name + "] varchar(255)";
-
- }
- //MessageBox.Show(columnas);
- string ColumnName = columnas;
- conn.Open();
- var cmd = new OleDbCommand("CREATE TABLE [" + TabName + "] (" + ColumnName + ")", conn);
- cmd.ExecuteNonQuery();
- for (int i = 0; i < dataGridView1.Rows.Count; i++)
- {
-     string values = "";
-     for (int j = 0; j < dataGridView1.Columns.Count; j++)
-     {
-         if(j == 0) values += "'" + dataGridView1.Rows[i].Cells[j].Value.ToString() + "'";
-         else values += ", '" + dataGridView1.Rows[i].Cells[j].Value.ToString() + "'";
-     }
-     var insert = new OleDbCommand("INSERT INTO [" + TabName + "] (" + ColumnName.Replace(" varchar(255)","") +") VALUES ("+values+")", conn);
-     insert.ExecuteNonQuery();
- }
- conn.Close();
+                         string TabName ="Informe";
+                         var conn = new OleDbConnection(xConnStr);
+                         string columnas = "";
+                         for (int i = 0; i < dataGridView1.Columns.Count; i++)
+                         {
+                            if(i == 0) columnas += "[" + dataGridView1.Columns[i].Name + "] varchar(255)";
+                            else columnas += ", [" + dataGridView1.Columns[i].Name + "] varchar(255)";
+                         }
+ 
+                         string ColumnName = columnas;
+                         conn.Open();
+                         var cmd = new OleDbCommand("CREATE TABLE [" + TabName + "] (" + ColumnName + ")", conn);
+                         cmd.ExecuteNonQuery();
+                         for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                         {
+                             string values = "";
+                             for (int j = 0; j < dataGridView1.Columns.Count; j++)
+                             {
+                                 if(j == 0) values += "'" + dataGridView1.Rows[i].Cells[j].Value.ToString() + "'";
+                                 else values += ", '" + dataGridView1.Rows[i].Cells[j].Value.ToString() + "'";
+                             }
+                             var insert = new OleDbCommand("INSERT INTO [" + TabName + "] (" + ColumnName.Replace(" varchar(255)","") +") VALUES ("+values+")", conn);
+                             insert.ExecuteNonQuery();
+                         }
+                         conn.Close();
 
  
                     }
@@ -362,7 +364,6 @@ namespace FLAGSYSTEMPV_2017
                         MessageBox.Show("Hubo un error al exportar a excel:\n"+erm.Message);
                     }
                 }
-            
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -378,7 +379,6 @@ namespace FLAGSYSTEMPV_2017
                     {
                         if (i == 0) formatstring += " CONVERT([" + dt.Columns[i].ColumnName + "],System.String) like '%{0}%' ";
                         else formatstring += " or CONVERT([" + dt.Columns[i].ColumnName + "],System.String) like '%{0}%' ";
-
                     }
 
                     //MessageBox.Show(formatstring);
@@ -387,7 +387,6 @@ namespace FLAGSYSTEMPV_2017
                 }
                 else
                 {
-
                     BindingSource bd = (BindingSource)dataGridView1.DataSource;
                     DataTable dt = (DataTable)bd.DataSource;
                     string formatstring = "";
@@ -395,18 +394,12 @@ namespace FLAGSYSTEMPV_2017
                     {
                         if (i == 0) formatstring += " CONVERT([" + dt.Columns[i].ColumnName + "],System.String) like '%{0}%' ";
                         else formatstring += " or CONVERT([" + dt.Columns[i].ColumnName + "],System.String) like '%{0}%' ";
-
                     }
-
-                  
                     dt.DefaultView.RowFilter = string.Format(formatstring, textBox1.Text.Trim().Replace("'", "''"));
                     dataGridView1.Refresh();
                 }
             }
             catch (Exception) { }
         }
-      
-      
-       
     }
 }

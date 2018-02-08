@@ -68,7 +68,7 @@ namespace FLAGSYSTEMPV_2017
             SqlCeCommand getperms = new SqlCeCommand();
             getperms.Parameters.AddWithValue("id", id);
             Conexion.abrir();
-            DataTable myperms = Conexion.Consultar("p_venta,p_compra,p_articulo,p_caja,p_clientes,p_proveedores,p_gastos,p_stock,p_cierredia,p_diferencia,p_consultaC,p_consultaV,p_EScaja,p_informes,p_anular,p_notac,p_notad,p_abstock,p_config,p_empleados,p_enviarinforme,p_fiscalconfig", "Usuarios", "Where iduser = @id", "", getperms);
+            DataTable myperms = Conexion.Consultar("p_venta,p_compra,p_articulo,p_caja,p_clientes,p_proveedores,p_gastos,p_stock,p_cierredia,p_diferencia,p_consultaC,p_consultaV,p_EScaja,p_informes,p_anular,p_notac,p_notad,p_abstock,p_config,p_empleados,p_enviarinforme,p_fiscalconfig,p_rubro", "Usuarios", "Where iduser = @id", "", getperms);
             Conexion.cerrar();
             if (myperms.Rows[0][0].ToString() == "si") checkBox1.Checked = true; else checkBox1.Checked = false;
             if (myperms.Rows[0][1].ToString() == "si") checkBox2.Checked = true; else checkBox2.Checked = false;
@@ -92,15 +92,16 @@ namespace FLAGSYSTEMPV_2017
             if (myperms.Rows[0][19].ToString() == "si") checkBox15.Checked = true; else checkBox15.Checked = false;
             if (myperms.Rows[0][20].ToString() == "si") checkBox14.Checked = true; else checkBox14.Checked = false;
             if (myperms.Rows[0][21].ToString() == "si") checkBox13.Checked = true; else checkBox13.Checked = false;
+            if (myperms.Rows[0][22].ToString() == "si") checkBox10.Checked = true; else checkBox10.Checked = false;
         }
         private void setpermisos()
         {
             int rowIndex = dataGridView1.CurrentCell.RowIndex;
             // var row = this.dataGridView1.Rows[rowIndex];
             string id = dataGridView1.Rows[rowIndex].Cells[0].Value.ToString();
-            
-            
-            string a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u,v;
+
+
+            string a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w;
             if (checkBox1.Checked == true) a = "si"; else a = "no";
             if( checkBox2.Checked == true) b = "si" ; else b = "no";
             if(  checkBox4.Checked == true)c = "si" ; else c = "no";
@@ -123,6 +124,7 @@ namespace FLAGSYSTEMPV_2017
             if ( checkBox15.Checked == true) t="si"; else t="no";
             if (checkBox14.Checked == true) u = "si"; else u = "no";
             if (checkBox13.Checked == true) v = "si"; else v = "no";
+            if (checkBox10.Checked == true) w = "si"; else w = "no";
             SqlCeCommand getperms = new SqlCeCommand();
             getperms.Parameters.AddWithValue("id", id);
             getperms.Parameters.AddWithValue("a", a);
@@ -147,8 +149,9 @@ namespace FLAGSYSTEMPV_2017
              getperms.Parameters.AddWithValue("t", t);
              getperms.Parameters.AddWithValue("u", u);
              getperms.Parameters.AddWithValue("v", v);
+             getperms.Parameters.AddWithValue("w", w);
             Conexion.abrir();
-            Conexion.Actualizar("Usuarios", "p_venta =@a,p_compra =@b,p_articulo =@c,p_caja = @d,p_clientes =@e,p_proveedores =@f,p_gastos =@g,p_stock =@h,p_cierredia =@i,p_diferencia =@j,p_consultaC =@k,p_consultaV =@l,p_EScaja =@m,p_informes =@n,p_anular =@o,p_notac =@p,p_notad =@q,p_abstock =@r,p_config =@s,p_empleados =@t,p_enviarinforme =@u,p_fiscalconfig =@v", "Where iduser = @id","", getperms);
+            Conexion.Actualizar("Usuarios", "p_rubro = @w, p_venta =@a,p_compra =@b,p_articulo =@c,p_caja = @d,p_clientes =@e,p_proveedores =@f,p_gastos =@g,p_stock =@h,p_cierredia =@i,p_diferencia =@j,p_consultaC =@k,p_consultaV =@l,p_EScaja =@m,p_informes =@n,p_anular =@o,p_notac =@p,p_notad =@q,p_abstock =@r,p_config =@s,p_empleados =@t,p_enviarinforme =@u,p_fiscalconfig =@v", "Where iduser = @id","", getperms);
             Conexion.cerrar();
             
         }

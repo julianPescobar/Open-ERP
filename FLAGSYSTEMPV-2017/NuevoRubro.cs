@@ -46,5 +46,23 @@ namespace FLAGSYSTEMPV_2017
         {
             this.Close();
         }
+
+        private void textBox1_Leave(object sender, EventArgs e)
+        {
+            if (textBox1.Text.Length > 0)
+            {
+                SqlCeCommand checkexistance = new SqlCeCommand();
+                checkexistance.Parameters.AddWithValue("code", textBox1.Text);
+                Conexion.abrir();
+                DataTable existira = Conexion.Consultar("nombrerubro", "Rubros", "where nombrerubro = @code and eliminado != 'Eliminado'", "", checkexistance);
+                Conexion.cerrar();
+                if (existira.Rows.Count > 0 )
+                {
+                    MessageBox.Show("Ese nombre de rubro ya existe, use otro nombre por favor");
+                    textBox1.Text = "";
+                }
+            }
+            
+        }
     }
 }

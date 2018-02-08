@@ -35,9 +35,9 @@ namespace FLAGSYSTEMPV_2017
                 fechahoy.Parameters.AddWithValue("anulada", "Anulada");
                 DataTable showv = new DataTable();
                 if(registereduser.level == "Admin" || registereduser.level == "Supervisor")
-                showv = Conexion.Consultar("nfactura as [N° Fact.], vendedor as Usuario, fechaventa as Fecha, total as Importe, estadoventa as Estado, tipoFactura as Factura", "Ventas", "WHERE datediff(day,fechaventa,@hoy) =  0 AND estadoventa != @anulada ", " order by nfactura desc", fechahoy);
+                showv = Conexion.Consultar("nfactura as [N° Fact.], vendedor as Usuario, fechaventa as Fecha, total as Importe, estadoventa as Estado, tipoFactura as Factura", "Ventas", "WHERE datediff(day,fechaventa,@hoy) =  0 AND estadoventa = 'Finalizado' ", " order by nfactura desc", fechahoy);
                 else
-                showv = Conexion.Consultar("nfactura as [N° Fact.], vendedor as Usuario, fechaventa as Fecha, total as Importe, estadoventa as Estado, tipoFactura as Factura", "Ventas", "WHERE datediff(day,fechaventa,@hoy) =  0 AND estadoventa != @anulada and vendedor =@ven ", " order by nfactura desc", fechahoy);
+                    showv = Conexion.Consultar("nfactura as [N° Fact.], vendedor as Usuario, fechaventa as Fecha, total as Importe, estadoventa as Estado, tipoFactura as Factura", "Ventas", "WHERE datediff(day,fechaventa,@hoy) =  0 AND estadoventa = 'Finalizado' and vendedor =@ven ", " order by nfactura desc", fechahoy);
                 
                 Conexion.cerrar();
                 BindingSource SBind = new BindingSource();

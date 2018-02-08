@@ -123,7 +123,8 @@ namespace FLAGSYSTEMPV_2017
 
                 }
                 Conexion.cerrar();
-                MessageBox.Show("control de stock terminado!");
+                MessageBox.Show("El control de stock se ha guardado correctamente y se han generado los faltantes/sobrantes correspondientes","Control stock OK",MessageBoxButtons.OK,MessageBoxIcon.Information);
+                this.Close();
             }
         }
 

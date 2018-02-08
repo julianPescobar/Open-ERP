@@ -134,11 +134,26 @@ namespace FLAGSYSTEMPV_2017
         }
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            var bd = dataGridView1.DataSource;
-            
-            var dt = (DataTable)bd;
-            dt.DefaultView.RowFilter = string.Format("[Codigo de Articulo] like '%{0}%' or [Proveedor] like '%{0}%'  or [Descripcion del Articulo] like '%{0}%'", textBox1.Text.Trim().Replace("'", "''"));
-            dataGridView1.Refresh();
+            try
+            {
+
+                var bd = dataGridView1.DataSource;
+                var dt = (DataTable)bd;
+                string formatstring = "";
+                for (int i = 0; i < dt.Columns.Count; i++)
+                {
+                    if (i == 0) formatstring += " CONVERT([" + dt.Columns[i].ColumnName + "],System.String) like '%{0}%' ";
+                    else formatstring += " or CONVERT([" + dt.Columns[i].ColumnName + "],System.String) like '%{0}%' ";
+
+                }
+
+                //MessageBox.Show(formatstring);
+                dt.DefaultView.RowFilter = string.Format(formatstring, textBox1.Text.Trim().Replace("'", "''"));
+                dataGridView1.Refresh();
+            }
+            catch (Exception)
+            {
+            }
         }
 
         private void textBox1_KeyDown(object sender, KeyEventArgs e)

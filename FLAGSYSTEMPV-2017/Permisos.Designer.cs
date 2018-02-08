@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
@@ -78,6 +78,8 @@
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.label12 = new System.Windows.Forms.Label();
+            this.checkBox10 = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -547,8 +549,8 @@
             this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.AllowUserToResizeColumns = false;
             this.dataGridView1.AllowUserToResizeRows = false;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
             this.dataGridView1.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
@@ -571,12 +573,33 @@
             this.dataGridView1.TabIndex = 53;
             this.dataGridView1.SelectionChanged += new System.EventHandler(this.dataGridView1_SelectionChanged);
             // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(235, 359);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(134, 16);
+            this.label12.TabIndex = 55;
+            this.label12.Text = "Puede cargar Rubros:";
+            // 
+            // checkBox10
+            // 
+            this.checkBox10.AutoSize = true;
+            this.checkBox10.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.checkBox10.Location = new System.Drawing.Point(402, 361);
+            this.checkBox10.Name = "checkBox10";
+            this.checkBox10.Size = new System.Drawing.Size(15, 14);
+            this.checkBox10.TabIndex = 54;
+            this.checkBox10.UseVisualStyleBackColor = false;
+            // 
             // Permisos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SteelBlue;
             this.ClientSize = new System.Drawing.Size(439, 439);
+            this.Controls.Add(this.label12);
+            this.Controls.Add(this.checkBox10);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
@@ -691,5 +714,7 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.CheckBox checkBox10;
     }
 }

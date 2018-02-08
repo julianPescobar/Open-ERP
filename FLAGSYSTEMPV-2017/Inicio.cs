@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.Data.SqlServerCe;
 using System.IO;
 using EPSON_Impresora_Fiscal;
+using System.Data.OleDb;
 namespace FLAGSYSTEMPV_2017
 {
     public partial class Inicio : Form
@@ -27,7 +28,7 @@ namespace FLAGSYSTEMPV_2017
             hoy.Parameters.AddWithValue("hoy", app.hoy + " 00:00:00");
             hoy.Parameters.AddWithValue("hoy2", app.hoy + " 23:59:59");
             DataTable ventas = Conexion.Consultar("nfactura,vendedor,total", "Ventas", "Where estadoVenta != 'Anulada' and fechaventa between @hoy and @hoy2", "", hoy);
-            DataTable compras = Conexion.Consultar("nfactura,vendedor,CAST(totalfactura as FLOAT)", "Compras", "Where fechacompra between @hoy and @hoy2", "", hoy);
+            DataTable compras = Conexion.Consultar("nfactura,vendedor,CAST(totalfactura as FLOAT) as total", "Compras", "Where fechacompra between @hoy and @hoy2", "", hoy);
             DataTable gastos = Conexion.Consultar("area,descripcion,importe", "Gastos", "Where fecha between @hoy and @hoy2", "", hoy);
             DataTable entradas = Conexion.Consultar("tipo,motivo,total", "EntradaCaja", "Where fecha between @hoy and @hoy2", "", hoy);
             DataTable salidas = Conexion.Consultar("tipo,motivo,total", "SalidaCaja", "Where fecha between @hoy and @hoy2", "", hoy);
@@ -104,11 +105,195 @@ namespace FLAGSYSTEMPV_2017
                             File.AppendAllLines(app.dir + "\\Cierre" + app.hoy.Replace("/", "") + ".txt", Entradas);
                             File.AppendAllText(app.dir + "\\Cierre" + app.hoy.Replace("/", "") + ".txt", "\r\nDetalle de Salidas de Caja:\r\nTipo\tMotivo\tTotal\t\r\n");
                             File.AppendAllLines(app.dir + "\\Cierre" + app.hoy.Replace("/", "") + ".txt", Salidas);
-                           
+
+                            try
+                            {
+                                string tempfilename = app.dir + "\\Cierre" + app.hoy.Replace("/", "") + ".xlsx.xls";
+                                string xConnStr = "Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=" + tempfilename + ";Extended Properties='Excel 8.0;HDR=YES'";
+                                string TabName = "";
+                                var conn = new OleDbConnection(xConnStr);
+                                //agarramos las columnas de ventas
+                                string ventascolumnas = "";
+                                for (int i = 0; i < ventas.Columns.Count ; i++)
+                                {
+                                    if (i == 0) ventascolumnas += "[" + ventas.Columns[i].ColumnName + "] varchar(255)";
+                                    else ventascolumnas += ", [" + ventas.Columns[i].ColumnName + "] varchar(255)";
+                                }
+                                //agarramos las columnas de compras
+                                string comprascolumnas = "";
+                                for (int i = 0; i < compras.Columns.Count; i++)
+                                {
+                                    if (i == 0) comprascolumnas += "[" + compras.Columns[i].ColumnName + "] varchar(255)";
+                                    else comprascolumnas += ", [" + compras.Columns[i].ColumnName + "] varchar(255)";
+                                }
+                                //agarramos las columnas de gasts
+                                string gastoscolumnas = "";
+                                for (int i = 0; i < gastos.Columns.Count; i++)
+                                {
+                                    if (i == 0) gastoscolumnas += "[" + gastos.Columns[i].ColumnName + "] varchar(255)";
+                                    else gastoscolumnas += ", [" + gastos.Columns[i].ColumnName + "] varchar(255)";
+                                }
+                                //agarramos las columnas de ents
+                                string entradascolumnas = "";
+                                for (int i = 0; i < entradas.Columns.Count; i++)
+                                {
+                                    if (i == 0) entradascolumnas += "[" + entradas.Columns[i].ColumnName + "] varchar(255)";
+                                    else entradascolumnas += ", [" + entradas.Columns[i].ColumnName + "] varchar(255)";
+                                }
+                                //agarramos las columnas de sals
+                                string salidascolumnas = "";
+                                for (int i = 0; i < salidas.Columns.Count; i++)
+                                {
+                                    if (i == 0) salidascolumnas += "[" + salidas.Columns[i].ColumnName + "] varchar(255)";
+                                    else salidascolumnas += ", [" + salidas.Columns[i].ColumnName + "] varchar(255)";
+                                }
+
+
+                                //hacemos una libro para el total
+                                string ColumnName = "[a] varchar(255), [b] varchar(255), [c] varchar(255)";
+                                conn.Open();
+                                TabName = "Totales";
+                                var cmd = new OleDbCommand("CREATE TABLE [" + TabName + "] (" + ColumnName + ")", conn);
+                                cmd.ExecuteNonQuery();
+                                    var insert = new OleDbCommand("INSERT INTO [" + TabName + "] (" + ColumnName.Replace(" varchar(255)", "") + ") VALUES (" + "'Fecha:','"+app.hoy+"','"+registereduser.registeredlicense+"'" + ")", conn);
+                                    insert.ExecuteNonQuery();
+                                    insert = new OleDbCommand("INSERT INTO [" + TabName + "] (" + ColumnName.Replace(" varchar(255)", "") + ") VALUES (" + "'Totales:',' ',' '" + ")", conn);
+                                    insert.ExecuteNonQuery();
+                                    insert = new OleDbCommand("INSERT INTO [" + TabName + "] (" + ColumnName.Replace(" varchar(255)", "") + ") VALUES (" + "'Total Ventas:','"+tv.ToString("$0.00")+"',' '" + ")", conn);
+                                    insert.ExecuteNonQuery();
+                                    insert = new OleDbCommand("INSERT INTO [" + TabName + "] (" + ColumnName.Replace(" varchar(255)", "") + ") VALUES (" + "'Total Compras:','" + tc.ToString("$0.00") + "',' '" + ")", conn);
+                                    insert.ExecuteNonQuery();
+                                    insert = new OleDbCommand("INSERT INTO [" + TabName + "] (" + ColumnName.Replace(" varchar(255)", "") + ") VALUES (" + "'Total Gastos:','" + tg.ToString("$0.00") + "',' '" + ")", conn);
+                                    insert.ExecuteNonQuery();
+                                    insert = new OleDbCommand("INSERT INTO [" + TabName + "] (" + ColumnName.Replace(" varchar(255)", "") + ") VALUES (" + "'Total Entradas:','" + te.ToString("$0.00") + "',' '" + ")", conn);
+                                    insert.ExecuteNonQuery();
+                                    insert = new OleDbCommand("INSERT INTO [" + TabName + "] (" + ColumnName.Replace(" varchar(255)", "") + ") VALUES (" + "'Total Salidas:','" + ts.ToString("$0.00") + "',' '" + ")", conn);
+                                    insert.ExecuteNonQuery();
+                                    insert = new OleDbCommand("INSERT INTO [" + TabName + "] (" + ColumnName.Replace(" varchar(255)", "") + ") VALUES (" + "'Total del día:','" + ((tv+tc+te)-(tg+ts)).ToString("$0.00")+ "',' '" + ")", conn);
+                                    insert.ExecuteNonQuery();
+                                conn.Close();
+                                //terminamos el libro total
+
+
+                                //hacemos una libro para esto
+                                 ColumnName = ventascolumnas;
+                                conn.Open();
+                                TabName = "Ventas";
+                                 cmd = new OleDbCommand("CREATE TABLE [" + TabName + "] (" + ColumnName + ")", conn);
+                                cmd.ExecuteNonQuery();
+                                for (int i = 0; i < ventas.Rows.Count; i++)
+                                {
+                                    string values = "";
+                                    for (int j = 0; j < ventas.Columns.Count; j++)
+                                    {
+                                        if (j == 0) values += "'" + ventas.Rows[i][j].ToString() + "'";
+                                        else values += ", '" + ventas.Rows[i][j].ToString() + "'";
+                                    }
+                                     insert = new OleDbCommand("INSERT INTO [" + TabName + "] (" + ColumnName.Replace(" varchar(255)", "") + ") VALUES (" + values + ")", conn);
+                                    insert.ExecuteNonQuery();
+                                }
+                                conn.Close();
+                                //terminamos el libro
+
+
+                                //hacemos una libro para esto
+                                 ColumnName = comprascolumnas;
+                                conn.Open();
+                                TabName = "Compras";
+                                 cmd = new OleDbCommand("CREATE TABLE [" + TabName + "] (" + ColumnName + ")", conn);
+                                cmd.ExecuteNonQuery();
+                                for (int i = 0; i < compras.Rows.Count; i++)
+                                {
+                                    string values = "";
+                                    for (int j = 0; j < compras.Columns.Count; j++)
+                                    {
+                                        if (j == 0) values += "'" + compras.Rows[i][j].ToString() + "'";
+                                        else values += ", '" + compras.Rows[i][j].ToString() + "'";
+                                    }
+                                     insert = new OleDbCommand("INSERT INTO [" + TabName + "] (" + ColumnName.Replace(" varchar(255)", "") + ") VALUES (" + values + ")", conn);
+                                    insert.ExecuteNonQuery();
+                                }
+                                conn.Close();
+                                //terminamos el libro
+
+
+                                //hacemos una libro para esto
+                                ColumnName = gastoscolumnas;
+                                conn.Open();
+                                TabName = "Gastos";
+                                cmd = new OleDbCommand("CREATE TABLE [" + TabName + "] (" + ColumnName + ")", conn);
+                                cmd.ExecuteNonQuery();
+                                for (int i = 0; i < gastos.Rows.Count; i++)
+                                {
+                                    string values = "";
+                                    for (int j = 0; j < gastos.Columns.Count; j++)
+                                    {
+                                        if (j == 0) values += "'" + gastos.Rows[i][j].ToString() + "'";
+                                        else values += ", '" + gastos.Rows[i][j].ToString() + "'";
+                                    }
+                                     insert = new OleDbCommand("INSERT INTO [" + TabName + "] (" + ColumnName.Replace(" varchar(255)", "") + ") VALUES (" + values + ")", conn);
+                                    insert.ExecuteNonQuery();
+                                }
+                                conn.Close();
+                                //terminamos el libro
+
+                                //hacemos una libro para esto
+                                ColumnName = entradascolumnas;
+                                conn.Open();
+                                TabName = "entradas";
+                                cmd = new OleDbCommand("CREATE TABLE [" + TabName + "] (" + ColumnName + ")", conn);
+                                cmd.ExecuteNonQuery();
+                                for (int i = 0; i < entradas.Rows.Count; i++)
+                                {
+                                    string values = "";
+                                    for (int j = 0; j < entradas.Columns.Count; j++)
+                                    {
+                                        if (j == 0) values += "'" + entradas.Rows[i][j].ToString() + "'";
+                                        else values += ", '" + entradas.Rows[i][j].ToString() + "'";
+                                    }
+                                     insert = new OleDbCommand("INSERT INTO [" + TabName + "] (" + ColumnName.Replace(" varchar(255)", "") + ") VALUES (" + values + ")", conn);
+                                    insert.ExecuteNonQuery();
+                                }
+                                conn.Close();
+                                //terminamos el libro
+
+
+                                //hacemos una libro para esto
+                                ColumnName = salidascolumnas;
+                                conn.Open();
+                                TabName = "salidas";
+                                cmd = new OleDbCommand("CREATE TABLE [" + TabName + "] (" + ColumnName + ")", conn);
+                                cmd.ExecuteNonQuery();
+                                for (int i = 0; i < salidas.Rows.Count; i++)
+                                {
+                                    string values = "";
+                                    for (int j = 0; j < salidas.Columns.Count; j++)
+                                    {
+                                        if (j == 0) values += "'" + salidas.Rows[i][j].ToString() + "'";
+                                        else values += ", '" + salidas.Rows[i][j].ToString() + "'";
+                                    }
+                                     insert = new OleDbCommand("INSERT INTO [" + TabName + "] (" + ColumnName.Replace(" varchar(255)", "") + ") VALUES (" + values + ")", conn);
+                                    insert.ExecuteNonQuery();
+                                }
+                                conn.Close();
+                                //terminamos el libro
+                            }
+                            catch (Exception erm)
+                            {
+
+                                MessageBox.Show("Hubo un error al exportar a excel:\n" + erm.Message);
+                            }
+
+
+
         }
         
         private void Inicio_Load(object sender, EventArgs e)
         {
+            System.Windows.Forms.ToolTip ToolTip1 = new System.Windows.Forms.ToolTip();
+            ToolTip1.SetToolTip(this.button2, "Esta funcion le permite vender articulos o servicios, puede imprimir con tickeadora si usted posee una");
+
+
             label4.Text = "Fecha de Trabajo: " + app.hoy;
             label2.BringToFront();
             label5.BringToFront();
@@ -518,6 +703,39 @@ namespace FLAGSYSTEMPV_2017
                button1.PerformClick();
             }
 
+            if (e.KeyCode == Keys.F9)
+            {
+                if (button12.Enabled == true)
+                {
+                    if (Application.OpenForms.OfType<ControlStockVendedores>().Count() == 1)
+                        Application.OpenForms.OfType<ControlStockVendedores>().First().Focus();
+                    else
+                    {
+                        ControlStockVendedores frm = new ControlStockVendedores();
+                        frm.Show();
+                    }
+                }
+            }
+            if (e.KeyCode == Keys.F10)
+            {
+                if (button10.Enabled == true)
+                {
+                    if (Application.OpenForms.OfType<Rubros>().Count() == 1)
+                        Application.OpenForms.OfType<Rubros>().First().Focus();
+                    else
+                    {
+                        Rubros frm = new Rubros();
+                        frm.Show();
+                    }
+                }
+            }
+            if (e.KeyCode == Keys.F11)
+            {
+                if (button11.Enabled == true)
+                {
+                    button11.PerformClick();
+                }
+            }
 
         }
 
@@ -672,17 +890,25 @@ namespace FLAGSYSTEMPV_2017
             DataTable totalvendido = Conexion.Consultar("SUM(total)", "Ventas", "Where vendedor = @ven and estadoventa = 'Finalizado' and fechaventa between @fecA and @fecB", "", paraeltotal);
             if (totalvendido.Rows.Count > 0)
             {
-                total = totalvendido.Rows[0][0].ToString();
+                try
+                {
+                    total = float.Parse(totalvendido.Rows[0][0].ToString()).ToString();
+                }
+                catch (Exception)
+                {
+                    total = "0";
+                }
+               
+               
+                cierro.Parameters.AddWithValue("tot", float.Parse(total));
+                Conexion.Actualizar("Turnos", "FechaFin = @ff, TotalVendido = @tot", "WHERE idturno = @id", "", cierro);
+                Conexion.Actualizar("Ventas", "estadoventa='Cerrado' ", "WHERE vendedor = @ven and fechaventa between @fecA and @fecB and estadoventa = 'Finalizado' ", "", paraeltotal);
+                Conexion.cerrar();
+
+                Login lgn = new Login();
+                lgn.Show();
+                this.Close();
             }
-            else
-                total = "0";
-            cierro.Parameters.AddWithValue("to",total);
-            Conexion.Actualizar("Turnos", "FechaFin = @ff, TotalVendido = @to", "WHERE idturno = @id", "", cierro);
-            Conexion.cerrar();
-            
-            Login lgn = new Login();
-            lgn.Show();
-            this.Close();
         }
 
         private void toolStripMenuItem24_Click(object sender, EventArgs e)
@@ -918,19 +1144,7 @@ namespace FLAGSYSTEMPV_2017
             if (continuar == DialogResult.Yes)
             {
                 generarResumenFinal();
-                Conexion.abrir();
-                DataTable turnos = Conexion.Consultar("*", "Turnos", "", "", new SqlCeCommand());
-                Conexion.cerrar();
-                SqlCeCommand cierro = new SqlCeCommand();
-                cierro.Parameters.AddWithValue("id", turnos.Rows[turnos.Rows.Count - 1][0].ToString());
-                cierro.Parameters.AddWithValue("ff", app.hoy + " " + DateTime.Now.ToShortTimeString());
-                Conexion.abrir();
-                Conexion.Actualizar("Turnos", "FechaFin = @ff", "WHERE idturno = @id", "", cierro);
-                Conexion.cerrar();
-
-                Login lgn = new Login();
-                lgn.Show();
-                this.Close();
+                toolStripButton1.PerformClick();
             }
 
         }
@@ -959,6 +1173,8 @@ namespace FLAGSYSTEMPV_2017
             if (registereduser.pempleados == "si") gestionarUsuariosToolStripMenuItem.Enabled = true; else gestionarUsuariosToolStripMenuItem.Enabled = false;
             if (registereduser.penviarinforme == "si") enviarInformeToolStripMenuItem.Enabled = true; else enviarInformeToolStripMenuItem.Enabled = false;
             if (registereduser.pfiscalconfig == "si") impresoraFiscalToolStripMenuItem.Enabled = true; else impresoraFiscalToolStripMenuItem.Enabled = false;
+            if (registereduser.prubro == "si") button10.Enabled = true; else button10.Enabled = false;
+
         }
 
         private void button12_Click(object sender, EventArgs e)
@@ -984,6 +1200,26 @@ namespace FLAGSYSTEMPV_2017
                 frm.Show();
             }
         }
+
+        private void Inicio_Activated(object sender, EventArgs e)
+        {
+            ToolTip tt = new ToolTip();
+            tt.IsBalloon = false;
+
+            tt.ShowAlways = true;
+            tt.UseAnimation = true;
+            tt.ToolTipTitle = "Tips del Panel principal:";
+            tt.Show("Usted puede usar las teclas desde el F1 al F11 para navegar (requiere permisos)\nPuede mover la ventana manteniendo click izquierdo en las zonas de color azul y moviendo el mouse\nPara conocer más sobre que hace cada botón, pase el mouse por arriba.", pictureBox1);
+
+        }
+
+        
+
+        
+
+    
+
+        
 
     }
 }

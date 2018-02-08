@@ -390,5 +390,24 @@ namespace FLAGSYSTEMPV_2017
                 textBox10.Text = "";
                 }
         }
+
+        private void textBox1_Leave(object sender, EventArgs e)
+        {
+            if (textBox1.Text.Length > 0)
+            {
+                SqlCeCommand checkexistance = new SqlCeCommand();
+                checkexistance.Parameters.AddWithValue("code", textBox1.Text);
+                Conexion.abrir();
+                DataTable existira = Conexion.Consultar("codigoart", "Articulos", "where codigoart = @code and eliminado != 'Eliminado'", "", checkexistance);
+                Conexion.cerrar();
+                if (existira.Rows.Count > 0 && createorupdate.status == "create")
+                {
+                    MessageBox.Show("Ese codigo de producto ya existe, use otro codigo por favor");
+                    textBox1.Text = "";
+                }
+            
+            
+            }
+        }
     }
 }

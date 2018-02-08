@@ -69,7 +69,7 @@ namespace FLAGSYSTEMPV_2017
                         frm.Show();
                     }
                 }
-                else MessageBox.Show("No se puede volver a una fecha pasada, la ultima fecha de trabajo fue el "+ultimafecha+". Si se equivocó a la hora de ingresar la nueva fecha pídale a un supervisor que ingrese la fecha correspondiente.");
+                else MessageBox.Show("No se puede volver a una fecha pasada, la ultima fecha de trabajo fue el "+ultimafecha.ToShortDateString()+". Si se equivocó a la hora de ingresar la nueva fecha pídale a un supervisor que ingrese la fecha correspondiente.");
             }
             else
             {
@@ -102,7 +102,10 @@ namespace FLAGSYSTEMPV_2017
              {
                  ulfecha = "Nunca";
              }
-             label3.Text = "Ultima fecha de trabajo: " + ulfecha;
+             label3.Text = "Ultima fecha de trabajo: " + Convert.ToDateTime(ulfecha).ToShortDateString();
+            
+
+                    
         }
 
         private void IngreseFecha_Paint(object sender, PaintEventArgs e)
@@ -119,6 +122,17 @@ namespace FLAGSYSTEMPV_2017
         private const int WM_NCHITTEST = 0x84;
         private const int HT_CLIENT = 0x1;
         private const int HT_CAPTION = 0x2;
+
+        private void dateTimePicker1_Enter(object sender, EventArgs e)
+        {
+            ToolTip tt = new ToolTip();
+            tt.IsBalloon = false;
+
+            tt.ShowAlways = true;
+            tt.UseAnimation = true;
+            tt.ToolTipTitle = "Tips fecha trabajo:";
+            tt.Show("Usted puede adelantar la fecha de trabajo siendo vendedor o supervisor.\nSolo los Supervisores pueden atrasar la fecha de trabajo\nUse el boton del calendario para elegir la fecha o escribala con su teclado", dateTimePicker1);
+        }
 
     }
 }

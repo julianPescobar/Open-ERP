@@ -248,7 +248,7 @@
             this.toolStripButton1});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
             this.toolStrip1.ShowItemToolTips = false;
             this.toolStrip1.Size = new System.Drawing.Size(800, 29);
             this.toolStrip1.TabIndex = 3;
@@ -265,6 +265,7 @@
             this.toolStripSplitButton8.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripSplitButton8.Name = "toolStripSplitButton8";
             this.toolStripSplitButton8.Size = new System.Drawing.Size(81, 26);
+            this.toolStripSplitButton8.Tag = "";
             this.toolStripSplitButton8.Text = "Artículos";
             this.toolStripSplitButton8.ButtonClick += new System.EventHandler(this.toolStripSplitButton8_ButtonClick);
             // 
@@ -431,7 +432,7 @@
             // 
             this.comprasDelDíaToolStripMenuItem.Name = "comprasDelDíaToolStripMenuItem";
             this.comprasDelDíaToolStripMenuItem.Size = new System.Drawing.Size(272, 22);
-            this.comprasDelDíaToolStripMenuItem.Text = "Control de Stock";
+            this.comprasDelDíaToolStripMenuItem.Text = "Control de Stock Imprimible";
             this.comprasDelDíaToolStripMenuItem.Click += new System.EventHandler(this.comprasDelDíaToolStripMenuItem_Click);
             // 
             // faltantesDeStockToolStripMenuItem
@@ -612,6 +613,7 @@
             this.button2.Text = "Nueva   Venta";
             this.button2.UseVisualStyleBackColor = false;
             this.button2.Click += new System.EventHandler(this.button2_Click);
+           // this.button2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.button2_MouseMove);
             // 
             // button3
             // 
@@ -894,6 +896,7 @@
             this.Name = "Inicio";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Inicio";
+            this.Activated += new System.EventHandler(this.Inicio_Activated);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Inicio_FormClosing);
             this.Load += new System.EventHandler(this.Inicio_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Inicio_Paint);
