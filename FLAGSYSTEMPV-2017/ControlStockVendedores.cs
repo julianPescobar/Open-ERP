@@ -20,7 +20,7 @@ namespace FLAGSYSTEMPV_2017
         private void ControlStockVendedores_Load(object sender, EventArgs e)
         {
             Conexion.abrir();
-            DataTable arts = Conexion.Consultar("idarticulo,codigoart as [Codigo],descripcion as [Nombre],marca as [Marca],proveedor as [Proveedor],stockactual as [Stock]", "Articulos", "WHERE eliminado != 'Eliminado'", "", new SqlCeCommand());
+            DataTable arts = Conexion.Consultar("idarticulo,codigoart as [Codigo],descripcion as [Nombre],marca as [Marca],proveedor as [Proveedor],stockactual as [Stock]", "Articulos", "WHERE eliminado != 'Eliminado' and tipo LIKE 'Producto%'", "order by proveedor", new SqlCeCommand());
             Conexion.cerrar();
             BindingSource SBind = new BindingSource();
             SBind.DataSource = arts;
@@ -43,6 +43,7 @@ namespace FLAGSYSTEMPV_2017
                     dc.ReadOnly = true;
                 }
             }
+            if (arts.Rows.Count < 1) button2.Enabled = false;
 
            
             

@@ -53,6 +53,7 @@
             this.toolStripSplitButton1 = new System.Windows.Forms.ToolStripSplitButton();
             this.cargaModificaciónToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.artículosVendidosDelDíaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.serviciosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.diferenciasStockToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.proveedoresToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -153,7 +154,7 @@
             this.label4.BackColor = System.Drawing.Color.White;
             this.label4.Font = new System.Drawing.Font("Lucida Sans Unicode", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.DimGray;
-            this.label4.Location = new System.Drawing.Point(4, 61);
+            this.label4.Location = new System.Drawing.Point(16, 169);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(114, 16);
             this.label4.TabIndex = 16;
@@ -187,7 +188,7 @@
             this.label3.BackColor = System.Drawing.Color.White;
             this.label3.Font = new System.Drawing.Font("Lucida Sans Unicode", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.DimGray;
-            this.label3.Location = new System.Drawing.Point(20, 13);
+            this.label3.Location = new System.Drawing.Point(32, 121);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(98, 16);
             this.label3.TabIndex = 3;
@@ -199,7 +200,7 @@
             this.label2.BackColor = System.Drawing.Color.White;
             this.label2.Font = new System.Drawing.Font("Lucida Sans Unicode", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.DimGray;
-            this.label2.Location = new System.Drawing.Point(10, 29);
+            this.label2.Location = new System.Drawing.Point(22, 137);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(108, 16);
             this.label2.TabIndex = 2;
@@ -211,7 +212,7 @@
             this.label5.BackColor = System.Drawing.Color.White;
             this.label5.Font = new System.Drawing.Font("Lucida Sans Unicode", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.DimGray;
-            this.label5.Location = new System.Drawing.Point(53, 45);
+            this.label5.Location = new System.Drawing.Point(65, 153);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(65, 16);
             this.label5.TabIndex = 15;
@@ -219,14 +220,14 @@
             // 
             // button6
             // 
-            this.button6.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.button6.BackColor = System.Drawing.Color.White;
             this.button6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button6.Font = new System.Drawing.Font("Lucida Sans Unicode", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button6.Location = new System.Drawing.Point(13, 155);
+            this.button6.Location = new System.Drawing.Point(477, 122);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(171, 28);
+            this.button6.Size = new System.Drawing.Size(299, 69);
             this.button6.TabIndex = 14;
-            this.button6.Text = "Comprar la licencia";
+            this.button6.Text = "Click aquí para comprar la licencia (50% off)";
             this.button6.UseVisualStyleBackColor = false;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
@@ -355,6 +356,7 @@
             this.toolStripSplitButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.cargaModificaciónToolStripMenuItem,
             this.artículosVendidosDelDíaToolStripMenuItem,
+            this.serviciosToolStripMenuItem,
             this.toolStripSeparator1,
             this.diferenciasStockToolStripMenuItem,
             this.proveedoresToolStripMenuItem,
@@ -384,6 +386,13 @@
             this.artículosVendidosDelDíaToolStripMenuItem.Size = new System.Drawing.Size(272, 22);
             this.artículosVendidosDelDíaToolStripMenuItem.Text = "Artículos";
             this.artículosVendidosDelDíaToolStripMenuItem.Click += new System.EventHandler(this.artículosVendidosDelDíaToolStripMenuItem_Click);
+            // 
+            // serviciosToolStripMenuItem
+            // 
+            this.serviciosToolStripMenuItem.Name = "serviciosToolStripMenuItem";
+            this.serviciosToolStripMenuItem.Size = new System.Drawing.Size(272, 22);
+            this.serviciosToolStripMenuItem.Text = "Servicios";
+            this.serviciosToolStripMenuItem.Click += new System.EventHandler(this.serviciosToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
@@ -613,7 +622,7 @@
             this.button2.Text = "Nueva   Venta";
             this.button2.UseVisualStyleBackColor = false;
             this.button2.Click += new System.EventHandler(this.button2_Click);
-           // this.button2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.button2_MouseMove);
+            this.button2.MouseHover += new System.EventHandler(this.button2_MouseHover);
             // 
             // button3
             // 
@@ -628,6 +637,7 @@
             this.button3.Text = "Nueva Compra";
             this.button3.UseVisualStyleBackColor = false;
             this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.button3.MouseHover += new System.EventHandler(this.button3_MouseHover);
             // 
             // button4
             // 
@@ -642,6 +652,7 @@
             this.button4.Text = "Artículos";
             this.button4.UseVisualStyleBackColor = false;
             this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.button4.MouseHover += new System.EventHandler(this.button4_MouseHover);
             // 
             // button5
             // 
@@ -655,6 +666,7 @@
             this.button5.Text = "Ver Caja";
             this.button5.UseVisualStyleBackColor = false;
             this.button5.Click += new System.EventHandler(this.button5_Click);
+            this.button5.MouseHover += new System.EventHandler(this.button5_MouseHover);
             // 
             // button9
             // 
@@ -668,6 +680,7 @@
             this.button9.Text = "Clientes";
             this.button9.UseVisualStyleBackColor = false;
             this.button9.Click += new System.EventHandler(this.button9_Click);
+            this.button9.MouseHover += new System.EventHandler(this.button9_MouseHover);
             // 
             // button8
             // 
@@ -681,6 +694,7 @@
             this.button8.Text = "Proveedores";
             this.button8.UseVisualStyleBackColor = false;
             this.button8.Click += new System.EventHandler(this.button8_Click);
+            this.button8.MouseHover += new System.EventHandler(this.button8_MouseHover);
             // 
             // button7
             // 
@@ -694,6 +708,7 @@
             this.button7.Text = "Gastos";
             this.button7.UseVisualStyleBackColor = false;
             this.button7.Click += new System.EventHandler(this.button7_Click);
+            this.button7.MouseHover += new System.EventHandler(this.button7_MouseHover);
             // 
             // label6
             // 
@@ -817,6 +832,7 @@
             this.button11.Text = "Cerrar el día";
             this.button11.UseVisualStyleBackColor = false;
             this.button11.Click += new System.EventHandler(this.button11_Click);
+            this.button11.MouseHover += new System.EventHandler(this.button11_MouseHover);
             // 
             // button12
             // 
@@ -830,6 +846,7 @@
             this.button12.Text = "Controlar Stock";
             this.button12.UseVisualStyleBackColor = false;
             this.button12.Click += new System.EventHandler(this.button12_Click);
+            this.button12.MouseHover += new System.EventHandler(this.button12_MouseHover);
             // 
             // label14
             // 
@@ -854,6 +871,7 @@
             this.button10.Text = "Rubros";
             this.button10.UseVisualStyleBackColor = false;
             this.button10.Click += new System.EventHandler(this.button10_Click);
+            this.button10.MouseHover += new System.EventHandler(this.button10_MouseHover);
             // 
             // Inicio
             // 
@@ -896,9 +914,9 @@
             this.Name = "Inicio";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Inicio";
-            this.Activated += new System.EventHandler(this.Inicio_Activated);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Inicio_FormClosing);
             this.Load += new System.EventHandler(this.Inicio_Load);
+            this.Shown += new System.EventHandler(this.Inicio_Shown);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Inicio_Paint);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Inicio_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -986,5 +1004,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Button button10;
+        private System.Windows.Forms.ToolStripMenuItem serviciosToolStripMenuItem;
     }
 }

@@ -171,8 +171,14 @@ namespace FLAGSYSTEMPV_2017
             saldoinicial = 0;
             else
             saldoinicial = registereduser.saldoinicial;
-            float haber = float.Parse(ventas.Rows[0][0].ToString()) + float.Parse(entrada.Rows[0][0].ToString());
-            float debe = float.Parse(gastos.Rows[0][0].ToString()) + float.Parse(salida.Rows[0][0].ToString());
+            float tventas, tentrada, tgastos, tsalida;
+            if (ventas.Rows[0][0].ToString().Length < 1) tventas = 0; else tventas = float.Parse(ventas.Rows[0][0].ToString());
+            if (entrada.Rows[0][0].ToString().Length < 1) tentrada = 0; else tentrada = float.Parse(entrada.Rows[0][0].ToString());
+            if (gastos.Rows[0][0].ToString().Length < 1) tgastos = 0; else tgastos = float.Parse(gastos.Rows[0][0].ToString());
+            if (salida.Rows[0][0].ToString().Length < 1) tsalida = 0; else tsalida = float.Parse(salida.Rows[0][0].ToString());
+
+            float haber = tventas +tentrada;
+            float debe =tgastos +tsalida;
             textBox1.Text = (saldoinicial + haber - debe).ToString("$0.00");
             if (float.Parse(textBox1.Text.ToString().Replace("$", "")) >= 0)
             {

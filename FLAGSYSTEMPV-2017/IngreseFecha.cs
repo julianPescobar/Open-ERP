@@ -125,14 +125,17 @@ namespace FLAGSYSTEMPV_2017
 
         private void dateTimePicker1_Enter(object sender, EventArgs e)
         {
-            ToolTip tt = new ToolTip();
-            tt.IsBalloon = false;
+            if (registereduser.tooltips == "si")
+            {
+                ToolTip tt = new ToolTip();
+                tt.IsBalloon = false;
 
-            tt.ShowAlways = true;
-            tt.UseAnimation = true;
-            tt.ToolTipTitle = "Tips fecha trabajo:";
-            tt.Show("Usted puede adelantar la fecha de trabajo siendo vendedor o supervisor.\nSolo los Supervisores pueden atrasar la fecha de trabajo\nUse el boton del calendario para elegir la fecha o escribala con su teclado", dateTimePicker1);
-        }
+                tt.ShowAlways = true;
+                tt.UseAnimation = true;
+                tt.ToolTipTitle = "Tips fecha trabajo:";
+                tt.Show("Usted puede adelantar la fecha de trabajo siendo vendedor o supervisor.\nSolo los Supervisores pueden atrasar la fecha de trabajo\nUse el boton del calendario para elegir la fecha o escribala con su teclado", dateTimePicker1);
+            }
+            }
 
     }
 }

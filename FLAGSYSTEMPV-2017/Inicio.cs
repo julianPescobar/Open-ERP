@@ -20,7 +20,7 @@ namespace FLAGSYSTEMPV_2017
         }
         public bool b1wasclicked = false;
         public bool b2wasclicked = false;
-        
+        public ToolTip inicio = new ToolTip(); public ToolTip  ventas = new ToolTip(); public ToolTip  compras = new ToolTip(); public ToolTip  articulos = new ToolTip(); public ToolTip  caja = new ToolTip(); public ToolTip  clientes = new ToolTip(); public ToolTip  proveedores = new ToolTip(); public ToolTip  gastos = new ToolTip(); public ToolTip  controlstock = new ToolTip(); public ToolTip  rubros = new ToolTip(); public ToolTip  cierredia = new ToolTip();
         public static void generarResumenFinal()
         {
             Conexion.abrir();
@@ -287,13 +287,8 @@ namespace FLAGSYSTEMPV_2017
 
 
         }
-        
         private void Inicio_Load(object sender, EventArgs e)
         {
-            System.Windows.Forms.ToolTip ToolTip1 = new System.Windows.Forms.ToolTip();
-            ToolTip1.SetToolTip(this.button2, "Esta funcion le permite vender articulos o servicios, puede imprimir con tickeadora si usted posee una");
-
-
             label4.Text = "Fecha de Trabajo: " + app.hoy;
             label2.BringToFront();
             label5.BringToFront();
@@ -301,10 +296,12 @@ namespace FLAGSYSTEMPV_2017
             //DEBUG CARGO CONFIG IMPRE FISCAL: MessageBox.Show(ConfigFiscal.comport.ToString() + "\n" + ConfigFiscal.marca.ToString() + "\n" + ConfigFiscal.modelo.ToString() + "\n");
             if (Demo.EsDemo == true)
             {
+                app.hoy = DateTime.Now.ToShortDateString();
                 label3.Text = Demo.demolicense;
                 label2.Text = "Conectado como: Usuario Demo";
                 label5.Text = "Jerarquía : Operador";
-                toolStripMenuItem11.Enabled = false;
+                label4.Text = "Fecha de Trabajo: " + DateTime.Now.ToShortDateString();
+                toolStripMenuItem9.Enabled = false;
                 toolStripMenuItem15.Enabled = false;
                 toolStripMenuItem18.Enabled = false;
                 altasYBajasDeStockToolStripMenuItem.Enabled = false;
@@ -312,10 +309,13 @@ namespace FLAGSYSTEMPV_2017
                 gestionarUsuariosToolStripMenuItem.Enabled = false;
                 configuraciónToolStripMenuItem.Enabled = false;
                 enviarInformeToolStripMenuItem.Enabled = false;
-                // mantenimientoToolStripMenuItem.Enabled = false;
+                toolStripMenuItem5.Enabled = false;
+                toolStripMenuItem6.Enabled = false;
                 button6.Visible = true;
                 button6.Enabled = true;
-                toolStripButton1.Visible = false;
+                toolStripButton1.Enabled = false;
+                button11.Enabled = false;
+                
             }
             else
             {
@@ -349,6 +349,7 @@ namespace FLAGSYSTEMPV_2017
                   
                 }
             }
+            button2.Focus();
         }
 
         private void Inicio_Paint(object sender, PaintEventArgs e)
@@ -731,7 +732,7 @@ namespace FLAGSYSTEMPV_2017
             }
             if (e.KeyCode == Keys.F11)
             {
-                if (button11.Enabled == true)
+                if (button11.Enabled == true && Demo.EsDemo == false)
                 {
                     button11.PerformClick();
                 }
@@ -1201,17 +1202,190 @@ namespace FLAGSYSTEMPV_2017
             }
         }
 
-        private void Inicio_Activated(object sender, EventArgs e)
+        private void Inicio_Shown(object sender, EventArgs e)
         {
-            ToolTip tt = new ToolTip();
-            tt.IsBalloon = false;
+            if (Demo.EsDemo == false)
+            {
+                if (registereduser.tooltips == "si")
+                {
 
-            tt.ShowAlways = true;
-            tt.UseAnimation = true;
-            tt.ToolTipTitle = "Tips del Panel principal:";
-            tt.Show("Usted puede usar las teclas desde el F1 al F11 para navegar (requiere permisos)\nPuede mover la ventana manteniendo click izquierdo en las zonas de color azul y moviendo el mouse\nPara conocer más sobre que hace cada botón, pase el mouse por arriba.", pictureBox1);
+                    inicio.IsBalloon = false;
 
+                    inicio.ShowAlways = true;
+                    inicio.UseAnimation = true;
+                    inicio.ToolTipTitle = "Bienvenido a Flag System PV:";
+
+
+                    inicio.Show("Los tips están habilitados.\n para deshabilitarlos debe ser usuario de nivel Supervisor\n y luego ir a Administracion>Configuracion> y destildar la casilla \"Habilitar los tips informativos\"\nPara abrir los tips de cada boton, pase el puntero sobre encima del botón.", pictureBox1);
+                }
+            }
         }
+
+        private void button2_MouseHover(object sender, EventArgs e)
+        {
+            if (Demo.EsDemo == false)
+            {
+                if (registereduser.tooltips == "si")
+                {
+
+                    ventas.IsBalloon = false;
+
+                    ventas.ShowAlways = false;
+                    ventas.UseAnimation = true;
+                    ventas.ToolTipTitle = "Formulario de Ventas:";
+
+                    ventas.Show("Abre la ventana de ventas, puede clickear en el boton o apretar F1 si tiene los permisos necesarios.", button2);
+                }
+            }
+        }
+
+        private void button3_MouseHover(object sender, EventArgs e)
+        {
+            if (Demo.EsDemo == false)
+            {
+                if (registereduser.tooltips == "si")
+                {
+                    compras.IsBalloon = false;
+                    compras.ShowAlways = false;
+                    compras.UseAnimation = true;
+                    compras.ToolTipTitle = "Tips del formulario de compras:";
+                    compras.Show("Puede clickear en el boton o apretar F2 si tiene los permisos necesarios.\nSe pueden realizar compras con dias anteriores si se configura al sistema para permitir esto.\nCuando un producto sube de precio, si ingresa el nuevo precio con F3 automaticamente actualiza su precio.", button3);
+                }
+            }
+        }
+
+        private void button4_MouseHover(object sender, EventArgs e)
+        {
+            if (Demo.EsDemo == false)
+            {
+                if (registereduser.tooltips == "si")
+                {
+                    articulos.IsBalloon = false;
+                    articulos.ShowAlways = false;
+                    articulos.UseAnimation = true;
+                    articulos.ToolTipTitle = "Tips del formulario de articulos:";
+                    articulos.Show("Puede clickear en el boton o apretar F3 si tiene los permisos necesarios.\nPuede actualizar precios de los productos, puede crear nuevos, modificar o eliminarlos.\nTambien puede consultar la valorización de su stock instantaneamente en la esquina inferior derecha", button4);
+                }
+            }
+        }
+
+        private void button5_MouseHover(object sender, EventArgs e)
+        {
+            if (Demo.EsDemo == false)
+            {
+                if (registereduser.tooltips == "si")
+                {
+                    caja.IsBalloon = false;
+                    caja.ShowAlways = false;
+                    caja.UseAnimation = true;
+                    caja.ToolTipTitle = "Tips del formulario de caja:";
+                    caja.Show("Puede clickear en el boton o apretar F4 si tiene los permisos necesarios.\nPuede consultar el debe y el haber de la fecha de trabajo al instante, y solicitar informes con filtros", button5);
+                }
+            }
+        }
+
+        private void button9_MouseHover(object sender, EventArgs e)
+        {
+            if (Demo.EsDemo == false)
+            {
+                if (registereduser.tooltips == "si")
+                {
+                    clientes.IsBalloon = false;
+                    clientes.ShowAlways = false;
+                    clientes.UseAnimation = true;
+                    clientes.ToolTipTitle = "Tips del formulario de clientes:";
+                    clientes.Show("Puede clickear en el boton o apretar F5 si tiene los permisos necesarios.\nPuede crear, modificar o eliminar clientes.", button9);
+                }
+            }
+        }
+
+        private void button8_MouseHover(object sender, EventArgs e)
+        {
+            if (Demo.EsDemo == false)
+            {
+                if (registereduser.tooltips == "si")
+                {
+                    proveedores.IsBalloon = false;
+                    proveedores.ShowAlways = false;
+                    proveedores.UseAnimation = true;
+                    proveedores.ToolTipTitle = "Tips del formulario de proveedores:";
+                    proveedores.Show("Puede clickear en el boton o apretar F6 si tiene los permisos necesarios.\nPuede crear, modificar o eliminar proveedores.", button8);
+                }
+            }
+        }
+
+        private void button7_MouseHover(object sender, EventArgs e)
+        {
+            if (Demo.EsDemo == false)
+            {
+                if (registereduser.tooltips == "si")
+                {
+                    gastos.IsBalloon = false;
+                    gastos.ShowAlways = false;
+                    gastos.UseAnimation = true;
+                    gastos.ToolTipTitle = "Tips del formulario de gastos:";
+                    gastos.Show("Puede clickear en el boton o apretar F7 si tiene los permisos necesarios.\nPuede ingresar fechas anteriores o posteriores si posee el permiso necesario, puede ingresar gastos por categorías, y puede consultar cuanto gasto en total hubo en el mes seleccionado.", button7);
+                }
+            }
+        }
+
+        private void button12_MouseHover(object sender, EventArgs e)
+        {
+            if (Demo.EsDemo == false)
+            {
+                if (registereduser.tooltips == "si")
+                {
+                    controlstock.IsBalloon = false;
+                    controlstock.ShowAlways = false;
+                    controlstock.UseAnimation = true;
+                    controlstock.ToolTipTitle = "Tips del formulario de control stock:";
+                    controlstock.Show("Puede clickear en el boton o apretar F9 si tiene los permisos necesarios.\nAqui puede controlar el stock interactivamente en conjunto con el sistema\nEl sistema le va a permitir darse cuenta si se olvido de ingresar algun valor o si ingresó mal un dato\nademas puede refrescar el stock desde el formulario para tener el stock actual actualizado\nel sistema le va a notificar cuales articulos cambiaron su stock con color amarillo.", button12);
+                }
+            }
+        }
+
+        private void button10_MouseHover(object sender, EventArgs e)
+        {
+            if (Demo.EsDemo == false)
+            {
+                if (registereduser.tooltips == "si")
+                {
+                    rubros.IsBalloon = false;
+                    rubros.ShowAlways = false;
+                    rubros.UseAnimation = true;
+                    rubros.ToolTipTitle = "Tips del formulario de rubros:";
+                    rubros.Show("Puede clickear en el boton o apretar F10 si tiene los permisos necesarios.\nAqui puede crear o borrar rubros para sus productos.", button8);
+                }
+            }
+        }
+
+        private void button11_MouseHover(object sender, EventArgs e)
+        {
+            if (Demo.EsDemo == false)
+            {
+                if (registereduser.tooltips == "si")
+                {
+                    cierredia.IsBalloon = false;
+                    cierredia.ShowAlways = false;
+                    cierredia.UseAnimation = true;
+                    cierredia.ToolTipTitle = "Tips del formulario de cierre del dia:";
+                    cierredia.Show("Puede clickear en el boton o apretar F4 si tiene los permisos necesarios.\nAqui puede generar el informe diario para enviarlo por mail (configurable) y luego cerrar el dia. Es util en cibercafés donde manejan un cierre diario.", button8);
+                }
+            }
+        }
+
+        private void serviciosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Application.OpenForms.OfType<Informe>().Count() == 1)
+                Application.OpenForms.OfType<Informe>().First().Focus();
+            else
+            {
+                Informe frm = new Informe();
+                Conexion.data = "Servicios";
+                frm.Show();
+            }
+        }
+
 
         
 

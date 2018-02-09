@@ -56,7 +56,7 @@ namespace FLAGSYSTEMPV_2017
             Conexion.abrir();
             SqlCeCommand proveedor = new SqlCeCommand();
             proveedor.Parameters.AddWithValue("pr", prov);
-            DataTable showarts = Conexion.Consultar("idarticulo,descripcion as [Descripcion del Articulo],proveedor as Proveedor,precio as Precio,costo as Costo,stockactual as Stock,faltante as [Faltante],sobrante as Sobrante", "Articulos", " WHERE proveedor = @pr and eliminado != 'Eliminado'", "", proveedor);
+            DataTable showarts = Conexion.Consultar("idarticulo,descripcion as [Descripcion del Articulo],proveedor as Proveedor,precio as Precio,costo as Costo,stockactual as Stock,faltante as [Faltante],sobrante as Sobrante", "Articulos", " WHERE proveedor = @pr and eliminado != 'Eliminado' and tipo LIKE 'Producto%'", "", proveedor);
             Conexion.cerrar();
             BindingSource SBind = new BindingSource();
             SBind.DataSource = showarts;
@@ -188,7 +188,6 @@ namespace FLAGSYSTEMPV_2017
                     {
                         if (i == 0) columnas += "[" + dataGridView1.Columns[i].Name + "] varchar(255)";
                         else columnas += ", [" + dataGridView1.Columns[i].Name + "] varchar(255)";
-
                     }
                     //MessageBox.Show(columnas);
                     string ColumnName = columnas;

@@ -67,7 +67,12 @@ namespace FLAGSYSTEMPV_2017
             {
                 item.Parameters.AddWithValue("ve", registereduser.reguser);
             }
-            item.Parameters.AddWithValue("fv", app.hoy + " " + DateTime.Now.ToShortTimeString());
+            if(Demo.EsDemo == true)
+            
+            item.Parameters.AddWithValue("fv", DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString());
+            else
+                item.Parameters.AddWithValue("fv", app.hoy + " " + DateTime.Now.ToShortTimeString());
+
             item.Parameters.AddWithValue("tt", totalventa.totventa.Replace("$", ""));
             item.Parameters.AddWithValue("ev", "Finalizado");
             item.Parameters.AddWithValue("tf", "FC");
@@ -91,10 +96,19 @@ namespace FLAGSYSTEMPV_2017
                 float total = float.Parse(totalventa.totventa.Replace("$", ""));
                 textBox1.Text = total.ToString("$0.00");
                 textBox3.Text = (0 - total).ToString("$0.00");
-                if (registereduser.alwaysprint == "si")
-                    checkBox1.Checked = true;
-                else
+                if (Demo.EsDemo == true)
+                {
+                    checkBox1.Visible = false;
                     checkBox1.Checked = false;
+                }
+                else
+                {
+                    if (registereduser.alwaysprint == "si")
+                        checkBox1.Checked = true;
+                    else
+                        checkBox1.Checked = false;
+                }
+               
                 textBox1.Focus();
                 textBox2.Focus();
                 textBox3.Focus();
@@ -211,7 +225,7 @@ namespace FLAGSYSTEMPV_2017
                 {
                     if (totalventa.compraoventa == "Ventas") //si estamos en ventas
                     {
-                        if (ConfigFiscal.usaImpFiscal == "si") //si tenemos impre fiscal configurada
+                        if (Demo.EsDemo == false && ConfigFiscal.usaImpFiscal == "si") //si tenemos impre fiscal configurada
                         {
                             if (ConfigFiscal.marca == "EPSON") //si es epson
                             {
@@ -303,7 +317,11 @@ namespace FLAGSYSTEMPV_2017
                             float PorcentajeCosto = float.Parse(totalventa.detallecompra.Rows[i][9].ToString().Replace("$", ""));
                             float Costo = float.Parse(totalventa.detallecompra.Rows[i][7].ToString().Replace("$", ""));
                             float nuevocosto = (Costo + (Costo * (porcentajefactura / 100)));
-                            float nuevocostoconporcentaje = float.Parse(Round(double.Parse((nuevocosto + (nuevocosto * (PorcentajeCosto / 100))).ToString()),double.Parse(registereduser.redondeo)).ToString());
+                            float nuevocostoconporcentaje;
+                            if(Demo.EsDemo == false)
+                             nuevocostoconporcentaje = float.Parse(Round(double.Parse((nuevocosto + (nuevocosto * (PorcentajeCosto / 100))).ToString()),double.Parse(registereduser.redondeo)).ToString());
+                            else
+                                   nuevocostoconporcentaje = float.Parse(Round(double.Parse((nuevocosto + (nuevocosto * (PorcentajeCosto / 100))).ToString()),double.Parse("0")).ToString());
 
                             item.Parameters.Clear();
                             item.Parameters.AddWithValue("nf", totalventa.idcompra);

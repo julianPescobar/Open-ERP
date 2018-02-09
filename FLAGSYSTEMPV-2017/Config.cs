@@ -60,6 +60,7 @@ namespace FLAGSYSTEMPV_2017
                         if (datos.Rows[0][28].ToString() == "si") checkBox1.Checked = true;
                         if (datos.Rows[0][29].ToString() == "si") checkBox2.Checked = true;
                         if (datos.Rows[0][30].ToString() == "si") checkBox3.Checked = true;
+                        if (datos.Rows[0][31].ToString() == "si") checkBox4.Checked = true;
                     }
             }
             else
@@ -83,13 +84,15 @@ namespace FLAGSYSTEMPV_2017
             string box1;
             string box2;
             string box3;
+            string box4;
             if (checkBox1.Checked == true) box1 = "si"; else box1 = "no";
             if (checkBox2.Checked == true) box2 = "si"; else box2 = "no";
             if (checkBox3.Checked == true) box3 = "si"; else box3 = "no";
-
+            if (checkBox4.Checked == true) box4 = "si"; else box4 = "no";
             registereduser.closeandbkp = box1;
             registereduser.sololectura = box2;
             registereduser.alwaysprint = box3;
+            registereduser.tooltips = box4;
             registereduser.redondeo = numericUpDown1.Value.ToString();
             SqlCeCommand inserto = new SqlCeCommand();
             inserto.Parameters.Clear();
@@ -110,8 +113,9 @@ namespace FLAGSYSTEMPV_2017
             inserto.Parameters.AddWithValue("q", box1);
             inserto.Parameters.AddWithValue("r", box2);
             inserto.Parameters.AddWithValue("s", box3);
+            inserto.Parameters.AddWithValue("t", box4);
             Conexion.abrir();
-            Conexion.Actualizar("Configuracion", "redondeo = @p,backupearsiemprealcerrardia = @q, nopermitircambiosendiasanteriores = @r, siempreimprimirtickets = @s, DireccionFisica = @b,Email= @c,Telefono1= @d,Localidad= @e,SaldoInicial= @g,SMTP= @h,PUERTO= @i,SSL= @j,MAIL= @k,CLAVE= @l,PARA= @m,TITULO= @n,CUERPO= @o", "", "", inserto);
+            Conexion.Actualizar("Configuracion", "tooltipsON = @t, redondeo = @p,backupearsiemprealcerrardia = @q, nopermitircambiosendiasanteriores = @r, siempreimprimirtickets = @s, DireccionFisica = @b,Email= @c,Telefono1= @d,Localidad= @e,SaldoInicial= @g,SMTP= @h,PUERTO= @i,SSL= @j,MAIL= @k,CLAVE= @l,PARA= @m,TITULO= @n,CUERPO= @o", "", "", inserto);
             Conexion.cerrar();
             registereduser.smtp = textBox14.ToString();
             registereduser.puerto = textBox13.ToString();

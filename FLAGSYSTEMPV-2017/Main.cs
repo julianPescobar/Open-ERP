@@ -64,6 +64,8 @@ namespace FLAGSYSTEMPV_2017
                 if (consultaTest.Rows[0][28].ToString() == "si") registereduser.closeandbkp = "si"; else registereduser.closeandbkp = "no";
                 if (consultaTest.Rows[0][29].ToString() == "si") registereduser.sololectura = "si"; else registereduser.sololectura = "no";
                 if (consultaTest.Rows[0][30].ToString() == "si") registereduser.alwaysprint = "si"; else registereduser.alwaysprint = "no";
+                if (consultaTest.Rows[0][31].ToString() == "si") registereduser.tooltips= "si"; else registereduser.tooltips = "no";
+
                     registereduser.saldoinicial = float.Parse(consultaTest.Rows[0][0].ToString());
                     Login lgn = new Login();
                     lgn.Show();

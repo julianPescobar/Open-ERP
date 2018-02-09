@@ -40,7 +40,22 @@ namespace FLAGSYSTEMPV_2017
             if (Conexion.data == "Articulos")
             {
                 Conexion.abrir();
-                DataTable arts = Conexion.Consultar("idarticulo,codigoart as [Codigo],descripcion as [Nombre],marca as [Marca],precio as [Precio],costo as [Costo],iva as [IVA],stockactual as [Stock],stockminimo as [Stockminimo],proveedor as [Proveedor],compraminima as [Compraminima] ,porcentaje as [porcentganancia]", "Articulos", "WHERE eliminado != 'Eliminado'", "", new SqlCeCommand());
+                DataTable arts = Conexion.Consultar("idarticulo,codigoart as [Codigo],descripcion as [Nombre],marca as [Marca],precio as [Precio],costo as [Costo],iva as [IVA],stockactual as [Stock],stockminimo as [Stockminimo],proveedor as [Proveedor],compraminima as [Compraminima] ,porcentaje as [porcentganancia]", "Articulos", "WHERE eliminado != 'Eliminado' and tipo LIKE 'Producto%'", "", new SqlCeCommand());
+                Conexion.cerrar();
+                BindingSource SBind = new BindingSource();
+                SBind.DataSource = arts;
+                dataGridView1.AutoGenerateColumns = true;
+                dataGridView1.DataSource = arts;
+                dataGridView1.Columns[0].Visible = false;
+                dataGridView1.Columns[4].DefaultCellStyle.Format = "c";
+                dataGridView1.Columns[5].DefaultCellStyle.Format = "c";
+                dataGridView1.DataSource = SBind;
+                dataGridView1.Refresh();
+            }
+            if (Conexion.data == "Servicios")
+            {
+                Conexion.abrir();
+                DataTable arts = Conexion.Consultar("idarticulo,codigoart as [Codigo],descripcion as [Nombre],marca as [Marca],precio as [Precio],costo as [Costo],iva as [IVA],proveedor as [Proveedor],porcentaje as [porcentganancia]", "Articulos", "WHERE eliminado != 'Eliminado' and tipo LIKE 'Servicio%'", "", new SqlCeCommand());
                 Conexion.cerrar();
                 BindingSource SBind = new BindingSource();
                 SBind.DataSource = arts;
@@ -55,7 +70,7 @@ namespace FLAGSYSTEMPV_2017
             if (Conexion.data == "ControlStock")
             {
                 Conexion.abrir();
-                DataTable arts = Conexion.Consultar("idarticulo,codigoart as [Codigo],descripcion as [Nombre],marca as [Marca],proveedor as [Proveedor],stockactual as [Stock]", "Articulos", "WHERE eliminado != 'Eliminado'", "", new SqlCeCommand());
+                DataTable arts = Conexion.Consultar("idarticulo,codigoart as [Codigo],descripcion as [Nombre],marca as [Marca],proveedor as [Proveedor],stockactual as [Stock]", "Articulos", "WHERE eliminado != 'Eliminado' and tipo LIKE 'Producto%'", "", new SqlCeCommand());
                 Conexion.cerrar();
                 BindingSource SBind = new BindingSource();
                 SBind.DataSource = arts;
@@ -193,7 +208,7 @@ namespace FLAGSYSTEMPV_2017
             if (Conexion.data == "Pedido")
             {
                 Conexion.abrir();
-                DataTable arts = Conexion.Consultar("idarticulo,descripcion as [Nombre],proveedor as [Proveedor],marca as [Marca],precio as [Precio],costo as [Costo],stockactual as [Stock],stockminimo as [StockMinimo],compraminima as [CompraMinima]", "Articulos", " order by proveedor asc", "", new SqlCeCommand());
+                DataTable arts = Conexion.Consultar("idarticulo,descripcion as [Nombre],proveedor as [Proveedor],marca as [Marca],precio as [Precio],costo as [Costo],stockactual as [Stock],stockminimo as [StockMinimo],compraminima as [CompraMinima]", "Articulos","WHERE eliminado != 'Eliminado' and tipo LIKE 'Producto%'", " order by proveedor asc", new SqlCeCommand());
                 Conexion.cerrar();
                 BindingSource SBind = new BindingSource();
                 SBind.DataSource = arts;
@@ -216,7 +231,7 @@ namespace FLAGSYSTEMPV_2017
             if (Conexion.data == "AutoPedido")
             {
                 Conexion.abrir();
-                DataTable arts = Conexion.Consultar("idarticulo,descripcion as [Nombre],proveedor as [Proveedor],marca as [Marca],precio as [Precio],costo as [Costo],stockactual as [Stock],stockminimo as [StockMinimo],compraminima as [CompraMinima], stockmax as [StockMaximo]", "Articulos", " order by proveedor asc", "", new SqlCeCommand());
+                DataTable arts = Conexion.Consultar("idarticulo,descripcion as [Nombre],proveedor as [Proveedor],marca as [Marca],precio as [Precio],costo as [Costo],stockactual as [Stock],stockminimo as [StockMinimo],compraminima as [CompraMinima], stockmax as [StockMaximo]", "Articulos","WHERE eliminado != 'Eliminado' and tipo LIKE 'Producto%'", " order by proveedor asc",  new SqlCeCommand());
                 Conexion.cerrar();
                 BindingSource SBind = new BindingSource();
                 SBind.DataSource = arts;
@@ -252,7 +267,7 @@ namespace FLAGSYSTEMPV_2017
             if (Conexion.data == "Faltantes")
             {
                 Conexion.abrir();
-                DataTable arts = Conexion.Consultar("idarticulo,descripcion as [Nombre],proveedor as [Proveedor],marca as [Marca],precio as [Precio],costo as [Costo],stockactual as [Stock],stockminimo as [StockMinimo],compraminima as [CompraMinima]", "Articulos", "where stockactual< stockminimo order by proveedor asc", "", new SqlCeCommand());
+                DataTable arts = Conexion.Consultar("idarticulo,descripcion as [Nombre],proveedor as [Proveedor],marca as [Marca],precio as [Precio],costo as [Costo],stockactual as [Stock],stockminimo as [StockMinimo],compraminima as [CompraMinima]", "Articulos", "where stockactual< stockminimo  and eliminado != 'Eliminado' and tipo LIKE 'Producto%'", "order by proveedor asc", new SqlCeCommand());
                 Conexion.cerrar();
                 BindingSource SBind = new BindingSource();
                 SBind.DataSource = arts;
@@ -293,7 +308,7 @@ namespace FLAGSYSTEMPV_2017
                     extension = ".txt";
                 }
                
-                saveFileDialog1.FileName = "Informe_" + Conexion.data + DateTime.Now.ToShortDateString().Replace("/","")+DateTime.Now.ToShortTimeString().Replace(":","")+extension;
+                saveFileDialog1.FileName = "Informe_" + Conexion.data + app.hoy.Replace("/","")+DateTime.Now.ToShortTimeString().Replace(":","")+extension;
                 saveFileDialog1.ShowDialog();
             }
             else MessageBox.Show("Debe seleccionar un tipo de archivo");

@@ -237,14 +237,16 @@ namespace FLAGSYSTEMPV_2017
 
         private void textBox1_Enter(object sender, EventArgs e)
         {
-            ToolTip tt = new ToolTip();
-            tt.IsBalloon = false;
+            if (registereduser.tooltips == "si")
+            {
+                ToolTip tt = new ToolTip();
+                tt.IsBalloon = false;
 
-            tt.ShowAlways = true;
-            tt.UseAnimation = true;
-            tt.ToolTipTitle = "Bienvenido a Flag System PV:";
-            tt.Show("Los tips están habilitados.\n para deshabilitarlos debe ser usuario de nivel Supervisor\n y luego ir a Administracion>Configuracion> y destildar la casilla \"Habilitar los tips informativos\"", button1);
- 
+                tt.ShowAlways = true;
+                tt.UseAnimation = true;
+                tt.ToolTipTitle = "Bienvenido a Flag System PV:";
+                tt.Show("Los tips están habilitados.\n para deshabilitarlos debe ser usuario de nivel Supervisor\n y luego ir a Administracion>Configuracion> y destildar la casilla \"Habilitar los tips informativos\"", button1);
+            }
         }
 
 

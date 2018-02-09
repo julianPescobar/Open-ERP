@@ -24,17 +24,20 @@ namespace FLAGSYSTEMPV_2017
         }
         private void Consultas_Load(object sender, EventArgs e)
         {
-            if (ConfigFiscal.usaImpFiscal == "no")
+            if (ConfigFiscal.usaImpFiscal == "no" || Demo.EsDemo == true)
             {
                 this.Focus();
                 label1.Text = "Listado de Ventas de hoy";
                 Conexion.abrir();
                 SqlCeCommand fechahoy = new SqlCeCommand();
                 fechahoy.Parameters.AddWithValue("hoy", app.hoy);
+                if(Demo.EsDemo == true)
+                    fechahoy.Parameters.AddWithValue("ven", Demo.demouser);
+                else
                 fechahoy.Parameters.AddWithValue("ven", registereduser.reguser);
                 fechahoy.Parameters.AddWithValue("anulada", "Anulada");
                 DataTable showv = new DataTable();
-                if(registereduser.level == "Admin" || registereduser.level == "Supervisor")
+                if(Demo.EsDemo == true || registereduser.level == "Admin" || registereduser.level == "Supervisor")
                 showv = Conexion.Consultar("nfactura as [N° Fact.], vendedor as Usuario, fechaventa as Fecha, total as Importe, estadoventa as Estado, tipoFactura as Factura", "Ventas", "WHERE datediff(day,fechaventa,@hoy) =  0 AND estadoventa = 'Finalizado' ", " order by nfactura desc", fechahoy);
                 else
                     showv = Conexion.Consultar("nfactura as [N° Fact.], vendedor as Usuario, fechaventa as Fecha, total as Importe, estadoventa as Estado, tipoFactura as Factura", "Ventas", "WHERE datediff(day,fechaventa,@hoy) =  0 AND estadoventa = 'Finalizado' and vendedor =@ven ", " order by nfactura desc", fechahoy);

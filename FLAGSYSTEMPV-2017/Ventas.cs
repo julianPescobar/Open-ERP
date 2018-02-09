@@ -25,7 +25,10 @@ namespace FLAGSYSTEMPV_2017
                 float cero = 0;
                 textBox5.Text = cero.ToString("$0.00");
             }
-            textBox3.Text = app.hoy;
+            if (Demo.EsDemo == false)
+                textBox3.Text = app.hoy;
+            else
+                textBox3.Text = DateTime.Now.ToShortDateString();
             Conexion.abrir();
             DataTable nextid = new DataTable();
             nextid = Conexion.Consultar("AUTOINC_NEXT", "INFORMATION_SCHEMA.COLUMNS", " WHERE (TABLE_NAME = 'Ventas') AND (COLUMN_NAME = 'idventa')", "", new SqlCeCommand());

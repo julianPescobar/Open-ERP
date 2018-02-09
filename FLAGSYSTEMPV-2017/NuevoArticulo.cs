@@ -27,7 +27,7 @@ namespace FLAGSYSTEMPV_2017
             if (createorupdate.status == "create")
             {
                 Conexion.abrir();
-                DataTable rubros = Conexion.Consultar("nombrerubro", "Rubros", "", "", new SqlCeCommand());
+                DataTable rubros = Conexion.Consultar("nombrerubro", "Rubros", "where eliminado != 'Eliminado'", "", new SqlCeCommand());
                 DataTable proveedores = Conexion.Consultar("nombre", "Proveedores", "", "", new SqlCeCommand());
                 Conexion.cerrar();
                 for (int i = 0; i < rubros.Rows.Count; i++)
@@ -337,7 +337,11 @@ namespace FLAGSYSTEMPV_2017
                     DialogResult wrongprice = MessageBox.Show("El precio de compra del producto mas su porcentaje de ganancia de es mayor al precio de venta + iva que usted ingresó, desea actualizar el precio de venta para que pueda obtener mas ganancia?", "Advertencia", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                     if (wrongprice == DialogResult.Yes)
                     {
-                        double rounded = Round(costomasganancia, float.Parse(registereduser.redondeo));
+                        double rounded;
+                        if(Demo.EsDemo == true)
+                            rounded = Round(costomasganancia, 0);
+                        else
+                        rounded= Round(costomasganancia, float.Parse(registereduser.redondeo));
                         //MessageBox.Show(rounded.ToString());
                         costomasganancia = float.Parse(rounded.ToString()); 
                         textBox4.Text = costomasganancia.ToString("$0.00");
@@ -353,6 +357,7 @@ namespace FLAGSYSTEMPV_2017
             }
             catch(Exception)
             {
+                //MessageBox.Show(eex.Message);
             }
             
            

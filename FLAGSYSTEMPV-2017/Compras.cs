@@ -418,12 +418,14 @@ namespace FLAGSYSTEMPV_2017
         {
          
             DateTime fechadatabase = Convert.ToDateTime(app.hoy + " " + dateTimePicker1.Value.ToShortTimeString());
-          
-             if (DateTime.Compare(dateTimePicker1.Value,fechadatabase) < 0 && registereduser.sololectura == "no")
+            if (Demo.EsDemo == false)
             {
-                
-                MessageBox.Show("No se puede ingresar una fecha anterior porque la opción \"Permitir cambios en fechas anteriores\" esta desactivada. Habilite esa opción si necesita cargar una compra con fecha anterior, esta opcion se encuentra en Administrador > Configuración.","No se pudo cambiar la fecha",MessageBoxButtons.OK,MessageBoxIcon.Error);
-                dateTimePicker1.Value = fechadatabase;
+                if (DateTime.Compare(dateTimePicker1.Value, fechadatabase) < 0 && registereduser.sololectura == "no")
+                {
+
+                    MessageBox.Show("No se puede ingresar una fecha anterior porque la opción \"Permitir cambios en fechas anteriores\" esta desactivada. Habilite esa opción si necesita cargar una compra con fecha anterior, esta opcion se encuentra en Administrador > Configuración.", "No se pudo cambiar la fecha", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    dateTimePicker1.Value = fechadatabase;
+                }
             }
         }
 
