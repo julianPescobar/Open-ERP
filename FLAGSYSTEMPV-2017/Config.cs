@@ -127,5 +127,15 @@ namespace FLAGSYSTEMPV_2017
             registereduser.cuerpo = textBox16.ToString();    
             this.Close();
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            saveFileDialog1.ShowDialog();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.ShowDialog();
+        }
     }
 }

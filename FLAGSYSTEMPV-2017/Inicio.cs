@@ -338,13 +338,7 @@ namespace FLAGSYSTEMPV_2017
                 }
                 else
                 {
-                    //toolStripMenuItem11.Enabled = false;
-                    //toolStripMenuItem15.Enabled = false;
-                    //toolStripMenuItem18.Enabled = false;
-                    //altasYBajasDeStockToolStripMenuItem.Enabled = false;
-                    //gestionarUsuariosToolStripMenuItem.Enabled = false;
-                    //configuraciónToolStripMenuItem.Enabled = false;
-                    //enviarInformeToolStripMenuItem.Enabled = false;
+                  
                     setearPermisos();
                   
                 }
@@ -381,16 +375,24 @@ namespace FLAGSYSTEMPV_2017
                     DataTable totalvendido = Conexion.Consultar("SUM(total)", "Ventas", "Where vendedor = @ven and estadoventa = 'Finalizado' and fechaventa between @fecA and @fecB", "", paraeltotal);
                     if (totalvendido.Rows.Count > 0)
                     {
-                        total = totalvendido.Rows[0][0].ToString();
+                        if (totalvendido.Rows[0][0].ToString().Length > 0)
+                        {
+                            total = totalvendido.Rows[0][0].ToString();
+                        }
+                        else
+                            total = "0";
                     }
                     else
+                    {
                         total = "0";
+                    }
+                  
                     cierro.Parameters.AddWithValue("to", total);
                     Conexion.Actualizar("Turnos", "FechaFin = @ff, TotalVendido = @to", "WHERE idturno = @id", "", cierro);
                     Conexion.cerrar();
                     Application.Exit();
                 }
-                catch
+                catch(Exception exc)
                 {
                     Environment.Exit(0);
                 }
@@ -435,10 +437,6 @@ namespace FLAGSYSTEMPV_2017
             if (toolStripSplitButton8.IsOnDropDown == false)
                 toolStripSplitButton8.ShowDropDown();
         }
-
-       
-
-        
 
         private void toolStripSplitButton5_ButtonClick(object sender, EventArgs e)
         {
@@ -566,8 +564,6 @@ namespace FLAGSYSTEMPV_2017
                     Conexion.abrir();
                     DataTable turnos = Conexion.Consultar("*", "Turnos", "", "", new SqlCeCommand());
                     Conexion.cerrar();
-
-
                     SqlCeCommand cierro = new SqlCeCommand();
                     cierro.Parameters.AddWithValue("id", turnos.Rows[turnos.Rows.Count - 1][0].ToString());
                     cierro.Parameters.AddWithValue("ff", DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString());

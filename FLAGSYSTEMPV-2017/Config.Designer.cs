@@ -76,6 +76,7 @@
             this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.label22 = new System.Windows.Forms.Label();
             this.checkBox4 = new System.Windows.Forms.CheckBox();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
@@ -472,6 +473,7 @@
             this.button3.TabIndex = 20;
             this.button3.Text = "Abrir...";
             this.button3.UseVisualStyleBackColor = false;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // button4
             // 
@@ -483,6 +485,7 @@
             this.button4.TabIndex = 22;
             this.button4.Text = "Guardar...";
             this.button4.UseVisualStyleBackColor = false;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // label18
             // 
@@ -672,5 +675,6 @@
         private System.Windows.Forms.CheckBox checkBox3;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.CheckBox checkBox4;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
     }
 }

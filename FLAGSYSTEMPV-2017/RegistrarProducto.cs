@@ -17,8 +17,6 @@ namespace FLAGSYSTEMPV_2017
             InitializeComponent();
         }
 
-       
-
         private void button3_Click(object sender, EventArgs e)
         {
             Environment.Exit(0);
