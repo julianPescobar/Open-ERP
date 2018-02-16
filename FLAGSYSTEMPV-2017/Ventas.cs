@@ -186,8 +186,9 @@ namespace FLAGSYSTEMPV_2017
                         string desc = producto.Rows[0][2].ToString();
                         string mca = producto.Rows[0][3].ToString();
                         float prec = float.Parse(producto.Rows[0][4].ToString());
+                        string tipo = producto.Rows[0][5].ToString();
                         float total = prec * cantidad;
-                        dataGridView1.Rows.Add(idproducto,cantidad, codigo, desc, mca, prec.ToString("$0.00"), total.ToString("$0.00"));
+                        dataGridView1.Rows.Add(idproducto,cantidad, codigo, desc, mca, prec.ToString("$0.00"), total.ToString("$0.00"),tipo);
                         textBox4.Text = "";
                         dataGridView1.Rows[(dataGridView1.Rows.Count - 1)].Cells[1].Selected = true;
                     }

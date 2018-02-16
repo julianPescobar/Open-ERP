@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Data.SqlServerCe;
+using System.IO;
+
 namespace FLAGSYSTEMPV_2017
 {
     public partial class Config : Form
@@ -15,7 +17,6 @@ namespace FLAGSYSTEMPV_2017
         {
             InitializeComponent();
         }
-
 
         private void Config_Load(object sender, EventArgs e)
         {
@@ -32,12 +33,13 @@ namespace FLAGSYSTEMPV_2017
             e.Graphics.DrawRectangle(new Pen(Color.Black, 4),
                           this.DisplayRectangle);            
         }
+
         private void cargadata()
         {
             if (Demo.EsDemo == false)
             {
-                Conexion.abrir();
-            DataTable datos = Conexion.Consultar("*", "Configuracion", "", "", new SqlCeCommand());
+                    Conexion.abrir();
+                    DataTable datos = Conexion.Consultar("*", "Configuracion", "", "", new SqlCeCommand());
                     Conexion.cerrar();
                     if (datos.Rows.Count > 0)
                     {
@@ -130,12 +132,45 @@ namespace FLAGSYSTEMPV_2017
 
         private void button4_Click(object sender, EventArgs e)
         {
+            saveFileDialog1.Filter = "Bases de Datos (*.sdf)|*.sdf";
+            saveFileDialog1.InitialDirectory = app.dir;
+            saveFileDialog1.FileName = "BACKUP" + app.hoy.Replace("/", "")+".sdf";
             saveFileDialog1.ShowDialog();
+
+          
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            openFileDialog1.ShowDialog();
+            DialogResult seguro = MessageBox.Show("Esta función volverá a un backup anterior donde puede que ciertos usuarios o PCs aun no hayan sido registrados, esto puede causar problemas a nivel operativo, está seguro de volver a un backup anterior?", "Seguro de volver a un backup anterior?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (seguro == DialogResult.Yes)
+            {
+                openFileDialog1.Filter = "Bases de Datos (*.sdf)|*.sdf";
+                openFileDialog1.InitialDirectory = app.dir;
+                openFileDialog1.ShowDialog();
+            }
+            
+        }
+
+        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
+        {
+            string archivoabrir = openFileDialog1.FileName;
+           
+            string nombrebackup = "Backup"+app.hoy.Replace("/","")+DateTime.Now.Hour.ToString()+DateTime.Now.Minute.ToString()+DateTime.Now.Second.ToString()+".sdf";
+           // MessageBox.Show(nombrebackup);
+            if (!Directory.Exists(app.dir + "\\BackupsAutomaticos\\")) Directory.CreateDirectory(app.dir + "\\BackupsAutomaticos");
+            File.Move(app.dir + "\\BACKEND.sdf", app.dir + "\\BackupsAutomaticos\\" + nombrebackup);
+         
+            File.Copy(archivoabrir, app.dir + "\\BACKEND.sdf");
+            MessageBox.Show("Se ha abierto el backup anterior correctamente. Se ha hecho un backup automatico de la base antes de realizar esta accion, la misma se encuentra en BackupsAutomaticos\\" + nombrebackup);
+        }
+
+        private void saveFileDialog1_FileOk(object sender, CancelEventArgs e)
+        {
+            string rutaynombre = saveFileDialog1.FileName;
+            if (!File.Exists(rutaynombre))
+                File.Copy(app.dir + "\\BACKEND.sdf", rutaynombre);
+            else MessageBox.Show("El archivo ya existe, elimine o mueva el archivo existente para poder guardar el nuevo backup","Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
         }
     }
 }

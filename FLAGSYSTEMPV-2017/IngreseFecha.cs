@@ -137,5 +137,13 @@ namespace FLAGSYSTEMPV_2017
             }
             }
 
+        private void dateTimePicker1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                button1.PerformClick();
+            }
+        }
+
     }
 }
