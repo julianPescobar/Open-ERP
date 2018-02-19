@@ -39,9 +39,10 @@ namespace FLAGSYSTEMPV_2017
             else textBox2.Text = registereduser.reguser;
             float idv = float.Parse(textBox1.Text);
             if (idv >= 50 && Demo.EsDemo == true)
-        {
+            {
                 this.Close();
-                MessageBox.Show("Lo sentimos pero esta es la versión demo del producto y solo se permiten ingresar hasta 50 registros de venta. Si quiere habilitar todo el sistema, deberá comprar la licencia.");            }
+                MessageBox.Show("Lo sentimos pero esta es la versión demo del producto y solo se permiten ingresar hasta 50 registros de venta. Si quiere habilitar todo el sistema, deberá comprar la licencia.");            
+            }
         }
         protected override void WndProc(ref Message m)
         {
@@ -106,6 +107,7 @@ namespace FLAGSYSTEMPV_2017
                 }
                 catch (Exception)
                 {
+
                 }
 
             }

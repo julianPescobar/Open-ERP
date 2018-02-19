@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Data.SqlServerCe;
+using System.Data.SqlClient;
 
 namespace FLAGSYSTEMPV_2017
 {
@@ -97,6 +98,19 @@ namespace FLAGSYSTEMPV_2017
             {
                 MessageBox.Show(exce.Message);
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("probando conectar al servidor sql");
+            SqlConnection myConnection = new SqlConnection("user id=sa;" +
+                                       "password=JULIAN2018flag!;server=WIN-65EONEJMKT1;" +
+                                       "Trusted_Connection=yes;" +
+                                       "database=flaginformaticasoftware; " +
+                                       "connection timeout=30");
+            myConnection.Open();
+            myConnection.Close();
+
         }
     }
 }
