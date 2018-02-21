@@ -40,6 +40,9 @@
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.linkLabel2 = new System.Windows.Forms.LinkLabel();
             this.button2 = new System.Windows.Forms.Button();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -84,27 +87,28 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(5, 203);
+            this.label5.Font = new System.Drawing.Font("Lucida Sans Unicode", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(29, 211);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(438, 23);
+            this.label5.Size = new System.Drawing.Size(391, 25);
             this.label5.TabIndex = 4;
-            this.label5.Text = "Ingrese el PRODUCT KEY y pulse el boton REGISTRAR (requiere internet):";
+            this.label5.Text = "Ingrese su Serial Key seguido de la Clave (requiere internet)";
             this.label5.UseCompatibleTextRendering = true;
             // 
             // textBox1
             // 
             this.textBox1.BackColor = System.Drawing.Color.LemonChiffon;
-            this.textBox1.Location = new System.Drawing.Point(24, 229);
+            this.textBox1.Location = new System.Drawing.Point(20, 260);
             this.textBox1.MaxLength = 100;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(406, 26);
+            this.textBox1.Size = new System.Drawing.Size(202, 26);
             this.textBox1.TabIndex = 5;
             // 
             // button1
             // 
             this.button1.BackColor = System.Drawing.Color.LemonChiffon;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Location = new System.Drawing.Point(142, 261);
+            this.button1.Location = new System.Drawing.Point(141, 306);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(153, 50);
             this.button1.TabIndex = 6;
@@ -141,7 +145,7 @@
             // 
             this.linkLabel1.AutoSize = true;
             this.linkLabel1.LinkColor = System.Drawing.Color.DarkSlateGray;
-            this.linkLabel1.Location = new System.Drawing.Point(213, 329);
+            this.linkLabel1.Location = new System.Drawing.Point(217, 377);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(223, 16);
             this.linkLabel1.TabIndex = 10;
@@ -165,7 +169,7 @@
             // 
             this.button2.BackColor = System.Drawing.Color.LemonChiffon;
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Location = new System.Drawing.Point(12, 310);
+            this.button2.Location = new System.Drawing.Point(9, 358);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(101, 35);
             this.button2.TabIndex = 13;
@@ -173,12 +177,46 @@
             this.button2.UseVisualStyleBackColor = false;
             this.button2.Click += new System.EventHandler(this.button2_Click_1);
             // 
+            // textBox3
+            // 
+            this.textBox3.BackColor = System.Drawing.Color.LemonChiffon;
+            this.textBox3.Location = new System.Drawing.Point(228, 260);
+            this.textBox3.MaxLength = 100;
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(202, 26);
+            this.textBox3.TabIndex = 14;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Lucida Sans Unicode", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(20, 234);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(65, 23);
+            this.label6.TabIndex = 15;
+            this.label6.Text = "Serial Key";
+            this.label6.UseCompatibleTextRendering = true;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Lucida Sans Unicode", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(228, 234);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(125, 23);
+            this.label7.TabIndex = 16;
+            this.label7.Text = "Clave del Serial Key";
+            this.label7.UseCompatibleTextRendering = true;
+            // 
             // RegistrarProducto
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Khaki;
-            this.ClientSize = new System.Drawing.Size(448, 354);
+            this.ClientSize = new System.Drawing.Size(448, 405);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.textBox3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.linkLabel2);
             this.Controls.Add(this.linkLabel1);
@@ -220,5 +258,8 @@
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.LinkLabel linkLabel2;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
     }
 }
