@@ -17,7 +17,7 @@ namespace FLAGSYSTEMPV_2017
         {
             InitializeComponent();
         }
-
+        public static string id;
         private void button3_Click(object sender, EventArgs e)
         {
             Environment.Exit(0);
@@ -38,7 +38,7 @@ namespace FLAGSYSTEMPV_2017
 
         private void button2_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("La licencia se ha activado correctamente\nRecuerde que esta licencia tiene validez para 3 PCs. En caso de rotura de una de sus PCs contáctese con servicio técnico para reestablecer su licencia","La licencia se ha activado con exito!");
+            MessageBox.Show("La licencia se ha activado correctamente\nRecuerde que esta licencia tiene validez para 3 PCs. En caso de rotura de una de sus PCs contáctese con servicio técnico para reestablecer su licencia", "La licencia se ha activado con exito!");
         }
 
         private void RegistrarProducto_Load(object sender, EventArgs e)
@@ -50,133 +50,117 @@ namespace FLAGSYSTEMPV_2017
         {
             System.Diagnostics.Process.Start("http://www.flag.com.ar");
         }
-
-        private void button2_Click_1(object sender, EventArgs e)
-        {
-            Conexion.abrir();
-            DataTable haylicencia = Conexion.Consultar("*", "Configuracion", "", "", new SqlCeCommand());
-            Conexion.cerrar();
-            try
-            {
-                if (haylicencia.Rows.Count < 1)
-                {
-                    SqlCeCommand f = new SqlCeCommand();
-                    f.Parameters.AddWithValue("saldoini", "0");
-                    f.Parameters.AddWithValue("fia", DateTime.Now);
-                    f.Parameters.AddWithValue("nomb", "flag informatica");
-                    f.Parameters.AddWithValue("dire", "guanahani 146");
-                    f.Parameters.AddWithValue("mail", "info@flag.com.ar");
-                    f.Parameters.AddWithValue("telA", "43075103");
-                    f.Parameters.AddWithValue("loca", "capital federal");
-                    f.Parameters.AddWithValue("cuite", "30709523097");
-                    f.Parameters.AddWithValue("usaimpfi", "no");
-                    f.Parameters.AddWithValue("puerto", "0");
-                    f.Parameters.AddWithValue("masteruser", "ni idea q poner");
-                    f.Parameters.AddWithValue("smtp", "smtp.gmail.com");
-                    f.Parameters.AddWithValue("puertomail", "587");
-                    f.Parameters.AddWithValue("mmail", "empleado@gmail.com");
-                    f.Parameters.AddWithValue("mclave", "test");
-                    f.Parameters.AddWithValue("mpara", "paramisupervisor@gmail.com");
-                    f.Parameters.AddWithValue("mtitulo", "titulo del mail");
-                    f.Parameters.AddWithValue("mcuerpo", "cuerpo del mail");
-                    f.Parameters.AddWithValue("uft", DateTime.Now);
-                    f.Parameters.AddWithValue("fta", DateTime.Now);
-                    f.Parameters.AddWithValue("redondo", "0");
-                    f.Parameters.AddWithValue("backupearsiempre", "no");
-                    f.Parameters.AddWithValue("modoreadonly", "no");
-                    f.Parameters.AddWithValue("alwaysp", "no");
-                    f.Parameters.AddWithValue("tooltipz", "si");
-                    Conexion.abrir();
-                    Conexion.Insertar("Configuracion", "SaldoInicial,FechaInicioActividades,NombreEmpresa,DireccionFisica,Email,Telefono1,Localidad,CUIT,usaimpfiscal,PUERTO_IF,master_user_id,SMTP,PUERTO,MAIL,CLAVE,PARA,TITULO,CUERPO,ultimafechatrabajo,fechatrabajoactual,redondeo,backupearsiemprealcerrardia,nopermitircambiosendiasanteriores,siempreimprimirtickets,tooltipsON", "@saldoini,@fia,@nomb,@dire,@mail,@telA,@loca,@cuite,@usaimpfi,@puerto,@masteruser,@smtp,@puertomail,@mmail,@mclave,@mpara,@mtitulo,@mcuerpo,@uft,@fta,@redondo,@backupearsiempre,@modoreadonly,@alwaysp,@tooltipz", f);
-                    Conexion.Insertar("Usuarios", "login,clave,level,nombreusuario,eliminado", "'q','q','Admin','Administrador','Activo'", new SqlCeCommand());
-                    Conexion.cerrar();
-                    MessageBox.Show("se creo la licencia, tu usuario Admin es\nUser: q\nPassw: q\n Si olvidas la clave contactanos por favor.\nVuelva a ejecutar el sistema para poder usar su licencia.\nGracias por habernos elegido!");
-                    Environment.Exit(0);
-                }
-            }
-            catch (Exception exce)
-            {
-                MessageBox.Show(exce.Message);
-            }
-        }
+        public  string cliente, organizacion, telefono, mail, cuit, tipocuit, serial, claveserial, fechaini, detallepc;
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string cliente, organizacion, telefono, mail, cuit, tipocuit, serial, claveserial,fechaini,detallepc;
-            MessageBox.Show("probando conectar al servidor sql");
-            SqlConnection myConnection = new SqlConnection("user id=sa;" + "password=FlagInformatica2018;server=192.168.0.23\\FLAGSYSTEMPV;" +" database=UsuariosSoftware; " + "connection timeout=30");
-            myConnection.Open();
-            SqlCommand command = new SqlCommand("Select * from [licencias] WHERE serial = @ser and claveserial = @cla and serialconsumido = 'no'", myConnection);
-            command.Parameters.AddWithValue("ser", textBox1.Text);
-            command.Parameters.AddWithValue("cla", textBox3.Text);
-            // int result = command.ExecuteNonQuery();
-            using (SqlDataReader reader = command.ExecuteReader())
+            
+            try
             {
-                if (reader.Read())
+
+               
+
+                SqlConnection myConnection = new SqlConnection("user id=sa;" + "password=FlagInformatica2018;server=192.168.0.23\\FLAGSYSTEMPV;" + " database=UsuariosSoftware; " + "connection timeout=30");
+                myConnection.Open();
+                SqlCommand command = new SqlCommand("Select * from [licencias] WHERE serial = @ser and claveserial = @cla and serialconsumido = 'no'", myConnection);
+                command.Parameters.AddWithValue("ser", textBox1.Text);
+                command.Parameters.AddWithValue("cla", textBox3.Text);
+                // int result = command.ExecuteNonQuery();
+                bool existe = false;
+                using (SqlDataReader reader = command.ExecuteReader())
                 {
-                    MessageBox.Show(String.Format("{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11}", reader[0], reader[1], reader[2], reader[3], reader[4], reader[5], reader[6], reader[7], reader[8], reader[9], reader[10], reader[11]));
-                    cliente = reader[1].ToString();
-                    organizacion = reader[2].ToString();
-                    telefono = reader[3].ToString();
-                    mail = reader[4].ToString();
-                    cuit = reader[5].ToString();
-                    tipocuit = reader[6].ToString();
-                    serial = reader[7].ToString();
-                    claveserial = reader[8].ToString();
-                    fechaini = reader[10].ToString();
-                    detallepc = reader[11].ToString();
-                    Conexion.abrir();
-                    DataTable haylicencia = Conexion.Consultar("*", "Configuracion", "", "", new SqlCeCommand());
-                    Conexion.cerrar();
-                    try
+                    if (reader.Read())
                     {
-                        if (haylicencia.Rows.Count < 1)
-                        {
-                            SqlCeCommand f = new SqlCeCommand();
-                            f.Parameters.AddWithValue("saldoini", "0");
-                            f.Parameters.AddWithValue("fia", DateTime.Now);
-                            f.Parameters.AddWithValue("nomb", "flag informatica");
-                            f.Parameters.AddWithValue("dire", "guanahani 146");
-                            f.Parameters.AddWithValue("mail", "info@flag.com.ar");
-                            f.Parameters.AddWithValue("telA", "43075103");
-                            f.Parameters.AddWithValue("loca", "capital federal");
-                            f.Parameters.AddWithValue("cuite", "30709523097");
-                            f.Parameters.AddWithValue("usaimpfi", "no");
-                            f.Parameters.AddWithValue("puerto", "0");
-                            f.Parameters.AddWithValue("masteruser", "ni idea q poner");
-                            f.Parameters.AddWithValue("smtp", "smtp.gmail.com");
-                            f.Parameters.AddWithValue("puertomail", "587");
-                            f.Parameters.AddWithValue("mmail", "empleado@gmail.com");
-                            f.Parameters.AddWithValue("mclave", "test");
-                            f.Parameters.AddWithValue("mpara", "paramisupervisor@gmail.com");
-                            f.Parameters.AddWithValue("mtitulo", "titulo del mail");
-                            f.Parameters.AddWithValue("mcuerpo", "cuerpo del mail");
-                            f.Parameters.AddWithValue("uft", DateTime.Now);
-                            f.Parameters.AddWithValue("fta", DateTime.Now);
-                            f.Parameters.AddWithValue("redondo", "0");
-                            f.Parameters.AddWithValue("backupearsiempre", "no");
-                            f.Parameters.AddWithValue("modoreadonly", "no");
-                            f.Parameters.AddWithValue("alwaysp", "no");
-                            f.Parameters.AddWithValue("tooltipz", "si");
-                            Conexion.abrir();
-                            Conexion.Insertar("Configuracion", "SaldoInicial,FechaInicioActividades,NombreEmpresa,DireccionFisica,Email,Telefono1,Localidad,CUIT,usaimpfiscal,PUERTO_IF,master_user_id,SMTP,PUERTO,MAIL,CLAVE,PARA,TITULO,CUERPO,ultimafechatrabajo,fechatrabajoactual,redondeo,backupearsiemprealcerrardia,nopermitircambiosendiasanteriores,siempreimprimirtickets,tooltipsON", "@saldoini,@fia,@nomb,@dire,@mail,@telA,@loca,@cuite,@usaimpfi,@puerto,@masteruser,@smtp,@puertomail,@mmail,@mclave,@mpara,@mtitulo,@mcuerpo,@uft,@fta,@redondo,@backupearsiempre,@modoreadonly,@alwaysp,@tooltipz", f);
-                            Conexion.Insertar("Usuarios", "login,clave,level,nombreusuario,eliminado", "'q','q','Admin','Administrador','Activo'", new SqlCeCommand());
-                            Conexion.cerrar();
-                            MessageBox.Show("se creo la licencia, tu usuario Admin es\nUser: q\nPassw: q\n Si olvidas la clave contactanos por favor.\nVuelva a ejecutar el sistema para poder usar su licencia.\nGracias por habernos elegido!");
-                            Environment.Exit(0);
-                        }
+
+                        //MessageBox.Show(String.Format("{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11}", reader[0], reader[1], reader[2], reader[3], reader[4], reader[5], reader[6], reader[7], reader[8], reader[9], reader[10], reader[11]));
+                        existe = true;
+                        cliente = reader[1].ToString();
+                        organizacion = reader[2].ToString();
+                        telefono = reader[3].ToString();
+                        mail = reader[4].ToString();
+                        cuit = reader[5].ToString();
+                        tipocuit = reader[6].ToString();
+                        serial = reader[7].ToString();
+                        claveserial = reader[8].ToString();
+                        fechaini = reader[10].ToString();
+                        detallepc = reader[11].ToString();
                     }
-                    catch (Exception exce)
+                    else
                     {
-                        MessageBox.Show(exce.Message);
+                        MessageBox.Show("La Licencia es invalida o ya fue activada previamente. Si es usted el dueño/la dueña de la licencia ingresada entonces comuníquese a nuestras oficinas para resolver el inconveniente.");
+                        Environment.Exit(1);
+                    }
+                    reader.Close();
+                    myConnection.Close();
+                }
+                if (existe == true)
+                {
+                    detallepc = id;
+                myConnection.Open();
+                Conexion.abrir();
+                DataTable haylicencia = Conexion.Consultar("*", "Configuracion", "", "", new SqlCeCommand());
+                Conexion.cerrar();
+                try
+                {
+                    if (haylicencia.Rows.Count < 1)
+                    {
+                        SqlCeCommand f = new SqlCeCommand();
+                        f.Parameters.AddWithValue("saldoini", "0");
+                        f.Parameters.AddWithValue("fia", DateTime.Now);
+                        f.Parameters.AddWithValue("nomb", organizacion);
+                        f.Parameters.AddWithValue("dire", " ");
+                        f.Parameters.AddWithValue("mail", mail);
+                        f.Parameters.AddWithValue("telA", telefono);
+                        f.Parameters.AddWithValue("loca", " ");
+                        f.Parameters.AddWithValue("cuite", cuit);
+                        f.Parameters.AddWithValue("usaimpfi", "no");
+                        f.Parameters.AddWithValue("puerto", "0");
+                        f.Parameters.AddWithValue("masteruser", detallepc);
+                        f.Parameters.AddWithValue("smtp", " ");
+                        f.Parameters.AddWithValue("puertomail", " ");
+                        f.Parameters.AddWithValue("mmail", " ");
+                        f.Parameters.AddWithValue("mclave", " ");
+                        f.Parameters.AddWithValue("mpara", " ");
+                        f.Parameters.AddWithValue("mtitulo", " ");
+                        f.Parameters.AddWithValue("mcuerpo", " ");
+                        f.Parameters.AddWithValue("uft", DateTime.Now);
+                        f.Parameters.AddWithValue("fta", DateTime.Now);
+                        f.Parameters.AddWithValue("redondo", "0");
+                        f.Parameters.AddWithValue("backupearsiempre", "no");
+                        f.Parameters.AddWithValue("modoreadonly", "no");
+                        f.Parameters.AddWithValue("alwaysp", "no");
+                        f.Parameters.AddWithValue("tooltipz", "si");
+                        Conexion.abrir();
+                        Conexion.Insertar("Configuracion", "SaldoInicial,FechaInicioActividades,NombreEmpresa,DireccionFisica,Email,Telefono1,Localidad,CUIT,usaimpfiscal,PUERTO_IF,master_user_id,SMTP,PUERTO,MAIL,CLAVE,PARA,TITULO,CUERPO,ultimafechatrabajo,fechatrabajoactual,redondeo,backupearsiemprealcerrardia,nopermitircambiosendiasanteriores,siempreimprimirtickets,tooltipsON", "@saldoini,@fia,@nomb,@dire,@mail,@telA,@loca,@cuite,@usaimpfi,@puerto,@masteruser,@smtp,@puertomail,@mmail,@mclave,@mpara,@mtitulo,@mcuerpo,@uft,@fta,@redondo,@backupearsiempre,@modoreadonly,@alwaysp,@tooltipz", f);
+                        Conexion.Insertar("Usuarios", "login,clave,level,nombreusuario,eliminado", "'admin','admin','Admin','Administrador','Activo'", new SqlCeCommand());
+
+                        SqlCommand command2 = new SqlCommand("update licencias set serialconsumido = @consumido , fechainicializacion = @fechaini , detallePC = @infopc WHERE serial = @ser and claveserial = @cla", myConnection);
+                        command2.Parameters.AddWithValue("ser", textBox1.Text);
+                        command2.Parameters.AddWithValue("cla", textBox3.Text);
+                        command2.Parameters.AddWithValue("consumido", "si");
+                        command2.Parameters.AddWithValue("fechaini", DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString());
+                        command2.Parameters.AddWithValue("infopc", id);
+                        // int result = command.ExecuteNonQuery();
+                        command2.ExecuteNonQuery();
+
+                        Conexion.cerrar();
+                        MessageBox.Show("La licencia se ha activado correctamente!, tu usuario Admin es\nUsuario: admin\nClave: admin\n Si olvidas la clave contactanos por favor.\nVuelva a ejecutar el sistema para poder usar su licencia.\nGracias por habernos elegido!", "LICENCIA ACTIVADA", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        Environment.Exit(0);
                     }
                 }
-                else
+                catch (Exception exce)
                 {
-                    MessageBox.Show("La Licencia es invalida o ya fue activada previamente. Si es usted el dueño/la dueña de la licencia ingresada entonces comuníquese a nuestras oficinas para resolver el inconveniente.");
+                    MessageBox.Show(exce.Message);
                 }
+
+                myConnection.Close();
             }
-            myConnection.Close();
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message);
+            }
+        
         }
     }
 }

@@ -24,14 +24,15 @@ namespace FLAGSYSTEMPV_2017
         private void Main_Load(object sender, EventArgs e)
         {
 
-          //      SecurityIdentifier asd = GetComputerSid();
-           //   string sid =  asd.AccountDomainSid.ToString();
-          //  string modelNo = identifier("Win32_DiskDrive", "Model");
+                SecurityIdentifier asd = GetComputerSid();
+             string sid =  asd.AccountDomainSid.ToString();
+            string modelNo = identifier("Win32_DiskDrive", "Model");
          
-          //  string userID  = sid + modelNo ; 
-          
+            string id  = sid + modelNo ;
+            RegistrarProducto.id = id;
+           
          
-            //MessageBox.Show("Encripted:" );
+          //MessageBox.Show("Encripted:" );
               this.Visible = false;
             
             Conexion.abrir();
@@ -39,8 +40,8 @@ namespace FLAGSYSTEMPV_2017
             if (registered.Rows.Count > 0)
             {
                 SqlCeCommand myid = new SqlCeCommand();
-               // myid.Parameters.AddWithValue("id", userID);
-                DataTable consultaTest = Conexion.Consultar("*", "Configuracion",/* "WHERE master_user_id = @id or slavea_user_id = @id or slaveb_user_id = @id or slavec_user_id = @id "*/"", "", myid);
+                myid.Parameters.AddWithValue("id", id);
+                DataTable consultaTest = Conexion.Consultar("*", "Configuracion", "WHERE master_user_id = @id or slavea_user_id = @id or slaveb_user_id = @id or slavec_user_id = @id ", "", myid);
                 if (consultaTest.Rows.Count >= 1)
                 {
                 string usaimpfis = consultaTest.Rows[0][12].ToString();

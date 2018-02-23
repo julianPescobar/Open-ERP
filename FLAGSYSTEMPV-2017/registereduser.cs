@@ -16,6 +16,7 @@ namespace FLAGSYSTEMPV_2017
         //permisos del usuario
         public static string pventa,pcaja, pcompra, particulo, pclientes, pproveedores, pgastos, pstock, pcierredia, pdiferencia, pconsultaC, pconsultaV, pEScaja, pinformes, panular, pnotac, pnotad, pabstock, pconfig, pempleados, penviarinforme, pfiscalconfig, prubro;
         public static string redondeo, closeandbkp, sololectura, alwaysprint, tooltips;
+       
         public static string getRegLicense()
         {
             Conexion.abrir();

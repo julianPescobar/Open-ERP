@@ -39,7 +39,6 @@
             this.button3 = new System.Windows.Forms.Button();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.linkLabel2 = new System.Windows.Forms.LinkLabel();
-            this.button2 = new System.Windows.Forms.Button();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
@@ -108,7 +107,7 @@
             // 
             this.button1.BackColor = System.Drawing.Color.LemonChiffon;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Location = new System.Drawing.Point(141, 306);
+            this.button1.Location = new System.Drawing.Point(150, 292);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(153, 50);
             this.button1.TabIndex = 6;
@@ -133,9 +132,9 @@
             // 
             this.button3.BackColor = System.Drawing.Color.LemonChiffon;
             this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button3.Location = new System.Drawing.Point(422, 0);
+            this.button3.Location = new System.Drawing.Point(430, 0);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(24, 26);
+            this.button3.Size = new System.Drawing.Size(18, 26);
             this.button3.TabIndex = 9;
             this.button3.Text = "X";
             this.button3.UseVisualStyleBackColor = false;
@@ -164,18 +163,6 @@
             this.linkLabel2.TabStop = true;
             this.linkLabel2.Text = "O contáctenos a traves de nuestro Website";
             this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel2_LinkClicked);
-            // 
-            // button2
-            // 
-            this.button2.BackColor = System.Drawing.Color.LemonChiffon;
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Location = new System.Drawing.Point(9, 358);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(101, 35);
-            this.button2.TabIndex = 13;
-            this.button2.Text = "Licencia Gratis";
-            this.button2.UseVisualStyleBackColor = false;
-            this.button2.Click += new System.EventHandler(this.button2_Click_1);
             // 
             // textBox3
             // 
@@ -217,7 +204,6 @@
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.button2);
             this.Controls.Add(this.linkLabel2);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.button3);
@@ -257,7 +243,6 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.LinkLabel linkLabel2;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
