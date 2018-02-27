@@ -26,9 +26,9 @@ namespace FLAGSYSTEMPV_2017
         {
             if (createorupdate.status == "create")
             {
-
+                comboBox1.Items.Clear();
                 Conexion.abrir();
-                DataTable rubros = Conexion.Consultar("nombrerubro", "Rubros", "", "", new SqlCeCommand());
+                DataTable rubros = Conexion.Consultar("nombrerubro", "Rubros", "where eliminado = 'Activo'", "", new SqlCeCommand());
                 Conexion.cerrar();
                 for (int i = 0; i < rubros.Rows.Count; i++)
                 {
@@ -37,12 +37,13 @@ namespace FLAGSYSTEMPV_2017
             }
             if (createorupdate.status == "update")
             {
+                comboBox1.Items.Clear();
                 button1.Text = "Guardar cambios";
                 SqlCeCommand id = new SqlCeCommand();
                 id.Parameters.AddWithValue("id", createorupdate.itemid);
                 Conexion.abrir();
                 DataTable data = Conexion.Consultar("*", "Proveedores", "WHERE idproveedor = @id", "", id);
-                DataTable rubros = Conexion.Consultar("nombrerubro", "Rubros", "", "", new SqlCeCommand());
+                DataTable rubros = Conexion.Consultar("nombrerubro", "Rubros", "where eliminado = 'Activo'", "", new SqlCeCommand());
                 Conexion.cerrar();
                 for (int i = 0; i < rubros.Rows.Count; i++)
                 {
@@ -169,6 +170,54 @@ namespace FLAGSYSTEMPV_2017
                 }
 
                 this.Close();
+            }
+        }
+
+        private void comboBox1_DropDown(object sender, EventArgs e)
+        {
+            comboBox1.Items.Clear();
+            Conexion.abrir();
+            DataTable rubros = Conexion.Consultar("nombrerubro", "Rubros", "where eliminado = 'Activo'", "", new SqlCeCommand());
+            Conexion.cerrar();
+            for (int i = 0; i < rubros.Rows.Count; i++)
+            {
+                comboBox1.Items.Add(rubros.Rows[i][0].ToString());
+            }
+        }
+
+        private void textBox2_Leave(object sender, EventArgs e)
+        {
+            if (textBox2.Text.Length > 0 && createorupdate.status == "create")
+            {
+                SqlCeCommand existe = new SqlCeCommand();
+                existe.Parameters.AddWithValue("nombrex", textBox2.Text);
+                Conexion.abrir();
+                DataTable existira = Conexion.Consultar("nombre", "Proveedores", "Where nombre = @nombrex", "",existe);
+                Conexion.cerrar();
+                if (existira.Rows.Count > 0)
+                {
+                    MessageBox.Show("Ese nombre de proveedor ya existe, intente con otro nombre");
+                    textBox2.Text = "";
+                    textBox2.Focus();
+                }
+            }
+        }
+
+        private void textBox1_Leave(object sender, EventArgs e)
+        {
+            if (textBox1.Text.Length > 0 && createorupdate.status == "create")
+            {
+                SqlCeCommand existe = new SqlCeCommand();
+                existe.Parameters.AddWithValue("cuitx", textBox1.Text);
+                Conexion.abrir();
+                DataTable existira = Conexion.Consultar("numcuit", "Proveedores", "Where numcuit = @cuitx", "", existe);
+                Conexion.cerrar();
+                if (existira.Rows.Count > 0)
+                {
+                    MessageBox.Show("Ese CUIT de proveedor ya existe, no se admiten clientes duplicados en el sistema.");
+                    textBox1.Text = "";
+                    textBox1.Focus();
+                }
             }
         }
     }

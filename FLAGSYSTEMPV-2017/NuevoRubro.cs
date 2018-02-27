@@ -34,6 +34,7 @@ namespace FLAGSYSTEMPV_2017
                         Application.OpenForms.OfType<Rubros>().First().Close();
                         Rubros openagain = new Rubros();
                         openagain.Show();
+                        textBox1.Select();
                     }
                 
                
@@ -63,6 +64,11 @@ namespace FLAGSYSTEMPV_2017
                 }
             }
             
+        }
+
+        private void NuevoRubro_Load(object sender, EventArgs e)
+        {
+            textBox1.Select();
         }
     }
 }

@@ -101,7 +101,7 @@
             this.textBox1.MaxLength = 100;
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(202, 26);
-            this.textBox1.TabIndex = 5;
+            this.textBox1.TabIndex = 1;
             // 
             // button1
             // 
@@ -110,7 +110,7 @@
             this.button1.Location = new System.Drawing.Point(150, 292);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(153, 50);
-            this.button1.TabIndex = 6;
+            this.button1.TabIndex = 3;
             this.button1.Text = "Registrar Licencia FLAG System PV";
             this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
@@ -135,7 +135,7 @@
             this.button3.Location = new System.Drawing.Point(430, 0);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(18, 26);
-            this.button3.TabIndex = 9;
+            this.button3.TabIndex = 5;
             this.button3.Text = "X";
             this.button3.UseVisualStyleBackColor = false;
             this.button3.Click += new System.EventHandler(this.button3_Click);
@@ -147,7 +147,7 @@
             this.linkLabel1.Location = new System.Drawing.Point(217, 377);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(223, 16);
-            this.linkLabel1.TabIndex = 10;
+            this.linkLabel1.TabIndex = 4;
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "Continuar con la versión de prueba...";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
@@ -171,7 +171,7 @@
             this.textBox3.MaxLength = 100;
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(202, 26);
-            this.textBox3.TabIndex = 14;
+            this.textBox3.TabIndex = 2;
             // 
             // label6
             // 

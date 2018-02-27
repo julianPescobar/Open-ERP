@@ -97,6 +97,7 @@
             this.Name = "NuevoRubro";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "NuevoRubro";
+            this.Load += new System.EventHandler(this.NuevoRubro_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

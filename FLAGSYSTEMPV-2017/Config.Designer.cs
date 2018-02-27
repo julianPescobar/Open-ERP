@@ -77,6 +77,7 @@
             this.label22 = new System.Windows.Forms.Label();
             this.checkBox4 = new System.Windows.Forms.CheckBox();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
@@ -199,6 +200,7 @@
             this.textBox7.Size = new System.Drawing.Size(202, 27);
             this.textBox7.TabIndex = 13;
             this.textBox7.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox7.Leave += new System.EventHandler(this.textBox7_Leave);
             // 
             // label7
             // 
@@ -213,7 +215,7 @@
             // 
             this.button1.BackColor = System.Drawing.Color.LightSkyBlue;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Location = new System.Drawing.Point(518, 489);
+            this.button1.Location = new System.Drawing.Point(518, 458);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(92, 32);
             this.button1.TabIndex = 14;
@@ -242,7 +244,7 @@
             this.groupBox1.Font = new System.Drawing.Font("Lucida Sans Unicode", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(6, 216);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(604, 267);
+            this.groupBox1.Size = new System.Drawing.Size(604, 236);
             this.groupBox1.TabIndex = 15;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Configuración del correo electrónico (Para el envío de informes por E-mail)";
@@ -251,7 +253,7 @@
             // 
             this.textBox16.BackColor = System.Drawing.Color.LightSkyBlue;
             this.textBox16.Font = new System.Drawing.Font("Lucida Sans Unicode", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox16.Location = new System.Drawing.Point(144, 227);
+            this.textBox16.Location = new System.Drawing.Point(144, 201);
             this.textBox16.Name = "textBox16";
             this.textBox16.Size = new System.Drawing.Size(454, 27);
             this.textBox16.TabIndex = 31;
@@ -261,7 +263,7 @@
             // 
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("Lucida Sans Unicode", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label16.Location = new System.Drawing.Point(26, 234);
+            this.label16.Location = new System.Drawing.Point(26, 208);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(111, 16);
             this.label16.TabIndex = 30;
@@ -271,7 +273,7 @@
             // 
             this.textBox8.BackColor = System.Drawing.Color.LightSkyBlue;
             this.textBox8.Font = new System.Drawing.Font("Lucida Sans Unicode", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox8.Location = new System.Drawing.Point(144, 198);
+            this.textBox8.Location = new System.Drawing.Point(144, 172);
             this.textBox8.Name = "textBox8";
             this.textBox8.Size = new System.Drawing.Size(454, 27);
             this.textBox8.TabIndex = 29;
@@ -281,7 +283,7 @@
             // 
             this.textBox14.BackColor = System.Drawing.Color.LightSkyBlue;
             this.textBox14.Font = new System.Drawing.Font("Lucida Sans Unicode", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox14.Location = new System.Drawing.Point(144, 23);
+            this.textBox14.Location = new System.Drawing.Point(144, 26);
             this.textBox14.Name = "textBox14";
             this.textBox14.Size = new System.Drawing.Size(454, 27);
             this.textBox14.TabIndex = 17;
@@ -291,7 +293,7 @@
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Lucida Sans Unicode", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(58, 205);
+            this.label8.Location = new System.Drawing.Point(58, 179);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(79, 16);
             this.label8.TabIndex = 28;
@@ -301,7 +303,7 @@
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Lucida Sans Unicode", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.Location = new System.Drawing.Point(92, 27);
+            this.label14.Location = new System.Drawing.Point(92, 30);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(45, 16);
             this.label14.TabIndex = 16;
@@ -311,7 +313,7 @@
             // 
             this.textBox9.BackColor = System.Drawing.Color.LightSkyBlue;
             this.textBox9.Font = new System.Drawing.Font("Lucida Sans Unicode", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox9.Location = new System.Drawing.Point(144, 168);
+            this.textBox9.Location = new System.Drawing.Point(144, 142);
             this.textBox9.Name = "textBox9";
             this.textBox9.Size = new System.Drawing.Size(454, 27);
             this.textBox9.TabIndex = 27;
@@ -321,7 +323,7 @@
             // 
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Lucida Sans Unicode", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(85, 59);
+            this.label13.Location = new System.Drawing.Point(85, 62);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(52, 16);
             this.label13.TabIndex = 18;
@@ -331,7 +333,7 @@
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Lucida Sans Unicode", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(99, 176);
+            this.label9.Location = new System.Drawing.Point(99, 150);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(38, 16);
             this.label9.TabIndex = 26;
@@ -341,7 +343,7 @@
             // 
             this.textBox13.BackColor = System.Drawing.Color.LightSkyBlue;
             this.textBox13.Font = new System.Drawing.Font("Lucida Sans Unicode", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox13.Location = new System.Drawing.Point(144, 52);
+            this.textBox13.Location = new System.Drawing.Point(144, 55);
             this.textBox13.Name = "textBox13";
             this.textBox13.Size = new System.Drawing.Size(454, 27);
             this.textBox13.TabIndex = 19;
@@ -351,7 +353,7 @@
             // 
             this.textBox10.BackColor = System.Drawing.Color.LightSkyBlue;
             this.textBox10.Font = new System.Drawing.Font("Lucida Sans Unicode", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox10.Location = new System.Drawing.Point(144, 139);
+            this.textBox10.Location = new System.Drawing.Point(144, 113);
             this.textBox10.Name = "textBox10";
             this.textBox10.Size = new System.Drawing.Size(454, 27);
             this.textBox10.TabIndex = 25;
@@ -362,37 +364,39 @@
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Lucida Sans Unicode", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(104, 88);
+            this.label12.Location = new System.Drawing.Point(104, 62);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(33, 16);
             this.label12.TabIndex = 20;
             this.label12.Text = "SSL:";
+            this.label12.Visible = false;
             // 
             // label10
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Lucida Sans Unicode", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(54, 147);
+            this.label10.Location = new System.Drawing.Point(54, 121);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(83, 16);
+            this.label10.Size = new System.Drawing.Size(84, 16);
             this.label10.TabIndex = 24;
-            this.label10.Text = "Contraseña:";
+            this.label10.Text = "Clave Email:";
             // 
             // textBox12
             // 
             this.textBox12.BackColor = System.Drawing.Color.LightSkyBlue;
             this.textBox12.Font = new System.Drawing.Font("Lucida Sans Unicode", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox12.Location = new System.Drawing.Point(144, 81);
+            this.textBox12.Location = new System.Drawing.Point(144, 55);
             this.textBox12.Name = "textBox12";
             this.textBox12.Size = new System.Drawing.Size(454, 27);
             this.textBox12.TabIndex = 21;
             this.textBox12.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox12.Visible = false;
             // 
             // textBox11
             // 
             this.textBox11.BackColor = System.Drawing.Color.LightSkyBlue;
             this.textBox11.Font = new System.Drawing.Font("Lucida Sans Unicode", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox11.Location = new System.Drawing.Point(144, 110);
+            this.textBox11.Location = new System.Drawing.Point(144, 84);
             this.textBox11.Name = "textBox11";
             this.textBox11.Size = new System.Drawing.Size(454, 27);
             this.textBox11.TabIndex = 23;
@@ -402,17 +406,17 @@
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Lucida Sans Unicode", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(91, 118);
+            this.label11.Location = new System.Drawing.Point(34, 95);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(46, 16);
+            this.label11.Size = new System.Drawing.Size(104, 16);
             this.label11.TabIndex = 22;
-            this.label11.Text = "Email:";
+            this.label11.Text = "Email Enviador:";
             // 
             // button2
             // 
             this.button2.BackColor = System.Drawing.Color.LightSkyBlue;
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Location = new System.Drawing.Point(6, 489);
+            this.button2.Location = new System.Drawing.Point(6, 458);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(92, 32);
             this.button2.TabIndex = 16;
@@ -577,12 +581,24 @@
             // 
             this.saveFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.saveFileDialog1_FileOk);
             // 
+            // linkLabel1
+            // 
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.Location = new System.Drawing.Point(147, 466);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(246, 16);
+            this.linkLabel1.TabIndex = 31;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "Ayudante para configuración de email";
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            // 
             // Config
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SteelBlue;
-            this.ClientSize = new System.Drawing.Size(623, 527);
+            this.ClientSize = new System.Drawing.Size(623, 496);
+            this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.label22);
             this.Controls.Add(this.checkBox4);
             this.Controls.Add(this.label21);
@@ -681,5 +697,6 @@
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.CheckBox checkBox4;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.LinkLabel linkLabel1;
     }
 }

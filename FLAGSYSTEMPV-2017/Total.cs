@@ -229,6 +229,8 @@ namespace FLAGSYSTEMPV_2017
                         {
                             if (ConfigFiscal.marca == "EPSON") //si es epson
                             {
+                                try
+                                {
                                 EPSON_Impresora_Fiscal.PrinterFiscal epson = new PrinterFiscal();
                                 epson.PortNumber = ConfigFiscal.comport;
                                 epson.BaudRate = "9600";
@@ -236,12 +238,11 @@ namespace FLAGSYSTEMPV_2017
                                // epson.SetGetDateTime("S", "200120", "100505");
                                 //epson.OpenTicket("C");
                                 //MessageBox.Show(epson.PrinterStatus + "\n" + epson.FiscalStatus);
-                                try
-                                {
+                                
                                     bool status;
                                     textBox2.Enabled = false;
                                     Pleasewait reg = new Pleasewait();
-                                    reg.ShowDialog();
+                                    reg.Show();
                                     status = epson.OpenTicket("C");
                                     if (Application.OpenForms.OfType<Pleasewait>().Count() == 1)
                                         Application.OpenForms.OfType<Pleasewait>().First().Close();
@@ -270,13 +271,91 @@ namespace FLAGSYSTEMPV_2017
                                 catch (Exception m)
                                 {
                                     MessageBox.Show("error en impresora fiscal.\n" + m.Message);
-                                    this.Close();
+                                    if (Application.OpenForms.OfType<Pleasewait>().Count() == 1)
+                                        Application.OpenForms.OfType<Pleasewait>().First().Close();
+                                    if (Application.OpenForms.OfType<Total>().Count() == 1)
+                                        Application.OpenForms.OfType<Total>().First().Close();
+                                    
                                 }
                             }
                             if (ConfigFiscal.marca == "HASAR") //si es hasar
                             {
-                                HASAR hasar = new HASAR();
-                                //lo hacemos con hasar
+                                try
+                                {
+                                    HASAR hasar = new HASAR();
+                                    hasar.Puerto = ConfigFiscal.comport;
+                                    hasar.Baudios = 9600;
+                                    hasar.Comenzar();
+                                    textBox2.Enabled = false;
+                                    textBox2.Focus();
+                                    hasar.AbrirComprobanteFiscal(DocumentosFiscales.TICKET_C);
+                                      Pleasewait reg = new Pleasewait();
+                                    reg.Show();
+                                    object copias = 0;
+                                    string pagocon = textBox2.Text.ToString().Replace("$", "");
+                                    if (!pagocon.Contains(","))
+                                    {
+                                        pagocon = pagocon + ",00";
+                                    }
+                                    for (int i = 0; i < totalventa.detalle.Rows.Count; i++)
+                                    {
+                                        string descripcion = totalventa.detalle.Rows[i][3].ToString();
+                                        string cantidad = totalventa.detalle.Rows[i][1].ToString();
+                                        string precio = totalventa.detalle.Rows[i][5].ToString().Replace("$", "");
+                                        // MessageBox.Show(descripcion + " - " + cantidad + " - " + precio);
+                                        hasar.ImprimirItem(descripcion, double.Parse(cantidad), double.Parse(precio), 0, 0);
+                                    }
+                                    //hasar.ImprimirPago("PAGO CON ", Convert.ToDouble(pagocon.Substring(0, pagocon.Length - 3).PadLeft(7, '0') + pagocon.Substring(pagocon.Length - 2, 2)), copias, out copias);
+                                    hasar.ImprimirPago("Paga con ", 2000, copias, out copias);
+                                    hasar.CerrarComprobanteFiscal(Type.Missing, out copias);
+                                    hasar.Finalizar();
+                                    vender();
+                                    //EPSON_Impresora_Fiscal.PrinterFiscal epson = new PrinterFiscal();
+                                    //epson.PortNumber = ConfigFiscal.comport;
+                                    //epson.BaudRate = "9600";
+                                    //epson.MessagesOn = true;
+                                    // epson.SetGetDateTime("S", "200120", "100505");
+                                    //epson.OpenTicket("C");
+                                    //MessageBox.Show(epson.PrinterStatus + "\n" + epson.FiscalStatus);
+
+                                   /* bool status;
+                                    textBox2.Enabled = false;
+                                    Pleasewait reg = new Pleasewait();
+                                    reg.Show();
+                                    status = epson.OpenTicket("C");
+                                    if (Application.OpenForms.OfType<Pleasewait>().Count() == 1)
+                                        Application.OpenForms.OfType<Pleasewait>().First().Close();
+                                    textBox2.Enabled = true;
+                                    textBox2.Focus();
+                                    if (status == true) //imprimo a impresora fiscal
+                                    {
+                                        string pagocon = textBox2.Text.ToString().Replace("$", "");
+                                        if (!pagocon.Contains(","))
+                                        {
+                                            pagocon = pagocon + ",00";
+                                        }
+                                        for (int i = 0; i < totalventa.detalle.Rows.Count; i++)
+                                        {
+                                            string descripcion = totalventa.detalle.Rows[i][3].ToString();
+                                            string cantidad = totalventa.detalle.Rows[i][1].ToString();
+                                            string precio = totalventa.detalle.Rows[i][5].ToString().Replace("$", "");
+                                            // MessageBox.Show(descripcion + " - " + cantidad + " - " + precio);
+                                            epson.SendTicketItem(descripcion, cantidad.PadRight(4, '0'), precio.ToString().Substring(0, precio.Length - 3).PadLeft(7, '0') + precio.ToString().Substring(precio.Length - 3, 3).Replace(",", ""), "1", "M", "1", "1", "1");
+                                        }
+                                        epson.SendTicketPayment("PAGO CON ", pagocon.Substring(0, pagocon.Length - 3).PadLeft(7, '0') + pagocon.Substring(pagocon.Length - 2, 2), "T");
+                                        epson.CloseTicket();
+                                    }
+                                    vender();*/
+                                }
+                                catch (Exception m)
+                                {
+                                    MessageBox.Show("error en impresora fiscal.\n" + m.Message);
+                                    if (Application.OpenForms.OfType<Pleasewait>().Count() == 1)
+                                        Application.OpenForms.OfType<Pleasewait>().First().Close();
+                                    if (Application.OpenForms.OfType<Total>().Count() == 1)
+                                        Application.OpenForms.OfType<Total>().First().Close();
+
+                                }
                             }
                             if (ConfigFiscal.marca == "NCR") //si es ncr
                             {

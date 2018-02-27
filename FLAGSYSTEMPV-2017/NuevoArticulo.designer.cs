@@ -165,14 +165,15 @@
             this.label12.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label12.Location = new System.Drawing.Point(28, 161);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(106, 17);
+            this.label12.Size = new System.Drawing.Size(112, 17);
             this.label12.TabIndex = 6;
-            this.label12.Text = "Porcentaje IVA:";
+            this.label12.Text = "*Porcentaje IVA:";
             // 
             // textBox1
             // 
             this.textBox1.BackColor = System.Drawing.Color.LightSkyBlue;
             this.textBox1.Location = new System.Drawing.Point(146, 10);
+            this.textBox1.MaxLength = 1000;
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(306, 27);
             this.textBox1.TabIndex = 1;
@@ -182,7 +183,7 @@
             // 
             this.textBox2.BackColor = System.Drawing.Color.LightSkyBlue;
             this.textBox2.Location = new System.Drawing.Point(146, 35);
-            this.textBox2.MaxLength = 30;
+            this.textBox2.MaxLength = 20;
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(306, 27);
             this.textBox2.TabIndex = 2;

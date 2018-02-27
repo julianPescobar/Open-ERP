@@ -73,7 +73,8 @@ namespace FLAGSYSTEMPV_2017
                 }
                 else
                 {
-                    MessageBox.Show("Esta base de datos está protegida por la licencia. Si sos el dueño de esta licencia contactanos para hacer el cambio de dispositivo asociado a la licencia");
+                    MessageBox.Show("Este sistema está protegido por la licencia que actualmente tiene activada. Si usted es el dueño de esta licencia contáctenos para hacer el cambio de hardware asociado a la licencia.\nTelefonos: 4307-5103 / 5192\ne-mail:info@flag.com.ar\nHorarios:Lunes a Viernes de 09 a 18 hs.","El sistema no puede ejecutarse en esta PC",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                    Environment.Exit(1);
                 }
             }
             else

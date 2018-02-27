@@ -1171,7 +1171,6 @@ namespace FLAGSYSTEMPV_2017
             if (registereduser.penviarinforme == "si") enviarInformeToolStripMenuItem.Enabled = true; else enviarInformeToolStripMenuItem.Enabled = false;
             if (registereduser.pfiscalconfig == "si") impresoraFiscalToolStripMenuItem.Enabled = true; else impresoraFiscalToolStripMenuItem.Enabled = false;
             if (registereduser.prubro == "si") button10.Enabled = true; else button10.Enabled = false;
-
         }
 
         private void button12_Click(object sender, EventArgs e)
@@ -1181,7 +1180,6 @@ namespace FLAGSYSTEMPV_2017
             else
             {
                 ControlStockVendedores frm = new ControlStockVendedores();
-                
                 frm.Show();
             }
         }
@@ -1204,14 +1202,10 @@ namespace FLAGSYSTEMPV_2017
             {
                 if (registereduser.tooltips == "si")
                 {
-
                     inicio.IsBalloon = false;
-
                     inicio.ShowAlways = true;
                     inicio.UseAnimation = true;
                     inicio.ToolTipTitle = "Bienvenido a Flag System PV:";
-
-
                     inicio.Show("Los tips están habilitados.\n para deshabilitarlos debe ser usuario de nivel Supervisor\n y luego ir a Administracion>Configuracion> y destildar la casilla \"Habilitar los tips informativos\"\nPara abrir los tips de cada boton, pase el puntero sobre encima del botón.", pictureBox1);
                 }
             }
@@ -1223,13 +1217,10 @@ namespace FLAGSYSTEMPV_2017
             {
                 if (registereduser.tooltips == "si")
                 {
-
                     ventas.IsBalloon = false;
-
                     ventas.ShowAlways = false;
                     ventas.UseAnimation = true;
                     ventas.ToolTipTitle = "Formulario de Ventas:";
-
                     ventas.Show("Abre la ventana de ventas, puede clickear en el boton o apretar F1 si tiene los permisos necesarios.", button2);
                 }
             }

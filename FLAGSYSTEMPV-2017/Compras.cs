@@ -49,7 +49,8 @@ namespace FLAGSYSTEMPV_2017
                 MessageBox.Show("Lo sentimos pero esta es la versión demo del producto y solo se permiten ingresar hasta 100 registros de compra. Si quiere habilitar esta opcion debe comprar la licencia.");
 
             }
-            comboBox1.Focus();
+            comboBox1.DroppedDown = true;
+            comboBox1.Select();
             
         }
         protected override void WndProc(ref Message m)
@@ -238,7 +239,7 @@ namespace FLAGSYSTEMPV_2017
                     {
                         MessageBox.Show("Debe seleccionar proveedor primero");
                         textBox4.Text = "";
-                        comboBox1.Focus();
+                        comboBox1.Select();
                         comboBox1.DroppedDown = true;
                     }
                 }//chequear si existe el codigo de ese producto y de ser asi agregarlo al DGV.
@@ -429,9 +430,5 @@ namespace FLAGSYSTEMPV_2017
             }
         }
 
-
-        
-
-       
     }
 }
