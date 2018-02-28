@@ -33,6 +33,7 @@ namespace FLAGSYSTEMPV_2017
             {
                 comboBox1.Items.Add(proveedores.Rows[i][0].ToString());
             }
+            
             dateTimePicker1.Value = Convert.ToDateTime(app.hoy+" "+DateTime.Now.Hour.ToString()+":"+DateTime.Now.Minute.ToString()+":"+DateTime.Now.Second.ToString());
             Conexion.abrir();
             DataTable nextid = new DataTable();
@@ -411,8 +412,7 @@ namespace FLAGSYSTEMPV_2017
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            comboBox1.Enabled = false;
-            textBox4.Focus();
+           
         }
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
@@ -428,6 +428,12 @@ namespace FLAGSYSTEMPV_2017
                     dateTimePicker1.Value = fechadatabase;
                 }
             }
+        }
+
+        private void comboBox1_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            comboBox1.Enabled = false;
+            textBox4.Focus();
         }
 
     }

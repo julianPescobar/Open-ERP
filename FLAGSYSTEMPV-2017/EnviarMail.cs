@@ -251,5 +251,10 @@ namespace FLAGSYSTEMPV_2017
             File.AppendAllLines(app.dir + "\\Cierre" + dateTimePicker1.Value.ToShortDateString().Replace("/", "") + ".txt", Salidas);
                    
         }
+
+        private void EnviarMail_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape) this.Close();
+        }
     }
 }

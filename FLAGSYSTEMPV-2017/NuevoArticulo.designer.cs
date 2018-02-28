@@ -203,6 +203,7 @@
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(139, 27);
             this.textBox4.TabIndex = 5;
+            this.textBox4.TextChanged += new System.EventHandler(this.textBox4_TextChanged);
             this.textBox4.Leave += new System.EventHandler(this.textBox4_Leave);
             // 
             // textBox5
@@ -212,6 +213,7 @@
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(139, 27);
             this.textBox5.TabIndex = 6;
+            this.textBox5.TextChanged += new System.EventHandler(this.textBox5_TextChanged);
             this.textBox5.Leave += new System.EventHandler(this.textBox5_Leave);
             // 
             // textBox6
@@ -221,6 +223,7 @@
             this.textBox6.Name = "textBox6";
             this.textBox6.Size = new System.Drawing.Size(139, 27);
             this.textBox6.TabIndex = 7;
+            this.textBox6.TextChanged += new System.EventHandler(this.textBox6_TextChanged);
             this.textBox6.Leave += new System.EventHandler(this.textBox6_Leave);
             // 
             // textBox7
@@ -239,6 +242,7 @@
             this.textBox8.Name = "textBox8";
             this.textBox8.Size = new System.Drawing.Size(139, 27);
             this.textBox8.TabIndex = 10;
+            this.textBox8.TextChanged += new System.EventHandler(this.textBox8_TextChanged);
             this.textBox8.Leave += new System.EventHandler(this.textBox8_Leave);
             // 
             // textBox9
@@ -248,6 +252,7 @@
             this.textBox9.Name = "textBox9";
             this.textBox9.Size = new System.Drawing.Size(139, 27);
             this.textBox9.TabIndex = 11;
+          
             this.textBox9.Leave += new System.EventHandler(this.textBox9_Leave);
             // 
             // comboBox1
@@ -383,6 +388,7 @@
             this.Controls.Add(this.label1);
             this.Font = new System.Drawing.Font("Lucida Sans Unicode", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -393,6 +399,7 @@
             this.Text = "NuevoArticulo";
             this.Load += new System.EventHandler(this.NuevoArticulo_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.NuevoArticulo_Paint);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.NuevoArticulo_KeyDown);
             this.ResumeLayout(false);
             this.PerformLayout();
 

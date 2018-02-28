@@ -176,6 +176,42 @@ namespace FLAGSYSTEMPV_2017
             e.Graphics.DrawRectangle(new Pen(Color.Black, 4),
                         this.DisplayRectangle);      
         }
+
+        private void ControlStockVendedores_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+                this.Close();
+
+            
+            if (e.KeyCode == Keys.F5)
+                textBox1.Select();
+
+            if (e.KeyCode == Keys.Up)
+            {
+                try
+                {
+                    int rowIndex = dataGridView1.CurrentCell.RowIndex;
+                    dataGridView1.Rows[rowIndex - 1].Cells[1].Selected = true;
+                }
+                catch (Exception)
+                {
+
+                }
+
+            }
+            if (e.KeyCode == Keys.Down)
+            {
+                try
+                {
+                    int rowIndex = dataGridView1.CurrentCell.RowIndex;
+                    dataGridView1.Rows[rowIndex + 1].Cells[1].Selected = true;
+                }
+                catch (Exception)
+                {
+                }
+
+            }
+        }
      
     }
 }

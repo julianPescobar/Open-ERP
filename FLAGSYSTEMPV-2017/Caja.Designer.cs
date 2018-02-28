@@ -263,6 +263,7 @@
             this.Controls.Add(this.label1);
             this.Font = new System.Drawing.Font("Lucida Sans Unicode", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -273,6 +274,7 @@
             this.Text = "Caja";
             this.Load += new System.EventHandler(this.Caja_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Caja_Paint);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Caja_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);

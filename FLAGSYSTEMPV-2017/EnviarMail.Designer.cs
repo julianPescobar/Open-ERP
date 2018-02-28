@@ -250,12 +250,14 @@
             this.Controls.Add(this.label1);
             this.Font = new System.Drawing.Font("Lucida Sans Unicode", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "EnviarMail";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "EnviarMail";
             this.Load += new System.EventHandler(this.EnviarMail_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.EnviarMail_Paint);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.EnviarMail_KeyDown);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);

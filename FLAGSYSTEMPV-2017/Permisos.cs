@@ -181,6 +181,13 @@ namespace FLAGSYSTEMPV_2017
             }
         }
 
+        private void Permisos_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+                this.Close();
+
+        }
+
         
 
       

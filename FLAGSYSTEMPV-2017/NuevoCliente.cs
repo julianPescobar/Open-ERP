@@ -155,5 +155,12 @@ namespace FLAGSYSTEMPV_2017
                 this.Close();
             }
         }
+
+        private void NuevoCliente_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+                this.Close();
+
+        }
     }
 }

@@ -75,7 +75,7 @@
             this.comboBox2.Location = new System.Drawing.Point(16, 87);
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(272, 26);
-            this.comboBox2.TabIndex = 3;
+            this.comboBox2.TabIndex = 2;
             this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
             // 
             // label2
@@ -96,7 +96,7 @@
             this.comboBox3.Location = new System.Drawing.Point(16, 119);
             this.comboBox3.Name = "comboBox3";
             this.comboBox3.Size = new System.Drawing.Size(272, 26);
-            this.comboBox3.TabIndex = 4;
+            this.comboBox3.TabIndex = 3;
             this.comboBox3.Visible = false;
             // 
             // label3
@@ -127,7 +127,7 @@
             -2147483648});
             this.numericUpDown1.Name = "numericUpDown1";
             this.numericUpDown1.Size = new System.Drawing.Size(272, 37);
-            this.numericUpDown1.TabIndex = 6;
+            this.numericUpDown1.TabIndex = 4;
             this.numericUpDown1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // button1
@@ -137,7 +137,7 @@
             this.button1.Location = new System.Drawing.Point(16, 232);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 33);
-            this.button1.TabIndex = 7;
+            this.button1.TabIndex = 5;
             this.button1.Text = "Salir";
             this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
@@ -149,7 +149,7 @@
             this.button2.Location = new System.Drawing.Point(213, 232);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 33);
-            this.button2.TabIndex = 8;
+            this.button2.TabIndex = 6;
             this.button2.Text = "Aceptar";
             this.button2.UseVisualStyleBackColor = false;
             this.button2.Click += new System.EventHandler(this.button2_Click);
@@ -171,11 +171,13 @@
             this.Controls.Add(this.label1);
             this.Font = new System.Drawing.Font("Lucida Sans Unicode", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "ActualizaPrecios";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ActualizaPrecios";
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.ActualizaPrecios_Paint);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ActualizaPrecios_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

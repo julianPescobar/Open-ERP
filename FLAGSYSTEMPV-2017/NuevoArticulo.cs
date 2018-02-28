@@ -414,5 +414,36 @@ namespace FLAGSYSTEMPV_2017
             
             }
         }
+
+        private void NuevoArticulo_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape) this.Close();
+        }
+
+        private void textBox4_TextChanged(object sender, EventArgs e)
+        {
+            textBox4.Text = textBox4.Text.Replace(".", ",");
+            textBox4.SelectionStart = textBox4.Text.Length;
+        }
+
+        private void textBox5_TextChanged(object sender, EventArgs e)
+        {
+            textBox5.Text = textBox5.Text.Replace(".", ",");
+            textBox5.SelectionStart = textBox5.Text.Length;
+        }
+
+        private void textBox6_TextChanged(object sender, EventArgs e)
+        {
+            textBox6.Text = textBox6.Text.Replace(".", ",");
+            textBox6.SelectionStart = textBox6.Text.Length;
+        }
+
+        private void textBox8_TextChanged(object sender, EventArgs e)
+        {
+            textBox8.Text = textBox8.Text.Replace(".", ",");
+            textBox8.SelectionStart = textBox8.Text.Length;
+        }
+
+       
     }
 }

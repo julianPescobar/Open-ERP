@@ -61,7 +61,8 @@ namespace FLAGSYSTEMPV_2017
             string name = row.Cells["Nombre del Proveedor"].Value.ToString();
             string id = row.Cells["idproveedor"].Value.ToString();
 
-            DialogResult borrar = MessageBox.Show("Está segudo de borrar a este proveedor?\n"+name, "Borrar?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+           
+            DialogResult borrar = MessageBox.Show("Está seguro de borrar a este proveedor?\n"+name, "Borrar?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (borrar == DialogResult.Yes)
             {
                 Conexion.abrir();
@@ -127,6 +128,48 @@ namespace FLAGSYSTEMPV_2017
             {
                 NuevoProveedor frm = new NuevoProveedor();
                 frm.ShowDialog();
+            }
+        }
+
+        private void Proveedores_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.F1 && button1.Enabled == true)
+                button1.PerformClick();
+
+            if (e.KeyCode == Keys.F2 && button9.Enabled == true)
+                button9.PerformClick();
+
+            if (e.KeyCode == Keys.F3 && button2.Enabled == true)
+                button2.PerformClick();
+
+            if (e.KeyCode == Keys.F4) textBox1.Select();
+
+            if (e.KeyCode == Keys.Escape)
+                this.Close();
+
+            if (e.KeyCode == Keys.Up)
+            {
+                try
+                {
+                    int rowIndex = dataGridView1.CurrentCell.RowIndex;
+                    dataGridView1.Rows[rowIndex - 1].Cells[1].Selected = true;
+                }
+                catch (Exception)
+                {
+
+                }
+
+            }
+            if (e.KeyCode == Keys.Down)
+            {
+                try
+                {
+                    int rowIndex = dataGridView1.CurrentCell.RowIndex;
+                    dataGridView1.Rows[rowIndex + 1].Cells[1].Selected = true;
+                }
+                catch (Exception)
+                {
+                }
             }
         }
     }

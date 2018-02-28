@@ -154,5 +154,10 @@ namespace FLAGSYSTEMPV_2017
             }
             else MessageBox.Show("Debe completar todos los datos para poder cargar un alta o baja de stock");
         }
+
+        private void AgregarAltabaja_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape) this.Close();
+        }
     }
 }

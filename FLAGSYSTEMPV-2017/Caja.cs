@@ -211,5 +211,12 @@ namespace FLAGSYSTEMPV_2017
                 frm.Show();
             }
         }
+
+        private void Caja_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+                this.Close();
+
+        }
     }
 }

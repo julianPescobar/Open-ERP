@@ -100,6 +100,7 @@
             this.Controls.Add(this.label1);
             this.Font = new System.Drawing.Font("Lucida Sans Unicode", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "Buscarticulo";
             this.ShowIcon = false;
@@ -109,6 +110,7 @@
             this.Text = "ar";
             this.Load += new System.EventHandler(this.Buscarticulo_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Buscarticulo_Paint);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Buscarticulo_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -135,12 +135,14 @@
             this.Controls.Add(this.label1);
             this.Font = new System.Drawing.Font("Lucida Sans Unicode", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "ControlStockVendedores";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ControlStockVendedores";
             this.Load += new System.EventHandler(this.ControlStockVendedores_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.ControlStockVendedores_Paint);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ControlStockVendedores_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

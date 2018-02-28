@@ -220,5 +220,10 @@ namespace FLAGSYSTEMPV_2017
                 }
             }
         }
+
+        private void NuevoProveedor_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape) this.Close();
+        }
     }
 }

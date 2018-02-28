@@ -322,6 +322,7 @@
             this.Controls.Add(this.label2);
             this.Font = new System.Drawing.Font("Lucida Sans Unicode", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -332,6 +333,7 @@
             this.Text = "NuevoProveedor";
             this.Load += new System.EventHandler(this.NuevoProveedor_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.NuevoProveedor_Paint);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.NuevoProveedor_KeyDown);
             this.ResumeLayout(false);
             this.PerformLayout();
 

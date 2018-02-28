@@ -122,6 +122,7 @@
             this.Controls.Add(this.textBox1);
             this.Font = new System.Drawing.Font("Lucida Sans Unicode", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -132,6 +133,7 @@
             this.Text = "Articulos";
             this.Load += new System.EventHandler(this.VerCajaIO_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.VerCajaIO_Paint);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.VerCajaIO_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

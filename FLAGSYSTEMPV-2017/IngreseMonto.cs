@@ -45,6 +45,12 @@ namespace FLAGSYSTEMPV_2017
             }
         }
 
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            textBox1.Text = textBox1.Text.Replace(".", ",");
+            textBox1.SelectionStart = textBox1.Text.Length;
+        }
+
        
 
       

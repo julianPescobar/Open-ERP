@@ -124,5 +124,16 @@ namespace FLAGSYSTEMPV_2017
         {
             if (e.KeyCode == Keys.Escape) this.Close();
         }
+
+        private void Gastos_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Escape) this.Close();
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+            textBox2.Text = textBox2.Text.Replace(".", ",");
+            textBox2.SelectionStart = textBox2.Text.Length;
+        }
     }
 }

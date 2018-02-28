@@ -63,7 +63,7 @@
             this.textBox2.Location = new System.Drawing.Point(17, 78);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(311, 27);
-            this.textBox2.TabIndex = 3;
+            this.textBox2.TabIndex = 2;
             this.textBox2.UseSystemPasswordChar = true;
             // 
             // label2
@@ -81,7 +81,7 @@
             this.textBox3.Location = new System.Drawing.Point(17, 127);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(311, 27);
-            this.textBox3.TabIndex = 5;
+            this.textBox3.TabIndex = 3;
             // 
             // label3
             // 
@@ -112,7 +112,7 @@
             this.comboBox1.Location = new System.Drawing.Point(17, 176);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(311, 24);
-            this.comboBox1.TabIndex = 7;
+            this.comboBox1.TabIndex = 4;
             // 
             // button1
             // 
@@ -121,7 +121,7 @@
             this.button1.Location = new System.Drawing.Point(15, 206);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(117, 35);
-            this.button1.TabIndex = 8;
+            this.button1.TabIndex = 5;
             this.button1.Text = "Crear Usuario";
             this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
@@ -133,7 +133,7 @@
             this.button2.Location = new System.Drawing.Point(211, 206);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(117, 35);
-            this.button2.TabIndex = 9;
+            this.button2.TabIndex = 6;
             this.button2.Text = "Salir";
             this.button2.UseVisualStyleBackColor = false;
             this.button2.Click += new System.EventHandler(this.button2_Click);
@@ -156,12 +156,14 @@
             this.Controls.Add(this.label1);
             this.Font = new System.Drawing.Font("Lucida Sans Unicode", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "NuevoUser";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "NuevoUser";
             this.Load += new System.EventHandler(this.NuevoUser_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.NuevoUser_Paint);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.NuevoUser_KeyDown);
             this.ResumeLayout(false);
             this.PerformLayout();
 

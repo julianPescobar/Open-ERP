@@ -123,25 +123,7 @@ namespace FLAGSYSTEMPV_2017
                 }
 
             }
-            if (e.KeyCode == Keys.Escape)
-            {
-                if (dataGridView1.Rows.Count > 0)
-                {
-                    DialogResult result = MessageBox.Show("Está seguro de cancelar la venta?", "Atención",
-                    MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                    if (result == DialogResult.Yes)
-                    {
-                        this.Close();
-                        Ventas frm = new Ventas();
-                        frm.Show();
-                        frm.Focus();
-                    }
-                }
-                else
-                {
-                    this.Close();
-                }
-            }
+           
             if (e.KeyCode == Keys.Enter)
             {
                 if (dataGridView1.Rows.Count < 1 && textBox4.Text.Length == 0) MessageBox.Show("No hay ningún artículo vendido");
@@ -327,6 +309,29 @@ namespace FLAGSYSTEMPV_2017
 
             //FiscalPrinterLib.HASAR prntr = new FiscalPrinterLib.HASAR();
             
+        }
+
+        private void Ventas_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                if (dataGridView1.Rows.Count > 0)
+                {
+                    DialogResult result = MessageBox.Show("Está seguro de cancelar la venta?", "Atención",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    if (result == DialogResult.Yes)
+                    {
+                        this.Close();
+                        Ventas frm = new Ventas();
+                        frm.Show();
+                        frm.Focus();
+                    }
+                }
+                else
+                {
+                    this.Close();
+                }
+            }
         }
 
     }

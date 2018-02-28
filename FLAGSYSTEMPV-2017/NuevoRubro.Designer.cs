@@ -93,11 +93,13 @@
             this.Controls.Add(this.button1);
             this.Font = new System.Drawing.Font("Lucida Sans Unicode", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "NuevoRubro";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "NuevoRubro";
             this.Load += new System.EventHandler(this.NuevoRubro_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.NuevoRubro_KeyDown);
             this.ResumeLayout(false);
             this.PerformLayout();
 

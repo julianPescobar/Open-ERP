@@ -162,6 +162,8 @@ namespace FLAGSYSTEMPV_2017
         }
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
+            textBox2.Text = textBox2.Text.Replace(".", ",");
+            textBox2.SelectionStart = textBox2.Text.Length;
             if (totalventa.compraoventa == "NC" || totalventa.compraoventa == "ND")
             {
                 textBox2.Focus();
@@ -552,6 +554,13 @@ namespace FLAGSYSTEMPV_2017
                 }
                 //MessageBox.Show("impresora fiscal aca");
             }
+        }
+
+        private void Total_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+                this.Close();
+
         }
     }
 }

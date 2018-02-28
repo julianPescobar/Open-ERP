@@ -156,6 +156,7 @@
             this.Controls.Add(this.label1);
             this.Font = new System.Drawing.Font("Lucida Sans Unicode", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -166,6 +167,7 @@
             this.Text = "ConfigImpresora";
             this.Load += new System.EventHandler(this.ConfigImpresora_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.ConfigImpresora_Paint);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ConfigImpresora_KeyDown);
             this.ResumeLayout(false);
             this.PerformLayout();
 

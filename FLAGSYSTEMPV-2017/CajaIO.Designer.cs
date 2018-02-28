@@ -91,6 +91,7 @@
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(158, 27);
             this.textBox2.TabIndex = 5;
+            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             this.textBox2.Leave += new System.EventHandler(this.textBox2_Leave);
             // 
             // button1
@@ -146,6 +147,7 @@
             this.Controls.Add(this.label1);
             this.Font = new System.Drawing.Font("Lucida Sans Unicode", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.KeyPreview = true;
             this.Name = "CajaIO";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
@@ -153,6 +155,7 @@
             this.Text = "CajaIO";
             this.Load += new System.EventHandler(this.CajaIO_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.CajaIO_Paint);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.CajaIO_KeyDown);
             this.ResumeLayout(false);
             this.PerformLayout();
 

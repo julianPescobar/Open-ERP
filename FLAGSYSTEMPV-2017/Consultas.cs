@@ -223,6 +223,39 @@ namespace FLAGSYSTEMPV_2017
                 this.Close();
             }
         }
+
+        private void Consultas_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+                this.Close();
+
+            
+            if (e.KeyCode == Keys.Up)
+            {
+                try
+                {
+                    int rowIndex = dataGridView1.CurrentCell.RowIndex;
+                    dataGridView1.Rows[rowIndex - 1].Cells[1].Selected = true;
+                }
+                catch (Exception)
+                {
+
+                }
+
+            }
+            if (e.KeyCode == Keys.Down)
+            {
+                try
+                {
+                    int rowIndex = dataGridView1.CurrentCell.RowIndex;
+                    dataGridView1.Rows[rowIndex + 1].Cells[1].Selected = true;
+                }
+                catch (Exception)
+                {
+                }
+
+            }
+        }
       
     }
 }

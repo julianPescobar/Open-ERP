@@ -191,5 +191,10 @@ namespace FLAGSYSTEMPV_2017
         {
             MessageBox.Show("A continuación le explicaremos los SMTPs mas utilizados para agilizar la introduccion de datos para el envio de emails.\n\nSMTP para GMAIL:\nIngrese los siguientes datos para utilizar el servicio de GMAIL:\nSMTP: smtp.gmail.com\nPuerto: 587 o 465\n\nSMTP para HOTMAIL:\nIngrese los siguientes datos para utilizar el servicio de HOTMAIL:\nSMTP: smtp.live.com\nPuerto: 587\n\nSMTP para YAHOO:\nIngrese los siguientes datos para utilizar el servicio de YAHOO:\nSMTP: smtp.mail.yahoo.com\nPuerto: 465\n\nEmail Enviador: SU EMAIL\nClave Email: SU CLAVE\nPara: EMAIL DE LA PERSONA QUE RECIBIRA EL CORREO\nTitulo Mail: EL TITULO DEL EMAIL\nCuerpo del Mail: UN MENSAJE CORTO\nArchivo Adjunto: El archivo adjunto siempre será el resumen del dia, en el resumen del dia se encuentran todos los movimientos registrados en el dia.");
         }
+
+        private void Config_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape) this.Close();
+        }
     }
 }

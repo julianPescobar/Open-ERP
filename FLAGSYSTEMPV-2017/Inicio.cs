@@ -648,7 +648,7 @@ namespace FLAGSYSTEMPV_2017
                     else
                     {
                         Caja frm = new Caja();
-                        frm.Show();
+                        frm.ShowDialog();
                     }
                 }
             }
@@ -765,7 +765,7 @@ namespace FLAGSYSTEMPV_2017
             else
             {
                 Caja frm = new Caja();
-                frm.Show();
+                frm.ShowDialog();
             }
         }
 
@@ -956,7 +956,7 @@ namespace FLAGSYSTEMPV_2017
             {
                 CIO.entradaosalida = "Entrada";
                 CajaIO frm = new CajaIO();
-                frm.Show();
+                frm.ShowDialog();
             }
         }
 
@@ -968,7 +968,7 @@ namespace FLAGSYSTEMPV_2017
             {
                 CIO.entradaosalida = "Salida";
                 CajaIO frm = new CajaIO();
-                frm.Show();
+                frm.ShowDialog();
             }
         }
 

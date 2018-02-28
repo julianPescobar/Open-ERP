@@ -134,6 +134,7 @@
             this.Controls.Add(this.button1);
             this.Font = new System.Drawing.Font("Lucida Sans Unicode", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Anular";
             this.ShowIcon = false;
@@ -142,6 +143,7 @@
             this.Text = "ConsultaVentas";
             this.Load += new System.EventHandler(this.Consultas_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Consultas_Paint);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Anular_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

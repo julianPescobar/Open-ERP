@@ -143,6 +143,7 @@
             this.Controls.Add(this.textBox1);
             this.Font = new System.Drawing.Font("Lucida Sans Unicode", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Total";
             this.ShowIcon = false;
@@ -151,6 +152,7 @@
             this.Text = "Total";
             this.Load += new System.EventHandler(this.Total_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Total_Paint);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Total_KeyDown);
             this.ResumeLayout(false);
             this.PerformLayout();
 

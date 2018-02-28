@@ -132,6 +132,7 @@
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(284, 31);
             this.textBox2.TabIndex = 9;
+            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             this.textBox2.Leave += new System.EventHandler(this.textBox2_Leave);
             // 
             // label5
@@ -170,7 +171,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(251, 140);
+            this.label6.Location = new System.Drawing.Point(255, 144);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(157, 18);
             this.label6.TabIndex = 12;
@@ -192,7 +193,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SteelBlue;
-            this.ClientSize = new System.Drawing.Size(426, 208);
+            this.ClientSize = new System.Drawing.Size(421, 207);
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.button2);
@@ -207,6 +208,7 @@
             this.Controls.Add(this.label1);
             this.Font = new System.Drawing.Font("Lucida Sans Unicode", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Gastos";
             this.ShowIcon = false;
@@ -215,6 +217,7 @@
             this.Text = "Gastos";
             this.Load += new System.EventHandler(this.Gastos_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Gastos_Paint);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Gastos_KeyDown);
             this.ResumeLayout(false);
             this.PerformLayout();
 

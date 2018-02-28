@@ -227,6 +227,7 @@
             this.Controls.Add(this.label1);
             this.Font = new System.Drawing.Font("Lucida Sans Unicode", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "DiferenciaStock";
             this.ShowIcon = false;
@@ -235,6 +236,7 @@
             this.Text = "DiferenciaStock";
             this.Load += new System.EventHandler(this.DiferenciaStock_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.DiferenciaStock_Paint);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DiferenciaStock_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

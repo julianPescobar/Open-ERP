@@ -235,7 +235,7 @@
             // 
             this.toolStrip1.AllowItemReorder = true;
             this.toolStrip1.AutoSize = false;
-            this.toolStrip1.BackColor = System.Drawing.Color.LightBlue;
+            this.toolStrip1.BackColor = System.Drawing.Color.CornflowerBlue;
             this.toolStrip1.Font = new System.Drawing.Font("Lucida Sans Unicode", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -597,7 +597,7 @@
             // 
             // button1
             // 
-            this.button1.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.button1.BackColor = System.Drawing.Color.RoyalBlue;
             this.button1.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.Font = new System.Drawing.Font("Lucida Sans Unicode", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -611,7 +611,7 @@
             // 
             // button2
             // 
-            this.button2.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.button2.BackColor = System.Drawing.Color.RoyalBlue;
             this.button2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button2.Font = new System.Drawing.Font("Lucida Sans Unicode", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -626,7 +626,7 @@
             // 
             // button3
             // 
-            this.button3.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.button3.BackColor = System.Drawing.Color.RoyalBlue;
             this.button3.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button3.Font = new System.Drawing.Font("Lucida Sans Unicode", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -641,7 +641,7 @@
             // 
             // button4
             // 
-            this.button4.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.button4.BackColor = System.Drawing.Color.RoyalBlue;
             this.button4.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button4.Font = new System.Drawing.Font("Lucida Sans Unicode", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -656,7 +656,7 @@
             // 
             // button5
             // 
-            this.button5.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.button5.BackColor = System.Drawing.Color.RoyalBlue;
             this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button5.Font = new System.Drawing.Font("Lucida Sans Unicode", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button5.Location = new System.Drawing.Point(11, 473);
@@ -670,7 +670,7 @@
             // 
             // button9
             // 
-            this.button9.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.button9.BackColor = System.Drawing.Color.RoyalBlue;
             this.button9.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button9.Font = new System.Drawing.Font("Lucida Sans Unicode", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button9.Location = new System.Drawing.Point(341, 259);
@@ -684,7 +684,7 @@
             // 
             // button8
             // 
-            this.button8.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.button8.BackColor = System.Drawing.Color.RoyalBlue;
             this.button8.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button8.Font = new System.Drawing.Font("Lucida Sans Unicode", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button8.Location = new System.Drawing.Point(341, 330);
@@ -698,7 +698,7 @@
             // 
             // button7
             // 
-            this.button7.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.button7.BackColor = System.Drawing.Color.RoyalBlue;
             this.button7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button7.Font = new System.Drawing.Font("Lucida Sans Unicode", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button7.Location = new System.Drawing.Point(341, 402);
@@ -713,7 +713,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.label6.BackColor = System.Drawing.Color.RoyalBlue;
             this.label6.Font = new System.Drawing.Font("Lucida Sans Unicode", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.Location = new System.Drawing.Point(12, 291);
             this.label6.Name = "label6";
@@ -724,7 +724,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.label7.BackColor = System.Drawing.Color.RoyalBlue;
             this.label7.Font = new System.Drawing.Font("Lucida Sans Unicode", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.Location = new System.Drawing.Point(12, 362);
             this.label7.Name = "label7";
@@ -735,7 +735,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.label8.BackColor = System.Drawing.Color.RoyalBlue;
             this.label8.Font = new System.Drawing.Font("Lucida Sans Unicode", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.Location = new System.Drawing.Point(12, 434);
             this.label8.Name = "label8";
@@ -746,7 +746,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.label9.BackColor = System.Drawing.Color.RoyalBlue;
             this.label9.Font = new System.Drawing.Font("Lucida Sans Unicode", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.Location = new System.Drawing.Point(12, 505);
             this.label9.Name = "label9";
@@ -757,7 +757,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.label10.BackColor = System.Drawing.Color.RoyalBlue;
             this.label10.Font = new System.Drawing.Font("Lucida Sans Unicode", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.Location = new System.Drawing.Point(342, 291);
             this.label10.Name = "label10";
@@ -768,7 +768,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.label11.BackColor = System.Drawing.Color.RoyalBlue;
             this.label11.Font = new System.Drawing.Font("Lucida Sans Unicode", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.Location = new System.Drawing.Point(342, 362);
             this.label11.Name = "label11";
@@ -779,7 +779,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.label12.BackColor = System.Drawing.Color.RoyalBlue;
             this.label12.Font = new System.Drawing.Font("Lucida Sans Unicode", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label12.Location = new System.Drawing.Point(342, 434);
             this.label12.Name = "label12";
@@ -790,7 +790,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.label13.BackColor = System.Drawing.Color.RoyalBlue;
             this.label13.Font = new System.Drawing.Font("Lucida Sans Unicode", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label13.Location = new System.Drawing.Point(342, 505);
             this.label13.Name = "label13";
@@ -801,7 +801,7 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.label15.BackColor = System.Drawing.Color.RoyalBlue;
             this.label15.Font = new System.Drawing.Font("Lucida Sans Unicode", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label15.Location = new System.Drawing.Point(670, 433);
             this.label15.Name = "label15";
@@ -812,7 +812,7 @@
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.label16.BackColor = System.Drawing.Color.RoyalBlue;
             this.label16.Font = new System.Drawing.Font("Lucida Sans Unicode", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label16.Location = new System.Drawing.Point(672, 291);
             this.label16.Name = "label16";
@@ -822,7 +822,7 @@
             // 
             // button11
             // 
-            this.button11.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.button11.BackColor = System.Drawing.Color.RoyalBlue;
             this.button11.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button11.Font = new System.Drawing.Font("Lucida Sans Unicode", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button11.Location = new System.Drawing.Point(669, 401);
@@ -836,7 +836,7 @@
             // 
             // button12
             // 
-            this.button12.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.button12.BackColor = System.Drawing.Color.RoyalBlue;
             this.button12.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button12.Font = new System.Drawing.Font("Lucida Sans Unicode", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button12.Location = new System.Drawing.Point(671, 259);
@@ -851,7 +851,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.label14.BackColor = System.Drawing.Color.RoyalBlue;
             this.label14.Font = new System.Drawing.Font("Lucida Sans Unicode", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label14.Location = new System.Drawing.Point(670, 361);
             this.label14.Name = "label14";
@@ -861,7 +861,7 @@
             // 
             // button10
             // 
-            this.button10.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.button10.BackColor = System.Drawing.Color.RoyalBlue;
             this.button10.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button10.Font = new System.Drawing.Font("Lucida Sans Unicode", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button10.Location = new System.Drawing.Point(669, 329);
@@ -877,7 +877,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.SteelBlue;
+            this.BackColor = System.Drawing.Color.MidnightBlue;
             this.ClientSize = new System.Drawing.Size(800, 533);
             this.ControlBox = false;
             this.Controls.Add(this.label14);

@@ -64,17 +64,29 @@ namespace FLAGSYSTEMPV_2017
             string name = row.Cells[1].Value.ToString();
             string id = row.Cells[0].Value.ToString();
 
-            DialogResult borrar = MessageBox.Show("Está seguro de borrar este rubro?\n"+name, "Borrar?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-            if (borrar == DialogResult.Yes)
+             SqlCeCommand existen = new SqlCeCommand();
+            existen.Parameters.AddWithValue("nom", name);
+            Conexion.abrir();
+            DataTable hayprovs = Conexion.Consultar("*", "Articulos", "where rubro = @nom", "", existen);
+            Conexion.cerrar();
+            if (hayprovs.Rows.Count > 0)
             {
-                Conexion.abrir();
-                SqlCeCommand del = new SqlCeCommand();
-                del.Parameters.AddWithValue("@id", id);
-                del.Parameters.AddWithValue("@el", "Eliminado");
-                Conexion.Actualizar("Rubros","eliminado = @el", "WHERE idrubro = @id","", del);
-                 Conexion.cerrar();
+                MessageBox.Show("Hay " + hayprovs.Rows.Count.ToString() + " Productos asignados bajo este rubro actualmente. Para poder eliminar el rubro primero debe cambiar de rubro a los productos y volver a intentar","No se puede borrar un rubro activo",MessageBoxButtons.OK,MessageBoxIcon.Error);
             }
-            getarts();
+            else
+            {
+                DialogResult borrar = MessageBox.Show("Está seguro de borrar este rubro?\n" + name, "Borrar?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (borrar == DialogResult.Yes)
+                {
+                    Conexion.abrir();
+                    SqlCeCommand del = new SqlCeCommand();
+                    del.Parameters.AddWithValue("@id", id);
+                    del.Parameters.AddWithValue("@el", "Eliminado");
+                    Conexion.Actualizar("Rubros", "eliminado = @el", "WHERE idrubro = @id", "", del);
+                    Conexion.cerrar();
+                }
+                getarts();
+            }
         }
 
         void getarts()
@@ -163,6 +175,47 @@ namespace FLAGSYSTEMPV_2017
             {
                 NuevoArticulo frm = new NuevoArticulo();
                 frm.ShowDialog();
+            }
+        }
+
+        private void Rubros_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+                this.Close();
+
+            if (e.KeyCode == Keys.F1 && button1.Enabled == true)
+                button1.PerformClick();
+            if (e.KeyCode == Keys.F2 && button2.Enabled == true)
+                button2.PerformClick();
+          
+           
+            if (e.KeyCode == Keys.F3)
+                textBox1.Select();
+
+            if (e.KeyCode == Keys.Up)
+            {
+                try
+                {
+                    int rowIndex = dataGridView1.CurrentCell.RowIndex;
+                    dataGridView1.Rows[rowIndex - 1].Cells[1].Selected = true;
+                }
+                catch (Exception)
+                {
+
+                }
+
+            }
+            if (e.KeyCode == Keys.Down)
+            {
+                try
+                {
+                    int rowIndex = dataGridView1.CurrentCell.RowIndex;
+                    dataGridView1.Rows[rowIndex + 1].Cells[1].Selected = true;
+                }
+                catch (Exception)
+                {
+                }
+
             }
         }
 
