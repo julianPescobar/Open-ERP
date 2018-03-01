@@ -145,5 +145,10 @@ namespace FLAGSYSTEMPV_2017
             }
         }
 
+        private void IngreseFecha_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape) button2.PerformClick();
+        }
+
     }
 }

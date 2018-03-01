@@ -66,8 +66,9 @@ namespace FLAGSYSTEMPV_2017
 
              SqlCeCommand existen = new SqlCeCommand();
             existen.Parameters.AddWithValue("nom", name);
+            existen.Parameters.AddWithValue("activo", "Activo");
             Conexion.abrir();
-            DataTable hayprovs = Conexion.Consultar("*", "Articulos", "where rubro = @nom", "", existen);
+            DataTable hayprovs = Conexion.Consultar("*", "Articulos", "where rubro = @nom and Eliminado = @activo", "", existen);
             Conexion.cerrar();
             if (hayprovs.Rows.Count > 0)
             {

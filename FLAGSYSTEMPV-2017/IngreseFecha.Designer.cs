@@ -114,6 +114,7 @@
             this.Controls.Add(this.label1);
             this.Font = new System.Drawing.Font("Lucida Sans Unicode", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "IngreseFecha";
             this.ShowIcon = false;
@@ -122,6 +123,7 @@
             this.Text = "IngreseFecha";
             this.Load += new System.EventHandler(this.IngreseFecha_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.IngreseFecha_Paint);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.IngreseFecha_KeyDown);
             this.ResumeLayout(false);
             this.PerformLayout();
 

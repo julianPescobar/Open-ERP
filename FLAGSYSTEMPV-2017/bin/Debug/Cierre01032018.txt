@@ -1,19 +1,18 @@
-Flag Informatica
-Informe de cierre del dia 26/02/2018
-Total Ventas:	$690,00
-Total Compras:	$1500000,00
+Choclo y asociados
+Informe de cierre del dia 01/03/2018
+Total Ventas:	$6,06
+Total Compras:	$0,00
 Total Gastos:	$0,00
 Total Entrada Caja:	$0,00
 Total Salida Caja:	$0,00
-Total del Día:	$1500690,00
+Total del Día:	$6,06
 
 Detalle de Ventas:
 N° Venta	Vendedor	Total	
-8	Administrador	$690,00
+11	Administrador	$6,06
 
 Detalle de Compras:
 N° Compra	Vendedor	Total	
-2	Administrador	$1500000,00
 
 Detalle de Gastos:
 Area	Descripcion	Importe	

@@ -37,6 +37,7 @@ namespace FLAGSYSTEMPV_2017
 
         private void InformeVentas_Load(object sender, EventArgs e)
         {
+            label3.Text = "Informe de "+Conexion.data;
             if (Conexion.data == "Articulos")
             {
                 Conexion.abrir();

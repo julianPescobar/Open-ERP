@@ -176,6 +176,7 @@
             this.Name = "ActualizaPrecios";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ActualizaPrecios";
+            this.Load += new System.EventHandler(this.ActualizaPrecios_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.ActualizaPrecios_Paint);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ActualizaPrecios_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();

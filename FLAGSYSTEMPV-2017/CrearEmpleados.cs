@@ -172,5 +172,48 @@ namespace FLAGSYSTEMPV_2017
                 frm.Show();
             }
         }
+
+        private void CrearEmpleados_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+                this.Close();
+
+            if (e.KeyCode == Keys.F1 && button1.Enabled == true)
+                button1.PerformClick();
+            if (e.KeyCode == Keys.F2 && button9.Enabled == true)
+                button9.PerformClick();
+            if (e.KeyCode == Keys.F3 && button2.Enabled == true)
+                button2.PerformClick();
+            if (e.KeyCode == Keys.F4 && button4.Enabled == true)
+                button4.PerformClick();
+            if (e.KeyCode == Keys.F5)
+                textBox1.Select();
+
+            if (e.KeyCode == Keys.Up)
+            {
+                try
+                {
+                    int rowIndex = dataGridView1.CurrentCell.RowIndex;
+                    dataGridView1.Rows[rowIndex - 1].Cells[1].Selected = true;
+                }
+                catch (Exception)
+                {
+
+                }
+
+            }
+            if (e.KeyCode == Keys.Down)
+            {
+                try
+                {
+                    int rowIndex = dataGridView1.CurrentCell.RowIndex;
+                    dataGridView1.Rows[rowIndex + 1].Cells[1].Selected = true;
+                }
+                catch (Exception)
+                {
+                }
+
+            }
+        }
     }
 }

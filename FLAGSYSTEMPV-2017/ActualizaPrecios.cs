@@ -189,5 +189,10 @@ namespace FLAGSYSTEMPV_2017
         {
             if (e.KeyCode == Keys.Escape) this.Close();
         }
+
+        private void ActualizaPrecios_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

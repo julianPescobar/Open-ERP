@@ -156,7 +156,7 @@ namespace FLAGSYSTEMPV_2017
             if (e.KeyCode == Keys.F3 && button2.Enabled == true)
                 button2.PerformClick();
             
-            if (e.KeyCode == Keys.F5)
+            if (e.KeyCode == Keys.F4)
                 textBox1.Select();
 
             if (e.KeyCode == Keys.Up)

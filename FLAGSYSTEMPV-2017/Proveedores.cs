@@ -60,19 +60,30 @@ namespace FLAGSYSTEMPV_2017
             var row = this.dataGridView1.Rows[rowIndex];
             string name = row.Cells["Nombre del Proveedor"].Value.ToString();
             string id = row.Cells["idproveedor"].Value.ToString();
-
-           
-            DialogResult borrar = MessageBox.Show("Está seguro de borrar a este proveedor?\n"+name, "Borrar?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-            if (borrar == DialogResult.Yes)
+            SqlCeCommand enuso = new SqlCeCommand();
+            enuso.Parameters.AddWithValue("prov", name);
+            enuso.Parameters.AddWithValue("activo", "Activo");
+            Conexion.abrir();
+            DataTable artsconeseprov = Conexion.Consultar("*", "Articulos", "Where proveedor = @prov and Eliminado = @activo", "", enuso);
+            Conexion.cerrar();
+            if (artsconeseprov.Rows.Count > 0)
             {
-                Conexion.abrir();
-                SqlCeCommand del = new SqlCeCommand();
-                del.Parameters.AddWithValue("@id",id);
-                Conexion.Eliminar("Proveedores", "idproveedor = @id", del);
-                 Conexion.cerrar();
-                
+                MessageBox.Show("Hay " + artsconeseprov.Rows.Count.ToString() + " Articulos asignados bajo este Proveedor actualmente. Para poder eliminar el Proveedor primero debe cambiar de Proveedor a los Articulos y volver a intentar","No se puede borrar un Proveedor activo",MessageBoxButtons.OK,MessageBoxIcon.Error);
             }
-            getprovs();
+            else
+            {
+                DialogResult borrar = MessageBox.Show("Está seguro de borrar a este proveedor?\n" + name, "Borrar?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (borrar == DialogResult.Yes)
+                {
+                    Conexion.abrir();
+                    SqlCeCommand del = new SqlCeCommand();
+                    del.Parameters.AddWithValue("@id", id);
+                    Conexion.Eliminar("Proveedores", "idproveedor = @id", del);
+                    Conexion.cerrar();
+
+                }
+                getprovs();
+            }
         }
 
         void getprovs()

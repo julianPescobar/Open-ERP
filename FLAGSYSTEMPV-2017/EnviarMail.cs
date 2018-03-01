@@ -11,6 +11,7 @@ using System.Net;
 using System.Net.Mail;
 using System.Net.Mime;
 using System.Data.SqlServerCe;
+using System.Data.OleDb;
 namespace FLAGSYSTEMPV_2017
 {
     public partial class EnviarMail : Form
@@ -95,7 +96,7 @@ namespace FLAGSYSTEMPV_2017
                 SmtpServer.EnableSsl = true;
                 SmtpServer.Send(mail);
                 this.Close();
-                MessageBox.Show("Mail Enviado");
+                MessageBox.Show("Mail Enviado Correctamente.");
             }
 
             catch (SmtpException ex)
@@ -105,7 +106,7 @@ namespace FLAGSYSTEMPV_2017
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("Hubo un error al intentar enviar el Email. Revise todos los datos de configuración del Email en Administrador>Configuración y tambien revise que tenga conexión a Internet.\nDetalle del error: "+ex.Message);
                 this.Close();
             }
         }
@@ -113,7 +114,7 @@ namespace FLAGSYSTEMPV_2017
         private void button1_Click(object sender, EventArgs e)
         {
             string fecha = dateTimePicker1.Value.ToShortDateString();
-            sendmail(app.dir + "\\Cierre" + fecha.Replace("/","") + ".txt");
+            sendmail(app.dir + "\\Cierre" + app.hoy.Replace("/", "") + ".xlsx.xls");
         }
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
@@ -138,12 +139,277 @@ namespace FLAGSYSTEMPV_2017
 
             }
         }
+        public static void generarResumenFinal()
+        {
+            Conexion.abrir();
+            SqlCeCommand hoy = new SqlCeCommand();
+            hoy.Parameters.AddWithValue("hoy", app.hoy + " 00:00:00");
+            hoy.Parameters.AddWithValue("hoy2", app.hoy + " 23:59:59");
+            DataTable ventas = Conexion.Consultar("nfactura,vendedor,total", "Ventas", "Where estadoVenta != 'Anulada' and fechaventa between @hoy and @hoy2", "", hoy);
+            DataTable compras = Conexion.Consultar("nfactura,vendedor,CAST(totalfactura as FLOAT) as total", "Compras", "Where fechacompra between @hoy and @hoy2", "", hoy);
+            DataTable gastos = Conexion.Consultar("area,descripcion,importe", "Gastos", "Where fecha between @hoy and @hoy2", "", hoy);
+            DataTable entradas = Conexion.Consultar("tipo,motivo,total", "EntradaCaja", "Where fecha between @hoy and @hoy2", "", hoy);
+            DataTable salidas = Conexion.Consultar("tipo,motivo,total", "SalidaCaja", "Where fecha between @hoy and @hoy2", "", hoy);
+            string[] Ventas = new string[ventas.Rows.Count];
+            string[] Compras = new string[compras.Rows.Count];
+            string[] Gastos = new string[gastos.Rows.Count];
+            string[] Entradas = new string[entradas.Rows.Count];
+            string[] Salidas = new string[salidas.Rows.Count];
+            float tv = 0;
+            float tc = 0;
+            float tg = 0;
+            float te = 0;
+            float ts = 0;
 
+            if (ventas.Rows.Count > 0)
+            {
+                for (int i = 0; i < ventas.Rows.Count; i++)
+                {
+                    tv += float.Parse(ventas.Rows[i][2].ToString());
+                    Ventas[i] = ventas.Rows[i][0].ToString() + "\t" + ventas.Rows[i][1].ToString() + "\t" + tv.ToString("$0.00");
+                }
+            }
+            else tv = 0;
+
+            if (compras.Rows.Count > 0)
+            {
+                for (int i = 0; i < compras.Rows.Count; i++)
+                {
+                    tc += float.Parse(compras.Rows[i][2].ToString());
+                    Compras[i] = compras.Rows[i][0].ToString() + "\t" + compras.Rows[i][1].ToString() + "\t" + tc.ToString("$0.00");
+                }
+            }
+            else tc = 0;
+
+            if (gastos.Rows.Count > 0)
+            {
+                for (int i = 0; i < gastos.Rows.Count; i++)
+                {
+                    tg += float.Parse(gastos.Rows[i][2].ToString());
+                    Gastos[i] = gastos.Rows[i][0].ToString() + "\t" + gastos.Rows[i][1].ToString() + "\t" + tg.ToString("$0.00");
+                }
+            }
+            else tg = 0;
+
+            if (entradas.Rows.Count > 0)
+            {
+                for (int i = 0; i < entradas.Rows.Count; i++)
+                {
+                    te += float.Parse(entradas.Rows[i][2].ToString());
+                    Entradas[i] = entradas.Rows[i][0].ToString() + "\t" + entradas.Rows[i][1].ToString() + "\t" + te.ToString("$0.00");
+                }
+            }
+            else te = 0;
+
+            if (salidas.Rows.Count > 0)
+            {
+                for (int i = 0; i < salidas.Rows.Count; i++)
+                {
+                    ts += float.Parse(salidas.Rows[i][2].ToString());
+                    Salidas[i] = salidas.Rows[i][0].ToString() + "\t" + salidas.Rows[i][1].ToString() + "\t" + ts.ToString("$0.00");
+                }
+            }
+            else ts = 0;
+
+            File.WriteAllText(app.dir + "\\Cierre" + app.hoy.Replace("/", "") + ".txt", registereduser.registeredlicense + "\r\n" + "Informe de cierre del dia " + DateTime.Now.ToShortDateString() + "\r\nTotal Ventas:\t" + tv.ToString("$0.00") + "\r\nTotal Compras:\t" + tc.ToString("$0.00") + "\r\nTotal Gastos:\t" + tg.ToString("$0.00") + "\r\nTotal Entrada Caja:\t" + te.ToString("$0.00") + "\r\nTotal Salida Caja:\t" + ts.ToString("$0.00") + "\r\nTotal del Día:\t" + ((tv + tc + te) - (tg + ts)).ToString("$0.00"));
+            File.AppendAllText(app.dir + "\\Cierre" + app.hoy.Replace("/", "") + ".txt", "\r\n");
+            File.AppendAllText(app.dir + "\\Cierre" + app.hoy.Replace("/", "") + ".txt", "\r\nDetalle de Ventas:\r\nN° Venta\tVendedor\tTotal\t\r\n");
+            File.AppendAllLines(app.dir + "\\Cierre" + app.hoy.Replace("/", "") + ".txt", Ventas);
+            File.AppendAllText(app.dir + "\\Cierre" + app.hoy.Replace("/", "") + ".txt", "\r\nDetalle de Compras:\r\nN° Compra\tVendedor\tTotal\t\r\n");
+            File.AppendAllLines(app.dir + "\\Cierre" + app.hoy.Replace("/", "") + ".txt", Compras);
+            File.AppendAllText(app.dir + "\\Cierre" + app.hoy.Replace("/", "") + ".txt", "\r\nDetalle de Gastos:\r\nArea\tDescripcion\tImporte\t\r\n");
+            File.AppendAllLines(app.dir + "\\Cierre" + app.hoy.Replace("/", "") + ".txt", Gastos);
+            File.AppendAllText(app.dir + "\\Cierre" + app.hoy.Replace("/", "") + ".txt", "\r\nDetalle de Entradas de Caja:\r\nTipo\tMotivo\tTotal\t\r\n");
+            File.AppendAllLines(app.dir + "\\Cierre" + app.hoy.Replace("/", "") + ".txt", Entradas);
+            File.AppendAllText(app.dir + "\\Cierre" + app.hoy.Replace("/", "") + ".txt", "\r\nDetalle de Salidas de Caja:\r\nTipo\tMotivo\tTotal\t\r\n");
+            File.AppendAllLines(app.dir + "\\Cierre" + app.hoy.Replace("/", "") + ".txt", Salidas);
+
+            try
+            {
+                string tempfilename = app.dir + "\\Cierre" + app.hoy.Replace("/", "") + ".xlsx.xls";
+                string xConnStr = "Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=" + tempfilename + ";Extended Properties='Excel 8.0;HDR=YES'";
+                string TabName = "";
+                var conn = new OleDbConnection(xConnStr);
+                //agarramos las columnas de ventas
+                string ventascolumnas = "";
+                for (int i = 0; i < ventas.Columns.Count; i++)
+                {
+                    if (i == 0) ventascolumnas += "[" + ventas.Columns[i].ColumnName + "] varchar(255)";
+                    else ventascolumnas += ", [" + ventas.Columns[i].ColumnName + "] varchar(255)";
+                }
+                //agarramos las columnas de compras
+                string comprascolumnas = "";
+                for (int i = 0; i < compras.Columns.Count; i++)
+                {
+                    if (i == 0) comprascolumnas += "[" + compras.Columns[i].ColumnName + "] varchar(255)";
+                    else comprascolumnas += ", [" + compras.Columns[i].ColumnName + "] varchar(255)";
+                }
+                //agarramos las columnas de gasts
+                string gastoscolumnas = "";
+                for (int i = 0; i < gastos.Columns.Count; i++)
+                {
+                    if (i == 0) gastoscolumnas += "[" + gastos.Columns[i].ColumnName + "] varchar(255)";
+                    else gastoscolumnas += ", [" + gastos.Columns[i].ColumnName + "] varchar(255)";
+                }
+                //agarramos las columnas de ents
+                string entradascolumnas = "";
+                for (int i = 0; i < entradas.Columns.Count; i++)
+                {
+                    if (i == 0) entradascolumnas += "[" + entradas.Columns[i].ColumnName + "] varchar(255)";
+                    else entradascolumnas += ", [" + entradas.Columns[i].ColumnName + "] varchar(255)";
+                }
+                //agarramos las columnas de sals
+                string salidascolumnas = "";
+                for (int i = 0; i < salidas.Columns.Count; i++)
+                {
+                    if (i == 0) salidascolumnas += "[" + salidas.Columns[i].ColumnName + "] varchar(255)";
+                    else salidascolumnas += ", [" + salidas.Columns[i].ColumnName + "] varchar(255)";
+                }
+
+
+                //hacemos una libro para el total
+                string ColumnName = "[a] varchar(255), [b] varchar(255), [c] varchar(255)";
+                conn.Open();
+                TabName = "Totales";
+                var cmd = new OleDbCommand("CREATE TABLE [" + TabName + "] (" + ColumnName + ")", conn);
+                cmd.ExecuteNonQuery();
+                var insert = new OleDbCommand("INSERT INTO [" + TabName + "] (" + ColumnName.Replace(" varchar(255)", "") + ") VALUES (" + "'Fecha:','" + app.hoy + "','" + registereduser.registeredlicense + "'" + ")", conn);
+                insert.ExecuteNonQuery();
+                insert = new OleDbCommand("INSERT INTO [" + TabName + "] (" + ColumnName.Replace(" varchar(255)", "") + ") VALUES (" + "'Totales:',' ',' '" + ")", conn);
+                insert.ExecuteNonQuery();
+                insert = new OleDbCommand("INSERT INTO [" + TabName + "] (" + ColumnName.Replace(" varchar(255)", "") + ") VALUES (" + "'Total Ventas:','" + tv.ToString("$0.00") + "',' '" + ")", conn);
+                insert.ExecuteNonQuery();
+                insert = new OleDbCommand("INSERT INTO [" + TabName + "] (" + ColumnName.Replace(" varchar(255)", "") + ") VALUES (" + "'Total Compras:','" + tc.ToString("$0.00") + "',' '" + ")", conn);
+                insert.ExecuteNonQuery();
+                insert = new OleDbCommand("INSERT INTO [" + TabName + "] (" + ColumnName.Replace(" varchar(255)", "") + ") VALUES (" + "'Total Gastos:','" + tg.ToString("$0.00") + "',' '" + ")", conn);
+                insert.ExecuteNonQuery();
+                insert = new OleDbCommand("INSERT INTO [" + TabName + "] (" + ColumnName.Replace(" varchar(255)", "") + ") VALUES (" + "'Total Entradas:','" + te.ToString("$0.00") + "',' '" + ")", conn);
+                insert.ExecuteNonQuery();
+                insert = new OleDbCommand("INSERT INTO [" + TabName + "] (" + ColumnName.Replace(" varchar(255)", "") + ") VALUES (" + "'Total Salidas:','" + ts.ToString("$0.00") + "',' '" + ")", conn);
+                insert.ExecuteNonQuery();
+                insert = new OleDbCommand("INSERT INTO [" + TabName + "] (" + ColumnName.Replace(" varchar(255)", "") + ") VALUES (" + "'Total del día:','" + ((tv + tc + te) - (tg + ts)).ToString("$0.00") + "',' '" + ")", conn);
+                insert.ExecuteNonQuery();
+                conn.Close();
+                //terminamos el libro total
+
+
+                //hacemos una libro para esto
+                ColumnName = ventascolumnas;
+                conn.Open();
+                TabName = "Ventas";
+                cmd = new OleDbCommand("CREATE TABLE [" + TabName + "] (" + ColumnName + ")", conn);
+                cmd.ExecuteNonQuery();
+                for (int i = 0; i < ventas.Rows.Count; i++)
+                {
+                    string values = "";
+                    for (int j = 0; j < ventas.Columns.Count; j++)
+                    {
+                        if (j == 0) values += "'" + ventas.Rows[i][j].ToString() + "'";
+                        else values += ", '" + ventas.Rows[i][j].ToString() + "'";
+                    }
+                    insert = new OleDbCommand("INSERT INTO [" + TabName + "] (" + ColumnName.Replace(" varchar(255)", "") + ") VALUES (" + values + ")", conn);
+                    insert.ExecuteNonQuery();
+                }
+                conn.Close();
+                //terminamos el libro
+
+
+                //hacemos una libro para esto
+                ColumnName = comprascolumnas;
+                conn.Open();
+                TabName = "Compras";
+                cmd = new OleDbCommand("CREATE TABLE [" + TabName + "] (" + ColumnName + ")", conn);
+                cmd.ExecuteNonQuery();
+                for (int i = 0; i < compras.Rows.Count; i++)
+                {
+                    string values = "";
+                    for (int j = 0; j < compras.Columns.Count; j++)
+                    {
+                        if (j == 0) values += "'" + compras.Rows[i][j].ToString() + "'";
+                        else values += ", '" + compras.Rows[i][j].ToString() + "'";
+                    }
+                    insert = new OleDbCommand("INSERT INTO [" + TabName + "] (" + ColumnName.Replace(" varchar(255)", "") + ") VALUES (" + values + ")", conn);
+                    insert.ExecuteNonQuery();
+                }
+                conn.Close();
+                //terminamos el libro
+
+
+                //hacemos una libro para esto
+                ColumnName = gastoscolumnas;
+                conn.Open();
+                TabName = "Gastos";
+                cmd = new OleDbCommand("CREATE TABLE [" + TabName + "] (" + ColumnName + ")", conn);
+                cmd.ExecuteNonQuery();
+                for (int i = 0; i < gastos.Rows.Count; i++)
+                {
+                    string values = "";
+                    for (int j = 0; j < gastos.Columns.Count; j++)
+                    {
+                        if (j == 0) values += "'" + gastos.Rows[i][j].ToString() + "'";
+                        else values += ", '" + gastos.Rows[i][j].ToString() + "'";
+                    }
+                    insert = new OleDbCommand("INSERT INTO [" + TabName + "] (" + ColumnName.Replace(" varchar(255)", "") + ") VALUES (" + values + ")", conn);
+                    insert.ExecuteNonQuery();
+                }
+                conn.Close();
+                //terminamos el libro
+
+                //hacemos una libro para esto
+                ColumnName = entradascolumnas;
+                conn.Open();
+                TabName = "entradas";
+                cmd = new OleDbCommand("CREATE TABLE [" + TabName + "] (" + ColumnName + ")", conn);
+                cmd.ExecuteNonQuery();
+                for (int i = 0; i < entradas.Rows.Count; i++)
+                {
+                    string values = "";
+                    for (int j = 0; j < entradas.Columns.Count; j++)
+                    {
+                        if (j == 0) values += "'" + entradas.Rows[i][j].ToString() + "'";
+                        else values += ", '" + entradas.Rows[i][j].ToString() + "'";
+                    }
+                    insert = new OleDbCommand("INSERT INTO [" + TabName + "] (" + ColumnName.Replace(" varchar(255)", "") + ") VALUES (" + values + ")", conn);
+                    insert.ExecuteNonQuery();
+                }
+                conn.Close();
+                //terminamos el libro
+
+
+                //hacemos una libro para esto
+                ColumnName = salidascolumnas;
+                conn.Open();
+                TabName = "salidas";
+                cmd = new OleDbCommand("CREATE TABLE [" + TabName + "] (" + ColumnName + ")", conn);
+                cmd.ExecuteNonQuery();
+                for (int i = 0; i < salidas.Rows.Count; i++)
+                {
+                    string values = "";
+                    for (int j = 0; j < salidas.Columns.Count; j++)
+                    {
+                        if (j == 0) values += "'" + salidas.Rows[i][j].ToString() + "'";
+                        else values += ", '" + salidas.Rows[i][j].ToString() + "'";
+                    }
+                    insert = new OleDbCommand("INSERT INTO [" + TabName + "] (" + ColumnName.Replace(" varchar(255)", "") + ") VALUES (" + values + ")", conn);
+                    insert.ExecuteNonQuery();
+                }
+                conn.Close();
+                //terminamos el libro
+            }
+            catch (Exception erm)
+            {
+
+                MessageBox.Show("Hubo un error al exportar a excel:\n" + erm.Message);
+            }
+
+
+
+        }
         private void button3_Click(object sender, EventArgs e)
         {
             try
             {
-                createfile();
+                generarResumenFinal();
                 string fecha = dateTimePicker1.Value.ToShortDateString();
                 if (File.Exists(app.dir + "\\Cierre" + fecha.Replace("/", "") + ".txt") == true)
                 {

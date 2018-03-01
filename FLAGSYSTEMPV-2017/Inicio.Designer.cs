@@ -267,7 +267,7 @@
             this.toolStripSplitButton8.Name = "toolStripSplitButton8";
             this.toolStripSplitButton8.Size = new System.Drawing.Size(81, 26);
             this.toolStripSplitButton8.Tag = "";
-            this.toolStripSplitButton8.Text = "Artículos";
+            this.toolStripSplitButton8.Text = "&Artículos";
             this.toolStripSplitButton8.ButtonClick += new System.EventHandler(this.toolStripSplitButton8_ButtonClick);
             // 
             // toolStripMenuItem21
@@ -286,7 +286,7 @@
             this.toolStripSplitButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripSplitButton5.Name = "toolStripSplitButton5";
             this.toolStripSplitButton5.Size = new System.Drawing.Size(80, 26);
-            this.toolStripSplitButton5.Text = "Compras";
+            this.toolStripSplitButton5.Text = "&Compras";
             this.toolStripSplitButton5.ButtonClick += new System.EventHandler(this.toolStripSplitButton5_ButtonClick);
             // 
             // toolStripMenuItem12
@@ -306,7 +306,7 @@
             this.toolStripSplitButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripSplitButton4.Name = "toolStripSplitButton4";
             this.toolStripSplitButton4.Size = new System.Drawing.Size(67, 26);
-            this.toolStripSplitButton4.Text = "Ventas";
+            this.toolStripSplitButton4.Text = "&Ventas";
             this.toolStripSplitButton4.ButtonClick += new System.EventHandler(this.toolStripSplitButton4_ButtonClick);
             // 
             // toolStripMenuItem8
@@ -332,8 +332,8 @@
             this.toolStripSplitButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripSplitButton3.Image")));
             this.toolStripSplitButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripSplitButton3.Name = "toolStripSplitButton3";
-            this.toolStripSplitButton3.Size = new System.Drawing.Size(51, 26);
-            this.toolStripSplitButton3.Text = "Caja";
+            this.toolStripSplitButton3.Size = new System.Drawing.Size(76, 26);
+            this.toolStripSplitButton3.Text = "&E/S Caja";
             this.toolStripSplitButton3.ButtonClick += new System.EventHandler(this.toolStripSplitButton3_ButtonClick);
             // 
             // toolStripMenuItem5
@@ -370,7 +370,7 @@
             this.toolStripSplitButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripSplitButton1.Name = "toolStripSplitButton1";
             this.toolStripSplitButton1.Size = new System.Drawing.Size(80, 26);
-            this.toolStripSplitButton1.Text = "Informes";
+            this.toolStripSplitButton1.Text = "&Informes";
             this.toolStripSplitButton1.ButtonClick += new System.EventHandler(this.toolStripSplitButton1_ButtonClick);
             // 
             // cargaModificaciónToolStripMenuItem
@@ -471,7 +471,7 @@
             this.toolStripSplitButton10.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripSplitButton10.Name = "toolStripSplitButton10";
             this.toolStripSplitButton10.Size = new System.Drawing.Size(114, 26);
-            this.toolStripSplitButton10.Text = "Administrador";
+            this.toolStripSplitButton10.Text = "A&dministrador";
             this.toolStripSplitButton10.ButtonClick += new System.EventHandler(this.toolStripSplitButton10_ButtonClick);
             // 
             // toolStripMenuItem11
@@ -561,7 +561,7 @@
             this.toolStripSplitButton9.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripSplitButton9.Name = "toolStripSplitButton9";
             this.toolStripSplitButton9.Size = new System.Drawing.Size(63, 26);
-            this.toolStripSplitButton9.Text = "Ayuda";
+            this.toolStripSplitButton9.Text = "A&yuda";
             this.toolStripSplitButton9.ButtonClick += new System.EventHandler(this.toolStripSplitButton9_ButtonClick);
             // 
             // toolStripMenuItem22
@@ -592,7 +592,7 @@
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
             this.toolStripButton1.Size = new System.Drawing.Size(107, 26);
-            this.toolStripButton1.Text = "Cerrar Turno";
+            this.toolStripButton1.Text = "Cerrar &Turno";
             this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
             // button1

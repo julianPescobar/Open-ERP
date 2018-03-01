@@ -355,6 +355,7 @@
             this.Controls.Add(this.shapeContainer1);
             this.Font = new System.Drawing.Font("Lucida Sans Unicode", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -365,6 +366,7 @@
             this.Text = "Ventas";
             this.Load += new System.EventHandler(this.Compras_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Ventas_Paint);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Compras_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

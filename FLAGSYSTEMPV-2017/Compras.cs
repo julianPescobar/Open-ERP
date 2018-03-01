@@ -134,26 +134,7 @@ namespace FLAGSYSTEMPV_2017
                 }
 
             }
-            if (e.KeyCode == Keys.Escape)
-            {
-                if (dataGridView1.Rows.Count > 0)
-                {
-                    DialogResult result = MessageBox.Show("Está seguro de cancelar la compra?", "Atención",
-                    MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                    if (result == DialogResult.Yes)
-                    {
-                        
-                        this.Close();
-                        Compras frm = new Compras();
-                        frm.Show();
-                        frm.Focus();
-                    }
-                }
-                else
-                {
-                    this.Close();
-                }
-            }
+            
             if (e.KeyCode == Keys.Enter)
             {
                 if (dataGridView1.Rows.Count < 1 && textBox4.Text.Length == 0) MessageBox.Show("No hay ningún artículo para comprar");
@@ -434,6 +415,30 @@ namespace FLAGSYSTEMPV_2017
         {
             comboBox1.Enabled = false;
             textBox4.Focus();
+        }
+
+        private void Compras_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                if (dataGridView1.Rows.Count > 0)
+                {
+                    DialogResult result = MessageBox.Show("Está seguro de cancelar la compra?", "Atención",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    if (result == DialogResult.Yes)
+                    {
+
+                        this.Close();
+                        Compras frm = new Compras();
+                        frm.Show();
+                        frm.Focus();
+                    }
+                }
+                else
+                {
+                    this.Close();
+                }
+            }
         }
 
     }

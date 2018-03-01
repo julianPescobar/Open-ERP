@@ -27,7 +27,7 @@ namespace FLAGSYSTEMPV_2017
             if (createorupdate.status == "create")
             {
                 Conexion.abrir();
-                DataTable rubros = Conexion.Consultar("nombrerubro", "Rubros", "where eliminado != 'Eliminado'", "", new SqlCeCommand());
+                DataTable rubros = Conexion.Consultar("nombrerubro", "Rubros", "where eliminado = 'Activo'", "", new SqlCeCommand());
                 DataTable proveedores = Conexion.Consultar("nombre", "Proveedores", "", "", new SqlCeCommand());
                 Conexion.cerrar();
                 for (int i = 0; i < rubros.Rows.Count; i++)
@@ -44,7 +44,7 @@ namespace FLAGSYSTEMPV_2017
                 SqlCeCommand idprod = new SqlCeCommand();
                 idprod.Parameters.AddWithValue("id", createorupdate.itemid);
                 Conexion.abrir();
-                DataTable rubros = Conexion.Consultar("nombrerubro", "Rubros", "", "", new SqlCeCommand());
+                DataTable rubros = Conexion.Consultar("nombrerubro", "Rubros", "where eliminado = 'Activo'", "", new SqlCeCommand());
                 DataTable proveedores = Conexion.Consultar("nombre", "Proveedores", "", "", new SqlCeCommand());
                 DataTable datosprod = Conexion.Consultar("codigoart,descripcion,marca,rubro,precio,costo,iva,stockminimo,porcentaje,compraminima,proveedor,tipo,stockmax", "Articulos", "WHERE idarticulo = @id", "", idprod);
                 

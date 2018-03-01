@@ -58,6 +58,7 @@
             // 
             this.textBox1.BackColor = System.Drawing.Color.LightSkyBlue;
             this.textBox1.Location = new System.Drawing.Point(12, 40);
+            this.textBox1.MaxLength = 15;
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(234, 31);
             this.textBox1.TabIndex = 2;
@@ -68,6 +69,7 @@
             // 
             this.textBox2.BackColor = System.Drawing.Color.LightSkyBlue;
             this.textBox2.Location = new System.Drawing.Point(12, 90);
+            this.textBox2.MaxLength = 15;
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(234, 31);
             this.textBox2.TabIndex = 3;
@@ -110,12 +112,14 @@
             this.Controls.Add(this.label1);
             this.Font = new System.Drawing.Font("Lucida Sans Unicode", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.KeyPreview = true;
             this.Name = "Login";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Load += new System.EventHandler(this.Login_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Login_Paint_1);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Login_KeyDown);
             this.ResumeLayout(false);
             this.PerformLayout();
 

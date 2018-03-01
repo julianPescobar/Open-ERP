@@ -53,6 +53,7 @@
             // 
             this.textBox1.BackColor = System.Drawing.Color.LightSkyBlue;
             this.textBox1.Location = new System.Drawing.Point(17, 28);
+            this.textBox1.MaxLength = 15;
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(311, 27);
             this.textBox1.TabIndex = 1;
@@ -61,6 +62,7 @@
             // 
             this.textBox2.BackColor = System.Drawing.Color.LightSkyBlue;
             this.textBox2.Location = new System.Drawing.Point(17, 78);
+            this.textBox2.MaxLength = 15;
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(311, 27);
             this.textBox2.TabIndex = 2;
@@ -79,6 +81,7 @@
             // 
             this.textBox3.BackColor = System.Drawing.Color.LightSkyBlue;
             this.textBox3.Location = new System.Drawing.Point(17, 127);
+            this.textBox3.MaxLength = 15;
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(311, 27);
             this.textBox3.TabIndex = 3;

@@ -353,9 +353,9 @@
             this.label18.AutoSize = true;
             this.label18.Location = new System.Drawing.Point(235, 286);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(110, 16);
+            this.label18.Size = new System.Drawing.Size(152, 16);
             this.label18.TabIndex = 44;
-            this.label18.Text = "Puede configurar:";
+            this.label18.Text = "Puede config. el sistema:";
             // 
             // checkBox16
             // 

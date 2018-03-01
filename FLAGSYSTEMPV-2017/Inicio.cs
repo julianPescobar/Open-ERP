@@ -10,6 +10,7 @@ using System.Data.SqlServerCe;
 using System.IO;
 using EPSON_Impresora_Fiscal;
 using System.Data.OleDb;
+using System.Net.Mail;
 namespace FLAGSYSTEMPV_2017
 {
     public partial class Inicio : Form
@@ -392,7 +393,7 @@ namespace FLAGSYSTEMPV_2017
                     Conexion.cerrar();
                     Application.Exit();
                 }
-                catch(Exception exc)
+                catch(Exception)
                 {
                     Environment.Exit(0);
                 }
@@ -667,6 +668,7 @@ namespace FLAGSYSTEMPV_2017
                 }
             }
 
+            
 
             if (e.KeyCode == Keys.F6)
             {
@@ -1141,11 +1143,46 @@ namespace FLAGSYSTEMPV_2017
             if (continuar == DialogResult.Yes)
             {
                 generarResumenFinal();
+                sendmail(app.dir + "\\Cierre" + app.hoy.Replace("/", "") + ".xlsx.xls");
                 toolStripButton1.PerformClick();
             }
 
         }
+        private void sendmail(string attachmentFilename)
+        {
+            try
+            {
+                MailMessage mail = new MailMessage();
+                SmtpClient SmtpServer = new SmtpClient(registereduser.smtp.ToString());
+                mail.From = new MailAddress(registereduser.mail.ToString());
+                mail.To.Add(registereduser.para.ToString());
+                mail.Subject = registereduser.titulo.ToString() + "-" + registereduser.registeredlicense.ToString();
+                mail.Body = registereduser.cuerpo.ToString();
+                if (attachmentFilename != null)
+                {
+                    System.Net.Mail.Attachment attachment;
+                    attachment = new System.Net.Mail.Attachment(attachmentFilename);
+                    mail.Attachments.Add(attachment);
+                }
+                SmtpServer.Port = int.Parse(registereduser.puerto.ToString());
+                SmtpServer.Credentials = new System.Net.NetworkCredential(registereduser.mail.ToString(), registereduser.clave.ToString());
+                SmtpServer.EnableSsl = true;
+                SmtpServer.Send(mail);
+                
+                MessageBox.Show("Mail Enviado Correctamente.");
+            }
 
+            catch (SmtpException ex)
+            {
+                throw new ApplicationException
+                  ("Ocurrio un error al enviar el mail. Motivo: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Hubo un error al intentar enviar el Email. Revise todos los datos de configuración del Email en Administrador>Configuración y tambien revise que tenga conexión a Internet.\nDetalle del error: " + ex.Message);
+                
+            }
+        }
         private void setearPermisos()
         {
             if (registereduser.pventa == "si") button2.Enabled = true; else button2.Enabled = false;
