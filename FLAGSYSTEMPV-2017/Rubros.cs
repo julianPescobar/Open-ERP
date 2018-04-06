@@ -20,30 +20,19 @@ namespace FLAGSYSTEMPV_2017
         private void button3_Click(object sender, EventArgs e)
         {
             this.Close();
+             if (Application.OpenForms.OfType<Inicio>().Count() >= 1)
+                    
+                        Application.OpenForms.OfType<Inicio>().First().Focus();
         }
 
         private void Articulos_Load(object sender, EventArgs e)
         {
             getarts();
-
+            textBox1.Select();
+            this.Select(); 
         }
-        protected override void WndProc(ref Message m)
-        {
-            base.WndProc(ref m);
-            if (m.Msg == WM_NCHITTEST)
-                m.Result = (IntPtr)(HT_CAPTION);
-        }
-
-        private const int WM_NCHITTEST = 0x84;
-        private const int HT_CLIENT = 0x1;
-        private const int HT_CAPTION = 0x2;
-
-        private void Articulos_Paint(object sender, PaintEventArgs e)
-        {
-
-            e.Graphics.DrawRectangle(new Pen(Color.Black, 4),
-                           this.DisplayRectangle);      
-        }
+     
+        
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -59,35 +48,40 @@ namespace FLAGSYSTEMPV_2017
 
         private void button2_Click(object sender, EventArgs e)
         {
-            int rowIndex = dataGridView1.CurrentCell.RowIndex;
-            var row = this.dataGridView1.Rows[rowIndex];
-            string name = row.Cells[1].Value.ToString();
-            string id = row.Cells[0].Value.ToString();
+            if (dataGridView1.Rows.Count > 0)
+            {
+                int rowIndex = dataGridView1.CurrentCell.RowIndex;
+                var row = this.dataGridView1.Rows[rowIndex];
+                string name = row.Cells[1].Value.ToString();
+                string id = row.Cells[0].Value.ToString();
 
-             SqlCeCommand existen = new SqlCeCommand();
-            existen.Parameters.AddWithValue("nom", name);
-            existen.Parameters.AddWithValue("activo", "Activo");
-            Conexion.abrir();
-            DataTable hayprovs = Conexion.Consultar("*", "Articulos", "where rubro = @nom and Eliminado = @activo", "", existen);
-            Conexion.cerrar();
-            if (hayprovs.Rows.Count > 0)
-            {
-                MessageBox.Show("Hay " + hayprovs.Rows.Count.ToString() + " Productos asignados bajo este rubro actualmente. Para poder eliminar el rubro primero debe cambiar de rubro a los productos y volver a intentar","No se puede borrar un rubro activo",MessageBoxButtons.OK,MessageBoxIcon.Error);
-            }
-            else
-            {
-                DialogResult borrar = MessageBox.Show("Está seguro de borrar este rubro?\n" + name, "Borrar?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                if (borrar == DialogResult.Yes)
+                SqlCeCommand existen = new SqlCeCommand();
+                existen.Parameters.AddWithValue("nom", name);
+                existen.Parameters.AddWithValue("activo", "Activo");
+                Conexion.abrir();
+                DataTable hayprovs = Conexion.Consultar("*", "Articulos", "where rubro = @nom and Eliminado = @activo", "", existen);
+                DataTable hayproveeds = Conexion.Consultar("*", "Proveedores", "where rubro = @nom and Eliminado = @activo", "", existen);
+                Conexion.cerrar();
+                if (hayprovs.Rows.Count > 0 || hayproveeds.Rows.Count > 0)
                 {
-                    Conexion.abrir();
-                    SqlCeCommand del = new SqlCeCommand();
-                    del.Parameters.AddWithValue("@id", id);
-                    del.Parameters.AddWithValue("@el", "Eliminado");
-                    Conexion.Actualizar("Rubros", "eliminado = @el", "WHERE idrubro = @id", "", del);
-                    Conexion.cerrar();
+                    MessageBox.Show("Hay " + hayprovs.Rows.Count.ToString() + " Articulo(s) y "+hayproveeds.Rows.Count.ToString()+" Proveedor(es) asignados bajo este rubro actualmente. Para poder eliminar el rubro primero debe cambiar de rubro a los productos y volver a intentar", "No se puede borrar un rubro activo", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                getarts();
+                else
+                {
+                    DialogResult borrar = MessageBox.Show("Está seguro de borrar este rubro?\n" + name, "Borrar?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    if (borrar == DialogResult.Yes)
+                    {
+                        Conexion.abrir();
+                        SqlCeCommand del = new SqlCeCommand();
+                        del.Parameters.AddWithValue("@id", id);
+                        del.Parameters.AddWithValue("@el", "Eliminado");
+                        Conexion.Actualizar("Rubros", "eliminado = @el", "WHERE idrubro = @id", "", del);
+                        Conexion.cerrar();
+                    }
+                    getarts();
+                }
             }
+            else MessageBox.Show("No hay ningún rubro seleccionado para borrar");
         }
 
         void getarts()
@@ -131,6 +125,7 @@ namespace FLAGSYSTEMPV_2017
               
                
             }
+            
         }
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
@@ -161,6 +156,10 @@ namespace FLAGSYSTEMPV_2017
             if (e.KeyCode == Keys.Escape)
             {
                 this.Close();
+                if (Application.OpenForms.OfType<Inicio>().Count() >= 1)
+
+                    Application.OpenForms.OfType<Inicio>().First().Focus();
+
             }
         }
 
@@ -193,7 +192,7 @@ namespace FLAGSYSTEMPV_2017
             if (e.KeyCode == Keys.F3)
                 textBox1.Select();
 
-            if (e.KeyCode == Keys.Up)
+            if (e.KeyCode == Keys.Up && dataGridView1.Focused == false)
             {
                 try
                 {
@@ -206,7 +205,7 @@ namespace FLAGSYSTEMPV_2017
                 }
 
             }
-            if (e.KeyCode == Keys.Down)
+            if (e.KeyCode == Keys.Down && dataGridView1.Focused == false)
             {
                 try
                 {

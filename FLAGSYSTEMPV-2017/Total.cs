@@ -10,6 +10,7 @@ using EPSON_Impresora_Fiscal; //EPSON
 using FiscalPrinterLib;       //HASAR
 using System.IO.Ports;
 using System.Data.SqlServerCe;
+using System.IO;
 namespace FLAGSYSTEMPV_2017
 {
     public partial class Total : Form
@@ -20,14 +21,6 @@ namespace FLAGSYSTEMPV_2017
         }
         public static Double Round(Double passednumber, Double roundto)
         {
-            // 105.5 up to nearest 1 = 106
-            // 105.5 up to nearest 10 = 110
-            // 105.5 up to nearest 7 = 112
-            // 105.5 up to nearest 100 = 200
-            // 105.5 up to nearest 0.2 = 105.6
-            // 105.5 up to nearest 0.3 = 105.6
-
-            //if no rounto then just pass original number back
             if (roundto == 0)
             {
                 return passednumber;
@@ -68,8 +61,7 @@ namespace FLAGSYSTEMPV_2017
                 item.Parameters.AddWithValue("ve", registereduser.reguser);
             }
             if(Demo.EsDemo == true)
-            
-            item.Parameters.AddWithValue("fv", DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString());
+                item.Parameters.AddWithValue("fv", DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString());
             else
                 item.Parameters.AddWithValue("fv", app.hoy + " " + DateTime.Now.ToShortTimeString());
 
@@ -80,15 +72,7 @@ namespace FLAGSYSTEMPV_2017
             Conexion.cerrar();
             this.Close();
         }
-        protected override void WndProc(ref Message m)
-        {
-            base.WndProc(ref m);
-            if (m.Msg == WM_NCHITTEST)
-            m.Result = (IntPtr)(HT_CAPTION);
-        }
-        private const int WM_NCHITTEST = 0x84;
-        private const int HT_CLIENT = 0x1;
-        private const int HT_CAPTION = 0x2;
+      
         private void Total_Load(object sender, EventArgs e)
         {
             if (totalventa.compraoventa == "Ventas")
@@ -117,13 +101,14 @@ namespace FLAGSYSTEMPV_2017
             if (totalventa.compraoventa == "Compras")
             {
                 label1.Text = "Subtotal";
-                label2.Text = "Total EXACTO de la factura:";
+                label2.Text = "Total Exacto Factura:";
                 label3.Text = "Impuestos extra";
                 float total = float.Parse(totalventa.totcompra.Replace("$", ""));
                 textBox1.Text = total.ToString("$0.00");
                 textBox3.Text = (0 - total).ToString("$0.00");
                 checkBox1.Enabled = false;
                 checkBox1.Visible = false;
+                label5.Visible = false;
                 textBox1.Focus();
                 textBox2.Focus();
                 textBox3.Focus();
@@ -217,6 +202,16 @@ namespace FLAGSYSTEMPV_2017
             {
                 this.Close();
             }
+        }
+
+        private void Total_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+                this.Close();
+            if (e.KeyCode == Keys.F1)
+            {
+                if (checkBox1.Checked == true) checkBox1.Checked = false; else checkBox1.Checked = true;
+            }
             if (e.KeyCode == Keys.Enter)
             {
                 if (textBox2.Text == "") textBox2.Text = textBox1.Text.Replace("$", "");
@@ -227,20 +222,52 @@ namespace FLAGSYSTEMPV_2017
                 {
                     if (totalventa.compraoventa == "Ventas") //si estamos en ventas
                     {
+                        if (ConfigFiscal.usaImpFiscal == "no" && checkBox1.Checked == true)
+                        {
+                            string nameonly = "ticket" + app.hoy.Replace("/", "") + DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString() + DateTime.Now.Second.ToString() + ".txt";
+                            string filename = app.dir + "\\" + nameonly;
+                            List<string> mytkt = new List<string>();
+                            mytkt.Add("\r\n\n\r");
+                            mytkt.Add("\r"+registereduser.registeredlicense+"\n\r");
+                            mytkt.Add("\r ###TICKET SIN VALIDEZ FISCAL###\n\r");
+                            float totaltotal = 0;                   
+                            for (int i = 0; i < totalventa.detalle.Rows.Count; i++)
+                            {
+                                string descripcion = totalventa.detalle.Rows[i][3].ToString();
+                                string cantidad = totalventa.detalle.Rows[i][1].ToString();
+                                string precio = totalventa.detalle.Rows[i][5].ToString().Replace("$", "");
+                                totaltotal += (float.Parse(cantidad) * float.Parse(precio));
+                                mytkt.Add("\rITEM "+(i+1)+":\r");
+
+                                mytkt.Add("\r#Nombre: " + descripcion + "\n\r" + "#Precio Unid: $" + precio + "\n\r" + "#Cantidad:" + cantidad + "\n\r#Total: " + (float.Parse(cantidad) * float.Parse(precio)).ToString("$0.00") + "\n\r");
+                              
+                            }
+                            mytkt.Add("\r#########################\r");
+                            mytkt.Add("\r# Total Compra: " + totaltotal.ToString("$0.00") + "\r");
+                            mytkt.Add("\r#########################\n\r");
+                            mytkt.Add("\r###GRACIAS POR SU COMPRA###\n\r");
+                            mytkt.Add("\r\n\r\n");
+                           
+                          
+                            
+                            File.WriteAllLines(filename, mytkt);
+                           
+                            ImpresionNOFISCAL.printnofiscal(filename, nameonly);
+                            
+                        }
                         if (Demo.EsDemo == false && ConfigFiscal.usaImpFiscal == "si") //si tenemos impre fiscal configurada
                         {
                             if (ConfigFiscal.marca == "EPSON") //si es epson
                             {
                                 try
                                 {
-                                EPSON_Impresora_Fiscal.PrinterFiscal epson = new PrinterFiscal();
-                                epson.PortNumber = ConfigFiscal.comport;
-                                epson.BaudRate = "9600";
-                                epson.MessagesOn = true;
-                               // epson.SetGetDateTime("S", "200120", "100505");
-                                //epson.OpenTicket("C");
-                                //MessageBox.Show(epson.PrinterStatus + "\n" + epson.FiscalStatus);
-                                
+                                    EPSON_Impresora_Fiscal.PrinterFiscal epson = new PrinterFiscal();
+                                    epson.PortNumber = ConfigFiscal.comport;
+                                    epson.BaudRate = "9600";
+                                    epson.MessagesOn = true;
+                                    // epson.SetGetDateTime("S", "200120", "100505");
+                                    //epson.OpenTicket("C");
+                                    //MessageBox.Show(epson.PrinterStatus + "\n" + epson.FiscalStatus);
                                     bool status;
                                     textBox2.Enabled = false;
                                     Pleasewait reg = new Pleasewait();
@@ -277,7 +304,7 @@ namespace FLAGSYSTEMPV_2017
                                         Application.OpenForms.OfType<Pleasewait>().First().Close();
                                     if (Application.OpenForms.OfType<Total>().Count() == 1)
                                         Application.OpenForms.OfType<Total>().First().Close();
-                                    
+
                                 }
                             }
                             if (ConfigFiscal.marca == "HASAR") //si es hasar
@@ -290,8 +317,9 @@ namespace FLAGSYSTEMPV_2017
                                     hasar.Comenzar();
                                     textBox2.Enabled = false;
                                     textBox2.Focus();
+
                                     hasar.AbrirComprobanteFiscal(DocumentosFiscales.TICKET_C);
-                                      Pleasewait reg = new Pleasewait();
+                                    Pleasewait reg = new Pleasewait();
                                     reg.Show();
                                     object copias = 0;
                                     string pagocon = textBox2.Text.ToString().Replace("$", "");
@@ -312,42 +340,6 @@ namespace FLAGSYSTEMPV_2017
                                     hasar.CerrarComprobanteFiscal(Type.Missing, out copias);
                                     hasar.Finalizar();
                                     vender();
-                                    //EPSON_Impresora_Fiscal.PrinterFiscal epson = new PrinterFiscal();
-                                    //epson.PortNumber = ConfigFiscal.comport;
-                                    //epson.BaudRate = "9600";
-                                    //epson.MessagesOn = true;
-                                    // epson.SetGetDateTime("S", "200120", "100505");
-                                    //epson.OpenTicket("C");
-                                    //MessageBox.Show(epson.PrinterStatus + "\n" + epson.FiscalStatus);
-
-                                   /* bool status;
-                                    textBox2.Enabled = false;
-                                    Pleasewait reg = new Pleasewait();
-                                    reg.Show();
-                                    status = epson.OpenTicket("C");
-                                    if (Application.OpenForms.OfType<Pleasewait>().Count() == 1)
-                                        Application.OpenForms.OfType<Pleasewait>().First().Close();
-                                    textBox2.Enabled = true;
-                                    textBox2.Focus();
-                                    if (status == true) //imprimo a impresora fiscal
-                                    {
-                                        string pagocon = textBox2.Text.ToString().Replace("$", "");
-                                        if (!pagocon.Contains(","))
-                                        {
-                                            pagocon = pagocon + ",00";
-                                        }
-                                        for (int i = 0; i < totalventa.detalle.Rows.Count; i++)
-                                        {
-                                            string descripcion = totalventa.detalle.Rows[i][3].ToString();
-                                            string cantidad = totalventa.detalle.Rows[i][1].ToString();
-                                            string precio = totalventa.detalle.Rows[i][5].ToString().Replace("$", "");
-                                            // MessageBox.Show(descripcion + " - " + cantidad + " - " + precio);
-                                            epson.SendTicketItem(descripcion, cantidad.PadRight(4, '0'), precio.ToString().Substring(0, precio.Length - 3).PadLeft(7, '0') + precio.ToString().Substring(precio.Length - 3, 3).Replace(",", ""), "1", "M", "1", "1", "1");
-                                        }
-                                        epson.SendTicketPayment("PAGO CON ", pagocon.Substring(0, pagocon.Length - 3).PadLeft(7, '0') + pagocon.Substring(pagocon.Length - 2, 2), "T");
-                                        epson.CloseTicket();
-                                    }
-                                    vender();*/
                                 }
                                 catch (Exception m)
                                 {
@@ -356,7 +348,6 @@ namespace FLAGSYSTEMPV_2017
                                         Application.OpenForms.OfType<Pleasewait>().First().Close();
                                     if (Application.OpenForms.OfType<Total>().Count() == 1)
                                         Application.OpenForms.OfType<Total>().First().Close();
-
                                 }
                             }
                             if (ConfigFiscal.marca == "NCR") //si es ncr
@@ -379,14 +370,15 @@ namespace FLAGSYSTEMPV_2017
                         }
                     }//todo esto es la parte de Ventas
 
-                 
+
                     if (totalventa.compraoventa == "Compras")
                     {
+
                         totalventa.impuestoextra = t3.ToString();
-                        float porcentajefactura = float.Parse(totalventa.impuestoextra.ToString()) * 100 / float.Parse(totalventa.totcompra.ToString().Replace("$",""));
+                        float porcentajefactura = float.Parse(totalventa.impuestoextra.ToString()) * 100 / float.Parse(totalventa.totcompra.ToString().Replace("$", ""));
                         //MessageBox.Show(porcentajefactura.ToString("0.00"));
-                        
-                        
+
+
                         //guardo en base de datos
                         SqlCeCommand item = new SqlCeCommand();
                         Conexion.abrir();
@@ -394,15 +386,15 @@ namespace FLAGSYSTEMPV_2017
                         {
                             float Precio = float.Parse(totalventa.detallecompra.Rows[i][5].ToString().Replace("$", ""));
                             float IVA = float.Parse(totalventa.detallecompra.Rows[i][8].ToString().Replace("$", ""));
-                            float PrecioconIva = (Precio + (Precio * (IVA / 100))); 
+                            float PrecioconIva = (Precio + (Precio * (IVA / 100)));
                             float PorcentajeCosto = float.Parse(totalventa.detallecompra.Rows[i][9].ToString().Replace("$", ""));
                             float Costo = float.Parse(totalventa.detallecompra.Rows[i][7].ToString().Replace("$", ""));
                             float nuevocosto = (Costo + (Costo * (porcentajefactura / 100)));
                             float nuevocostoconporcentaje;
-                            if(Demo.EsDemo == false)
-                             nuevocostoconporcentaje = float.Parse(Round(double.Parse((nuevocosto + (nuevocosto * (PorcentajeCosto / 100))).ToString()),double.Parse(registereduser.redondeo)).ToString());
+                            if (Demo.EsDemo == false)
+                                nuevocostoconporcentaje = float.Parse(Round(double.Parse((nuevocosto + (nuevocosto * (PorcentajeCosto / 100))).ToString()), double.Parse(registereduser.redondeo)).ToString());
                             else
-                                   nuevocostoconporcentaje = float.Parse(Round(double.Parse((nuevocosto + (nuevocosto * (PorcentajeCosto / 100))).ToString()),double.Parse("0")).ToString());
+                                nuevocostoconporcentaje = float.Parse(Round(double.Parse((nuevocosto + (nuevocosto * (PorcentajeCosto / 100))).ToString()), double.Parse("0")).ToString());
 
                             item.Parameters.Clear();
                             item.Parameters.AddWithValue("nf", totalventa.idcompra);
@@ -415,17 +407,17 @@ namespace FLAGSYSTEMPV_2017
                             item.Parameters.AddWithValue("to", totalventa.detallecompra.Rows[i][6].ToString().Replace("$", ""));
                             item.Parameters.AddWithValue("ncosto", nuevocosto);
                             item.Parameters.AddWithValue("porcent", nuevocostoconporcentaje);
-                           // MessageBox.Show(porcentajefactura.ToString("0.00"));
+                            // MessageBox.Show(porcentajefactura.ToString("0.00"));
                             //item.Parameters.AddWithValue("costo", totalventa.detallecompra.Rows[i][7].ToString());
                             //MessageBox.Show(totalventa.detallecompra.Rows[i][8].ToString() + "-" + totalventa.detallecompra.Rows[i][7].ToString());
                             //MessageBox.Show(totalventa.detallecompra.Rows[i][1].ToString());
-                            
-                            if ( nuevocostoconporcentaje > Precio)
+
+                            if (nuevocostoconporcentaje > Precio)
                             {
 
-                            //MessageBox.Show("el nuevo costo es mayor que el precio actual.\n"+nuevocostoconporcentaje.ToString("$0.00")+" > "+PrecioconIva.ToString("$0.00"));
-                            Conexion.Actualizar("Articulos", " precio = @porcent, costo = @ncosto  ", "WHERE idarticulo = @idprod", "", item);
-                            
+                                //MessageBox.Show("el nuevo costo es mayor que el precio actual.\n"+nuevocostoconporcentaje.ToString("$0.00")+" > "+PrecioconIva.ToString("$0.00"));
+                                Conexion.Actualizar("Articulos", " precio = @porcent, costo = @ncosto  ", "WHERE idarticulo = @idprod", "", item);
+
                             }
 
                             Conexion.Insertar("DetalleCompras", "nfactura,idproducto, codigoproducto , descripproducto, marcaproducto, cantidproducto, precioproducto, totalproducto", "@nf,@idprod,@cp,@dp,@mc,@ca,@pp,@to", item);
@@ -447,7 +439,7 @@ namespace FLAGSYSTEMPV_2017
                         Conexion.cerrar();
                     }//todo esto es la parte de Compras
 
-                    if(totalventa.compraoventa == "NC")
+                    if (totalventa.compraoventa == "NC")
                     {
                         //guardo en base de datos
                         SqlCeCommand item = new SqlCeCommand();
@@ -516,11 +508,16 @@ namespace FLAGSYSTEMPV_2017
                     }
                     if (totalventa.compraoventa == "Ventas")
                     {
+                        bool maximized = false;
+                        if (Form.ActiveForm.WindowState == FormWindowState.Maximized) maximized = true;
+
                         this.Close();
-                        if (Application.OpenForms.OfType<Ventas>().Count() == 1)
-                        Application.OpenForms.OfType<Ventas>().First().Close();
+                        if (Application.OpenForms.OfType<Ventas>().Count() >= 1)
+                            Application.OpenForms.OfType<Ventas>().First().Dispose();
                         Ventas abrirventa = new Ventas();
+
                         abrirventa.Show();
+                        if (maximized == true) abrirventa.WindowState = FormWindowState.Maximized;
                     }
                     if (totalventa.compraoventa == "NC")
                     {
@@ -542,25 +539,18 @@ namespace FLAGSYSTEMPV_2017
                     if (totalventa.compraoventa == "Compras")
                     {
                         this.Close();
-                        if (Application.OpenForms.OfType<Compras>().Count() == 1)
-                        Application.OpenForms.OfType<Compras>().First().Close();
+                        if (Application.OpenForms.OfType<Compras>().Count() >= 1)
+                            Application.OpenForms.OfType<Compras>().First().Dispose();
                         Compras abrirventa = new Compras();
                         abrirventa.Show();
-                    } 
-               }
+                    }
+                }
                 else
                 {
                     MessageBox.Show("El pago del cliente no puede ser menor al total de venta.");
                 }
                 //MessageBox.Show("impresora fiscal aca");
             }
-        }
-
-        private void Total_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Escape)
-                this.Close();
-
         }
     }
 }

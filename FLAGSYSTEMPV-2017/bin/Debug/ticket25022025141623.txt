@@ -1,0 +1,34 @@
+
+
+
+Flag Informática
+
+ ###TICKET SIN VALIDEZ FISCAL###
+
+ITEM 1:
+#Nombre: CARGA VIRTUAL
+#Precio Unid: $1,05
+#Cantidad:1
+#Total: $1,05
+
+ITEM 2:
+#Nombre: SERVICIO CGA VIRTUAL
+#Precio Unid: $1,30
+#Cantidad:1
+#Total: $1,30
+
+ITEM 3:
+#Nombre: HOLIS AMIGUIS
+#Precio Unid: $53,00
+#Cantidad:1
+#Total: $53,00
+
+#########################
+# Total Compra: $55,35
+#########################
+
+###GRACIAS POR SU COMPRA###
+
+
+
+

@@ -16,24 +16,6 @@ namespace FLAGSYSTEMPV_2017
         {
             InitializeComponent();
         }
-
-        protected override void WndProc(ref Message m)
-        {
-            base.WndProc(ref m);
-            if (m.Msg == WM_NCHITTEST)
-                m.Result = (IntPtr)(HT_CAPTION);
-        }
-
-        private const int WM_NCHITTEST = 0x84;
-        private const int HT_CLIENT = 0x1;
-        private const int HT_CAPTION = 0x2;
-
-        private void ActualizaPrecios_Paint(object sender, PaintEventArgs e)
-        {
-            e.Graphics.DrawRectangle(new Pen(Color.Black, 4),
-                        this.DisplayRectangle);      
-        }
-
         private void button2_Click(object sender, EventArgs e)
         {
             if (comboBox1.SelectedIndex >= 0 && comboBox2.SelectedIndex >= 0)
@@ -63,9 +45,7 @@ namespace FLAGSYSTEMPV_2017
                             {
                                 Conexion.Actualizar("Articulos", "costo = (costo + (costo * @porc / 100))", "WHERE idarticulo = @id", "", el_id);
                                 //Conexion.Actualizar("Articulos", "precio = (costo + (costo * (CAST(porcentaje AS float) / 100))) ", "WHERE idarticulo = @id", "", el_id);
-               
                             }
-
                         }
                         if (nuevocosto < float.Parse(precio) && numericUpDown1.Value >= 0)
                         {
@@ -75,12 +55,10 @@ namespace FLAGSYSTEMPV_2017
                         {
                             if (comboBox1.SelectedIndex == 1 && numericUpDown1.Value < 0)
                             {
-
                                 Conexion.Actualizar("Articulos", "costo = (costo - (costo * @porc / 100))", "WHERE idarticulo = @id", "", el_id);
                                 //Conexion.Actualizar("Articulos", "precio = (costo - (costo * CAST(porcentaje AS float) / 100)) ", "WHERE idarticulo = @id", "", el_id);
-               
                             }
-                            }
+                        }
                         if (nuevocosto < float.Parse(precio) && numericUpDown1.Value < 0)
                         {
                             if (comboBox1.SelectedIndex == 1 && numericUpDown1.Value < 0) Conexion.Actualizar("Articulos", "costo = (costo - (costo * @porc / 100)) ", "WHERE idarticulo = @id", "", el_id);
@@ -90,7 +68,6 @@ namespace FLAGSYSTEMPV_2017
                         this.Close();
                         if (Application.OpenForms.OfType<Articulos>().Count() == 1)
                             Application.OpenForms.OfType<Articulos>().First().Close();
-
                             Articulos frm = new Articulos();
                             frm.Show();
 
@@ -98,31 +75,41 @@ namespace FLAGSYSTEMPV_2017
                     }
                     if (comboBox2.SelectedIndex == 1)
                     {
-                        
                         string art = createorupdate.itemid;
                         SqlCeCommand el_id = new SqlCeCommand();
                         el_id.Parameters.AddWithValue("id", art);
                         el_id.Parameters.AddWithValue("porc", float.Parse(numericUpDown1.Value.ToString().Replace("-", "")));
                         float porcentajeDelForm = float.Parse(numericUpDown1.Value.ToString().Replace("-", ""));
                         Conexion.abrir();
-                        if (comboBox1.SelectedIndex == 0 && numericUpDown1.Value >= 0) Conexion.Actualizar("Articulos", "precio = (precio + (precio * (@porc / 100)))", "", "", el_id);
-                        if (comboBox1.SelectedIndex == 0 && numericUpDown1.Value < 0) Conexion.Actualizar("Articulos", "precio = (precio - (precio * (@porc / 100)))", "", "", el_id);
-                            if (comboBox1.SelectedIndex == 1 && numericUpDown1.Value >= 0) //si elegimos editar un articulo 
-                            {
-                                Conexion.Actualizar("Articulos", "costo = (costo + (costo * @porc / 100))", "", "", el_id);
-                            }
-                            if (comboBox1.SelectedIndex == 1 && numericUpDown1.Value < 0)
-                            {
-                                Conexion.Actualizar("Articulos", "costo = (costo - (costo * @porc / 100))", "", "", el_id);
-                            }
+                        if (comboBox1.SelectedIndex == 0)
+                        {
+                            if (comboBox1.SelectedIndex == 0 && numericUpDown1.Value >= 0) Conexion.Actualizar("Articulos", "precio = (precio + (precio * (@porc / 100)))", "", "", el_id);
+                            if (comboBox1.SelectedIndex == 0 && numericUpDown1.Value < 0) Conexion.Actualizar("Articulos", "precio = (precio - (precio * (@porc / 100)))", "", "", el_id);
+                        }
+                        if (comboBox1.SelectedIndex == 1)
+                        {
+                           DialogResult sino =  MessageBox.Show("Tenga en cuenta que aumentar el costo de un producto conlleva a que su precio de venta aumente si es que el precio de compra + porcentaje de ganancia deseada supera al precio de venta actual.\nDesea continuar con la operacion?","Advertencia",MessageBoxButtons.YesNo,MessageBoxIcon.Warning);
+
+                           if (sino == DialogResult.Yes)
+                           {
+                               if (comboBox1.SelectedIndex == 1 && numericUpDown1.Value >= 0) //si elegimos editar un articulo 
+                               {
+                                   Conexion.Actualizar("Articulos", "costo = (costo + (costo * @porc / 100))", "", "", el_id);
+                               }
+                               if (comboBox1.SelectedIndex == 1 && numericUpDown1.Value < 0)
+                               {
+                                   Conexion.Actualizar("Articulos", "costo = (costo - (costo * @porc / 100))", "", "", el_id);
+                               }
+                           }
+                           else
+                               MessageBox.Show("La operación se ha cancelado");
+                        }
                         Conexion.cerrar();
                         this.Close();
                         if (Application.OpenForms.OfType<Articulos>().Count() == 1)
                             Application.OpenForms.OfType<Articulos>().First().Close();
-
                         Articulos frm = new Articulos();
                         frm.Show();
-
                         //hacemos codigo para editar todos
                     }
                 }
@@ -142,11 +129,8 @@ namespace FLAGSYSTEMPV_2017
                     this.Close();
                     if (Application.OpenForms.OfType<Articulos>().Count() == 1)
                         Application.OpenForms.OfType<Articulos>().First().Close();
-
                     Articulos frm = new Articulos();
                     frm.Show();
-
-
                 }
                 if(comboBox2.SelectedIndex == 2 && comboBox3.SelectedIndex <0)
                 {
@@ -155,7 +139,7 @@ namespace FLAGSYSTEMPV_2017
             }
             else
             {
-                MessageBox.Show("Debe completar algunos campos para poder raelizar los cambios");
+                MessageBox.Show("Debe completar algunos campos para poder realizar los cambios");
             }
         }
 
@@ -172,12 +156,11 @@ namespace FLAGSYSTEMPV_2017
                 {
                     comboBox3.Items.Clear();
                     Conexion.abrir();
-                    DataTable proveeds = Conexion.Consultar("nombre", "proveedores", "", "", new SqlCeCommand());
+                    DataTable proveeds = Conexion.Consultar("nombre", "proveedores", "WHERE Eliminado != 'Eliminado'", "", new SqlCeCommand());
                     Conexion.cerrar();
                     comboBox3.Visible = true;
                     for (int i = 0; i < proveeds.Rows.Count; i++) comboBox3.Items.Add(proveeds.Rows[i][0].ToString()); 
                 }
-             
             }
             else
             {
@@ -188,11 +171,35 @@ namespace FLAGSYSTEMPV_2017
         private void ActualizaPrecios_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Escape) this.Close();
+            if (e.KeyCode == Keys.F1) button2.PerformClick();
+            if (e.KeyCode == Keys.Enter && button1.Focused == false && button2.Focused == false) SendKeys.SendWait("{TAB}");
         }
 
-        private void ActualizaPrecios_Load(object sender, EventArgs e)
+        private void comboBox1_Enter(object sender, EventArgs e)
         {
+            if (comboBox1.Enabled == true)
+            {
+                comboBox1.DroppedDown = true;
+                comboBox1.Select();
+            }
+        }
 
+        private void comboBox2_Enter(object sender, EventArgs e)
+        {
+            if (comboBox2.Enabled == true)
+            {
+                comboBox2.DroppedDown = true;
+                comboBox2.Select();
+            }
+        }
+
+        private void comboBox3_Enter(object sender, EventArgs e)
+        {
+            if (comboBox3.Enabled == true)
+            {
+                comboBox3.DroppedDown = true;
+                comboBox3.Select();
+            }
         }
     }
 }

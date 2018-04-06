@@ -1,0 +1,62 @@
+Flag Informática
+
+ ###TICKET SIN VALIDEZ FISCAL###
+
+ITEM 1:
+#Nombre: CARGA VIRTUAL
+#Precio Unid: $1,00
+#Cantidad:1
+#Total: $1,00
+
+ITEM 2:
+#Nombre: SERVICIO CGA VIRTUAL
+#Precio Unid: $1,00
+#Cantidad:1
+#Total: $1,00
+
+ITEM 3:
+#Nombre: CARGA VIRTUAL
+#Precio Unid: $1,00
+#Cantidad:1
+#Total: $1,00
+
+ITEM 4:
+#Nombre: CARGA VIRTUAL
+#Precio Unid: $1,00
+#Cantidad:1
+#Total: $1,00
+
+ITEM 5:
+#Nombre: CARGA VIRTUAL
+#Precio Unid: $1,00
+#Cantidad:1
+#Total: $1,00
+
+ITEM 6:
+#Nombre: CARGA VIRTUAL
+#Precio Unid: $1,00
+#Cantidad:1
+#Total: $1,00
+
+ITEM 7:
+#Nombre: SERVICIO CGA VIRTUAL
+#Precio Unid: $1,00
+#Cantidad:203
+#Total: $203,00
+
+ITEM 8:
+#Nombre: CARGA VIRTUAL
+#Precio Unid: $1,00
+#Cantidad:44
+#Total: $44,00
+
+#########################
+# Total Compra: $253,00
+#########################
+
+###GRACIAS POR SU COMPRA###
+
+
+
+
+

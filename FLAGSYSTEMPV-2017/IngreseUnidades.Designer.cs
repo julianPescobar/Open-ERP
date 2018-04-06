@@ -75,6 +75,7 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "IngreseUnidades";
+            this.TopMost = true;
             this.Load += new System.EventHandler(this.IngreseUnidades_Load);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);

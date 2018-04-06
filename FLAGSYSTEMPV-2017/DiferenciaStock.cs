@@ -21,34 +21,26 @@ namespace FLAGSYSTEMPV_2017
         private void DiferenciaStock_Load(object sender, EventArgs e)
         {
             Conexion.abrir();
-            DataTable proveedores = Conexion.Consultar("nombre", "Proveedores", "", "", new SqlCeCommand());
+            DataTable proveedores = Conexion.Consultar("nombre", "Proveedores", "WHERE Eliminado != 'Eliminado'", "", new SqlCeCommand());
             Conexion.cerrar();
             for (int i = 0; i < proveedores.Rows.Count; i++)
             {
                 comboBox1.Items.Add(proveedores.Rows[i][0].ToString());
             }
         }
-        protected override void WndProc(ref Message m)
-        {
-            base.WndProc(ref m);
-            if (m.Msg == WM_NCHITTEST)
-            m.Result = (IntPtr)(HT_CAPTION);
-        }
-        private const int WM_NCHITTEST = 0x84;
-        private const int HT_CLIENT = 0x1;
-        private const int HT_CAPTION = 0x2;
+     
         private void button3_Click(object sender, EventArgs e)
         {
             this.Close();
         }
-        private void DiferenciaStock_Paint(object sender, PaintEventArgs e)
-        {
-            e.Graphics.DrawRectangle(new Pen(Color.Black, 4),
-                         this.DisplayRectangle);      
-        }
+       
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            getarts(comboBox1.SelectedItem.ToString());
+            try
+            {
+                getarts(comboBox1.SelectedItem.ToString());
+            }
+            catch (Exception) { }
         }
         void getarts(string prov)
         {
@@ -100,7 +92,7 @@ namespace FLAGSYSTEMPV_2017
             DialogResult seguro = MessageBox.Show("Está seguro de poner faltantes y sobrantes en cero?", "Seguro?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (seguro == DialogResult.Yes)
             {
-                if (dataGridView1.Rows.Count > 0)
+                if (dataGridView1.Rows.Count > 0 && comboBox1.SelectedIndex >= 0)
                 {
                     for (int i = 0; i < dataGridView1.Rows.Count; i++)
                     {
@@ -112,10 +104,14 @@ namespace FLAGSYSTEMPV_2017
                     }
                     if (Application.OpenForms.OfType<DiferenciaStock>().Count() == 1)
                         Application.OpenForms.OfType<DiferenciaStock>().First().Close();
-                        DiferenciaStock frm = new DiferenciaStock();
-                        frm.Show();
-                        frm.BringToFront();
-                 }
+                    DiferenciaStock frm = new DiferenciaStock();
+                    frm.Show();
+                    frm.BringToFront();
+                }
+                else
+                {
+                    MessageBox.Show("Debe elegir un provedor y asegurarse de que posea articulos");
+                }
             }
         }
 
@@ -138,7 +134,7 @@ namespace FLAGSYSTEMPV_2017
                 saveFileDialog1.FileName = "DiferenciaStock" + Conexion.data + DateTime.Now.ToShortDateString().Replace("/", "") + DateTime.Now.ToShortTimeString().Replace(":", "") + extension;
                 saveFileDialog1.ShowDialog();
             }
-            else MessageBox.Show("Debe seleccionar un tipo de archivo");
+            else MessageBox.Show("Para exportar debe seleccionar un tipo de archivo y un proveedor.");
         }
         private void copyAlltoClipboard()
         {
@@ -221,8 +217,30 @@ namespace FLAGSYSTEMPV_2017
             if (e.KeyCode == Keys.Escape)
                 this.Close();
 
+
+            if (e.KeyCode == Keys.F1)
+            {
+                comboBox1.DroppedDown = true;
+                comboBox1.Select();
+            }
+
+            if (e.KeyCode == Keys.F2)
+            {
+                comboBox2.DroppedDown = true;
+                comboBox2.Select();
+            }
+
+            if (e.KeyCode == Keys.F3)
+            {
+                button1.PerformClick();
+            }
+
+            if (e.KeyCode == Keys.F4)
+            {
+                button2.PerformClick();
+            }
            
-            if (e.KeyCode == Keys.Up)
+            if (e.KeyCode == Keys.Up && dataGridView1.Focused == false)
             {
                 try
                 {
@@ -235,7 +253,7 @@ namespace FLAGSYSTEMPV_2017
                 }
 
             }
-            if (e.KeyCode == Keys.Down)
+            if (e.KeyCode == Keys.Down && dataGridView1.Focused == false)
             {
                 try
                 {

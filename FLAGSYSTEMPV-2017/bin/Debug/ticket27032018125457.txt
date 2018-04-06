@@ -1,0 +1,7 @@
+TEST TICKET
+TICKET SIN VALOR FISCAL
+opop x1    $53,00
+opop x1    $53,00
+opop x1    $53,00
+1 x1    $53,00
+Servicio test n2 x1    $5,00

@@ -1,0 +1,10 @@
+ test tkt
+ esto no es fiscal
+opop x1 $53,00
+opop x1 $53,00
+opop x1 $53,00
+1 x1 $53,00
+5 x1 $5,00
+Servicio test n2 x1 $5,00
+opop x1 $53,00
+opop x1 $53,00

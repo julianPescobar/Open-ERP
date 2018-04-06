@@ -11,6 +11,7 @@ using System.IO;
 using EPSON_Impresora_Fiscal;
 using System.Data.OleDb;
 using System.Net.Mail;
+using System.Runtime.InteropServices;
 namespace FLAGSYSTEMPV_2017
 {
     public partial class Inicio : Form
@@ -19,6 +20,14 @@ namespace FLAGSYSTEMPV_2017
         {
             InitializeComponent();
         }
+        [DllImport("user32")]
+        static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
+        [DllImport("user32")]
+        static extern bool EnableMenuItem(IntPtr hMenu, uint uIDEnableItem, uint uEnable);
+
+        const int MF_BYCOMMAND = 0;
+        const int MF_DISABLED = 2;
+        const int SC_CLOSE = 0xF060;
         public bool b1wasclicked = false;
         public bool b2wasclicked = false;
         public ToolTip inicio = new ToolTip(); public ToolTip  ventas = new ToolTip(); public ToolTip  compras = new ToolTip(); public ToolTip  articulos = new ToolTip(); public ToolTip  caja = new ToolTip(); public ToolTip  clientes = new ToolTip(); public ToolTip  proveedores = new ToolTip(); public ToolTip  gastos = new ToolTip(); public ToolTip  controlstock = new ToolTip(); public ToolTip  rubros = new ToolTip(); public ToolTip  cierredia = new ToolTip();
@@ -34,15 +43,15 @@ namespace FLAGSYSTEMPV_2017
             DataTable entradas = Conexion.Consultar("tipo,motivo,total", "EntradaCaja", "Where fecha between @hoy and @hoy2", "", hoy);
             DataTable salidas = Conexion.Consultar("tipo,motivo,total", "SalidaCaja", "Where fecha between @hoy and @hoy2", "", hoy);
             string[] Ventas = new string[ventas.Rows.Count];
-             string[] Compras = new string[compras.Rows.Count];
-             string[] Gastos = new string[gastos.Rows.Count];
-             string[] Entradas = new string[entradas.Rows.Count];
-             string[] Salidas = new string[salidas.Rows.Count];
+            string[] Compras = new string[compras.Rows.Count];
+            string[] Gastos = new string[gastos.Rows.Count];
+            string[] Entradas = new string[entradas.Rows.Count];
+            string[] Salidas = new string[salidas.Rows.Count];
             float tv = 0;
-                float tc = 0;
-                    float tg = 0;
-                        float te = 0;
-                            float ts = 0;
+            float tc = 0;
+            float tg = 0;
+            float te = 0;
+            float ts = 0;
 
                             if (ventas.Rows.Count > 0)
                             {
@@ -110,6 +119,7 @@ namespace FLAGSYSTEMPV_2017
                             try
                             {
                                 string tempfilename = app.dir + "\\Cierre" + app.hoy.Replace("/", "") + ".xlsx.xls";
+                                if(File.Exists(tempfilename)) File.Move(tempfilename,tempfilename.Replace("Cierre","CierreAnterior"+DateTime.Now.Ticks.ToString()));
                                 string xConnStr = "Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=" + tempfilename + ";Extended Properties='Excel 8.0;HDR=YES'";
                                 string TabName = "";
                                 var conn = new OleDbConnection(xConnStr);
@@ -290,6 +300,8 @@ namespace FLAGSYSTEMPV_2017
         }
         private void Inicio_Load(object sender, EventArgs e)
         {
+            var sm = GetSystemMenu(Handle, false);
+            EnableMenuItem(sm, SC_CLOSE, MF_BYCOMMAND | MF_DISABLED);
             label4.Text = "Fecha de Trabajo: " + app.hoy;
             label2.BringToFront();
             label5.BringToFront();
@@ -316,11 +328,12 @@ namespace FLAGSYSTEMPV_2017
                 button6.Enabled = true;
                 toolStripButton1.Enabled = false;
                 button11.Enabled = false;
-                
+                button13.Enabled = false;
             }
             else
             {
-                toolStripButton1.Text = "Cerrar Turno de " + registereduser.reguser;
+                button13.Enabled = true;
+                toolStripButton1.Text = "[F12] Cerrar Turno de " + registereduser.reguser;
                 label3.Text = "Registrado por: " + registereduser.getRegLicense();
                 label2.Text = "Conectado como: " + registereduser.reguser;
                 label5.Text = "Jerarquía: " + registereduser.level;
@@ -347,11 +360,7 @@ namespace FLAGSYSTEMPV_2017
             button2.Focus();
         }
 
-        private void Inicio_Paint(object sender, PaintEventArgs e)
-        {
-            e.Graphics.DrawRectangle(new Pen(Color.Black, 4),
-                            this.DisplayRectangle);              
-        }
+       
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -400,22 +409,9 @@ namespace FLAGSYSTEMPV_2017
             }
         }
 
-        private void toolStrip1_Paint(object sender, PaintEventArgs e)
-        {
-            e.Graphics.DrawRectangle(new Pen(Color.Black, 4),
-                           this.DisplayRectangle);      
-        }
+        
 
-        protected override void WndProc(ref Message m)
-        {
-            base.WndProc(ref m);
-            if (m.Msg == WM_NCHITTEST)
-                m.Result = (IntPtr)(HT_CAPTION);
-        }
-
-        private const int WM_NCHITTEST = 0x84;
-        private const int HT_CLIENT = 0x1;
-        private const int HT_CAPTION = 0x2;
+      
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
@@ -528,6 +524,8 @@ namespace FLAGSYSTEMPV_2017
                 Application.OpenForms.OfType<Articulos>().First().Focus();
             else
             {
+                if (Application.OpenForms.OfType<Inicio>().Count() == 1)
+                    Application.OpenForms.OfType<Inicio>().First().Select();
                 Articulos frm = new Articulos();
                 frm.Show();
             }
@@ -539,8 +537,10 @@ namespace FLAGSYSTEMPV_2017
                 Application.OpenForms.OfType<Clientes>().First().Focus();
             else
             {
+                Inicio.ActiveForm.Select();
                 Clientes frm = new Clientes();
                 frm.Show();
+                
             }
         }
 
@@ -555,49 +555,7 @@ namespace FLAGSYSTEMPV_2017
             }
         }
 
-        private void Inicio_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (b1wasclicked == true && b2wasclicked == false)
-            {
-                DialogResult salir = MessageBox.Show("Cerrar el sistema?", "Cerrar?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                if (salir == DialogResult.Yes)
-                {
-                    Conexion.abrir();
-                    DataTable turnos = Conexion.Consultar("*", "Turnos", "", "", new SqlCeCommand());
-                    Conexion.cerrar();
-                    SqlCeCommand cierro = new SqlCeCommand();
-                    cierro.Parameters.AddWithValue("id", turnos.Rows[turnos.Rows.Count - 1][0].ToString());
-                    cierro.Parameters.AddWithValue("ff", DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString());
-                    Conexion.abrir();
-                    Conexion.Actualizar("Turnos", "FechaFin = @ff", "WHERE idturno = @id", "", cierro);
-                    Conexion.cerrar();
-                    e.Cancel = false;
-                    Application.Exit();
-                }
-            }
-            if(b1wasclicked == false && b2wasclicked == true)
-            {
-                DialogResult salirg = MessageBox.Show("Cerrar el sistema?", "Cerrar?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                if (salirg == DialogResult.Yes)
-                {
-                    Conexion.abrir();
-                    DataTable turnos = Conexion.Consultar("*", "Turnos", "", "", new SqlCeCommand());
-                    Conexion.cerrar();
-                    SqlCeCommand cierro = new SqlCeCommand();
-                    cierro.Parameters.AddWithValue("id", turnos.Rows[turnos.Rows.Count - 1][0].ToString());
-                    cierro.Parameters.AddWithValue("ff", DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString());
-                    Conexion.abrir();
-                    Conexion.Actualizar("Turnos", "FechaFin = @ff", "WHERE idturno = @id", "", cierro);
-                    Conexion.cerrar();
-                    e.Cancel = false;
-                    Application.Exit();
-                }
-                else
-                    e.Cancel = true;
-            }
-            
-        }
-
+       
         private void Inicio_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.F1)
@@ -649,7 +607,7 @@ namespace FLAGSYSTEMPV_2017
                     else
                     {
                         Caja frm = new Caja();
-                        frm.ShowDialog();
+                        frm.Show();
                     }
                 }
             }
@@ -667,8 +625,6 @@ namespace FLAGSYSTEMPV_2017
                     }
                 }
             }
-
-            
 
             if (e.KeyCode == Keys.F6)
             {
@@ -725,6 +681,8 @@ namespace FLAGSYSTEMPV_2017
                     {
                         Rubros frm = new Rubros();
                         frm.Show();
+                        e.SuppressKeyPress = true;
+                        frm.Focus();
                     }
                 }
             }
@@ -735,7 +693,13 @@ namespace FLAGSYSTEMPV_2017
                     button11.PerformClick();
                 }
             }
-
+            if (e.KeyCode == Keys.F12)
+            {
+                if (toolStripButton1.Enabled == true && Demo.EsDemo == false)
+                {
+                    toolStripButton1.PerformClick();
+                }
+            }
         }
 
         private void impresoraFiscalToolStripMenuItem_Click(object sender, EventArgs e)
@@ -767,7 +731,7 @@ namespace FLAGSYSTEMPV_2017
             else
             {
                 Caja frm = new Caja();
-                frm.ShowDialog();
+                frm.Show();
             }
         }
 
@@ -958,7 +922,8 @@ namespace FLAGSYSTEMPV_2017
             {
                 CIO.entradaosalida = "Entrada";
                 CajaIO frm = new CajaIO();
-                frm.ShowDialog();
+                frm.Text = CIO.entradaosalida+" de caja";
+                frm.Show();
             }
         }
 
@@ -970,7 +935,8 @@ namespace FLAGSYSTEMPV_2017
             {
                 CIO.entradaosalida = "Salida";
                 CajaIO frm = new CajaIO();
-                frm.ShowDialog();
+                frm.Text = CIO.entradaosalida + " de caja";
+                frm.Show();
             }
         }
 
@@ -1137,14 +1103,22 @@ namespace FLAGSYSTEMPV_2017
             }
         }
 
+      
         private void button11_Click(object sender, EventArgs e)
         {
             DialogResult continuar =  MessageBox.Show("Esta funcion genera el informe final, lo envia por email y cierra la aplicación para que se ingrese un nuevo día. Continuar?","Advertencia",MessageBoxButtons.YesNo,MessageBoxIcon.Warning);
+            app.chequearconfigmail();
             if (continuar == DialogResult.Yes)
             {
                 generarResumenFinal();
                 sendmail(app.dir + "\\Cierre" + app.hoy.Replace("/", "") + ".xlsx.xls");
                 toolStripButton1.PerformClick();
+                if (registereduser.closeandbkp == "si")
+                {
+                    string nombrebackup = "Backup"+app.hoy.Replace("/","")+DateTime.Now.Hour.ToString()+DateTime.Now.Minute.ToString()+DateTime.Now.Second.ToString()+".sdf";
+                    if (!Directory.Exists(app.dir + "\\BackupsAutomaticos\\")) Directory.CreateDirectory(app.dir + "\\BackupsAutomaticos");
+                    File.Copy(app.dir + "\\BACKEND.sdf", app.dir+"\\BackupsAutomaticos\\"+nombrebackup);
+                }
             }
 
         }
@@ -1168,22 +1142,16 @@ namespace FLAGSYSTEMPV_2017
                 SmtpServer.Credentials = new System.Net.NetworkCredential(registereduser.mail.ToString(), registereduser.clave.ToString());
                 SmtpServer.EnableSsl = true;
                 SmtpServer.Send(mail);
-                
                 MessageBox.Show("Mail Enviado Correctamente.");
             }
 
-            catch (SmtpException ex)
-            {
-                throw new ApplicationException
-                  ("Ocurrio un error al enviar el mail. Motivo: " + ex.Message);
-            }
             catch (Exception ex)
             {
-                MessageBox.Show("Hubo un error al intentar enviar el Email. Revise todos los datos de configuración del Email en Administrador>Configuración y tambien revise que tenga conexión a Internet.\nDetalle del error: " + ex.Message);
-                
+                MessageBox.Show
+                  ("Ocurrio un error al enviar el mail. Motivo: " + ex.Message);
             }
         }
-        private void setearPermisos()
+        public  void setearPermisos()
         {
             if (registereduser.pventa == "si") button2.Enabled = true; else button2.Enabled = false;
             if (registereduser.pcaja == "si") button5.Enabled = true; else button5.Enabled = false;
@@ -1393,7 +1361,7 @@ namespace FLAGSYSTEMPV_2017
                     cierredia.ShowAlways = false;
                     cierredia.UseAnimation = true;
                     cierredia.ToolTipTitle = "Tips del formulario de cierre del dia:";
-                    cierredia.Show("Puede clickear en el boton o apretar F4 si tiene los permisos necesarios.\nAqui puede generar el informe diario para enviarlo por mail (configurable) y luego cerrar el dia. Es util en cibercafés donde manejan un cierre diario.", button8);
+                    cierredia.Show("Puede clickear en el boton o apretar F11 si tiene los permisos necesarios.\nAqui puede generar el informe diario para enviarlo por mail (configurable) y luego cerrar el dia. Es util en cibercafés donde manejan un cierre diario.", button8);
                 }
             }
         }
@@ -1410,14 +1378,45 @@ namespace FLAGSYSTEMPV_2017
             }
         }
 
+        private void Inicio_Resize(object sender, EventArgs e)
+        {
+            var sm = GetSystemMenu(Handle, false);
+            EnableMenuItem(sm, SC_CLOSE, MF_BYCOMMAND | MF_DISABLED);
+        }
+
+        private void Inicio_Enter(object sender, EventArgs e)
+        {
+            setearPermisos();
+        }
+
+        private void button13_Click(object sender, EventArgs e)
+        {
+            if (Application.OpenForms.OfType<Extensiones>().Count() == 1)
+                Application.OpenForms.OfType<Extensiones>().First().Focus();
+            else
+            {
+                Extensiones frm = new Extensiones();
+             
+                frm.Show();
+            }
+        }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void impresoraNoFiscalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Application.OpenForms.OfType<impnofiscal>().Count() == 1)
+                Application.OpenForms.OfType<impnofiscal>().First().Focus();
+            else
+            {
+                impnofiscal frm = new impnofiscal();
+                frm.Show();
+            }
+        }
 
         
-
-        
-
-    
-
-        
-
     }
 }

@@ -27,11 +27,9 @@ namespace FLAGSYSTEMPV_2017
             dataGridView1.AutoGenerateColumns = true;
             dataGridView1.DataSource = arts;
             dataGridView1.Columns[0].Visible = false;
-
-
             dataGridView1.DataSource = SBind;
             dataGridView1.Refresh();
-            dataGridView1.Columns.Add("stockreal", "StockReal");
+            dataGridView1.Columns.Add("stockreal", "[F2] StockReal");
             foreach (DataGridViewColumn dc in dataGridView1.Columns)
             {
                 if (dc.Index.Equals(6))
@@ -44,9 +42,6 @@ namespace FLAGSYSTEMPV_2017
                 }
             }
             if (arts.Rows.Count < 1) button2.Enabled = false;
-
-           
-            
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -160,33 +155,33 @@ namespace FLAGSYSTEMPV_2017
                 MessageBox.Show("Se encontraron cambios en el stock actual de productos, por favor revise las lineas de color amarillo y controle el stock nuevamente acorde al nuevo stock","Se encontraron cambios",MessageBoxButtons.OK,MessageBoxIcon.Information);
             }
         }
-        protected override void WndProc(ref Message m)
-        {
-            base.WndProc(ref m);
-            if (m.Msg == WM_NCHITTEST)
-                m.Result = (IntPtr)(HT_CAPTION);
-        }
-
-        private const int WM_NCHITTEST = 0x84;
-        private const int HT_CLIENT = 0x1;
-        private const int HT_CAPTION = 0x2;
-
-        private void ControlStockVendedores_Paint(object sender, PaintEventArgs e)
-        {
-            e.Graphics.DrawRectangle(new Pen(Color.Black, 4),
-                        this.DisplayRectangle);      
-        }
-
+      
+       
         private void ControlStockVendedores_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Escape)
                 this.Close();
 
-            
-            if (e.KeyCode == Keys.F5)
-                textBox1.Select();
+            if (e.KeyCode == Keys.F1)
+                textBox1.Focus();
 
-            if (e.KeyCode == Keys.Up)
+            if (e.KeyCode == Keys.F5)
+                button3.PerformClick();
+
+            if (e.KeyCode == Keys.F2)
+            {
+                if (dataGridView1.Rows.Count > 0)
+                {
+                    dataGridView1.CurrentCell = dataGridView1.Rows[0].Cells[6];
+                    dataGridView1.Rows[0].Cells[6].Selected = true;
+                    dataGridView1.BeginEdit(true);
+                }
+            }
+            if (e.KeyCode == Keys.F3)
+            {
+                button2.PerformClick();
+            }
+            if (e.KeyCode == Keys.Up && dataGridView1.Focused == false)
             {
                 try
                 {
@@ -199,7 +194,7 @@ namespace FLAGSYSTEMPV_2017
                 }
 
             }
-            if (e.KeyCode == Keys.Down)
+            if (e.KeyCode == Keys.Down && dataGridView1.Focused == false)
             {
                 try
                 {

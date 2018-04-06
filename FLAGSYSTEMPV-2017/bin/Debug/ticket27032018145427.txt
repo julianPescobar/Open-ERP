@@ -1,0 +1,43 @@
+Flag Informática
+
+ ###TICKET SIN VALIDEZ FISCAL###
+
+#ITEM Num 1:
+°Nombre: opop
+°Precio Unid: $53,00
+°Cantidad:1
+°Total: $53,00
+
+#ITEM Num 2:
+°Nombre: opop
+°Precio Unid: $53,00
+°Cantidad:1
+°Total: $53,00
+
+#ITEM Num 3:
+°Nombre: opop
+°Precio Unid: $53,00
+°Cantidad:1
+°Total: $53,00
+
+#ITEM Num 4:
+°Nombre: opop
+°Precio Unid: $53,00
+°Cantidad:1
+°Total: $53,00
+
+#########################
+
+°Total GENERAL: $212,00
+
+#########################
+
+°°°°GRACIAS POR SU COMPRA°°°°
+
+ 
+
+ 
+
+<0A0A0A0A0A0A0A0A20>
+PUTO GIL GATO
+

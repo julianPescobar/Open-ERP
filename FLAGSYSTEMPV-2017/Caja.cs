@@ -17,31 +17,20 @@ namespace FLAGSYSTEMPV_2017
             InitializeComponent();
         }
 
-        private void Caja_Paint(object sender, PaintEventArgs e)
-        {
-            e.Graphics.DrawRectangle(new Pen(Color.Black, 4),
-                          this.DisplayRectangle);      
-        }
-        protected override void WndProc(ref Message m)
-        {
-            base.WndProc(ref m);
-            if (m.Msg == WM_NCHITTEST)
-                m.Result = (IntPtr)(HT_CAPTION);
-        }
-
-        private const int WM_NCHITTEST = 0x84;
-        private const int HT_CLIENT = 0x1;
-        private const int HT_CAPTION = 0x2;
+       
+       
 
         private void button2_Click(object sender, EventArgs e)
         {
             this.Close();
+            if (Application.OpenForms.OfType<Inicio>().Count() == 1)
+                Application.OpenForms.OfType<Inicio>().First().Focus();
         }
 
         private void Caja_Load(object sender, EventArgs e)
         {
-            dateTimePicker1.Text = app.hoy;
-            dateTimePicker2.Text = app.hoy + " " + DateTime.Now.Hour.ToString() + ":" + DateTime.Now.Minute.ToString() + ":59";
+            maskedTextBox1.Text = app.hoy;
+            maskedTextBox2.Text = app.hoy;
             //dateTimePicker2.Text = DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString();
             getdebehaber();
             calculardht();
@@ -107,8 +96,8 @@ namespace FLAGSYSTEMPV_2017
             
             SqlCeCommand dates = new SqlCeCommand();
             dates.Parameters.Clear();
-            dates.Parameters.AddWithValue("d1", dateTimePicker1.Text);
-            dates.Parameters.AddWithValue("d2", dateTimePicker2.Text);
+            dates.Parameters.AddWithValue("d1", Convert.ToDateTime(maskedTextBox1.Text+" 00:00:00"));
+            dates.Parameters.AddWithValue("d2", Convert.ToDateTime(maskedTextBox2.Text + " 23:59:59"));
             dates.Parameters.AddWithValue("an", "Anulada");
             Conexion.abrir();
             DataTable showdebe = Conexion.Consultar("area as [Tipo], descripcion as Motivo, importe as Total", "Gastos", "WHERE fecha BETWEEN @d1 AND @d2;", "", dates);
@@ -197,7 +186,12 @@ namespace FLAGSYSTEMPV_2017
 
         private void dateTimePicker1_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Escape) this.Close();
+            if (e.KeyCode == Keys.Escape)
+            {
+                this.Close();
+                if (Application.OpenForms.OfType<Inicio>().Count() == 1)
+                    Application.OpenForms.OfType<Inicio>().First().Focus();
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -208,15 +202,83 @@ namespace FLAGSYSTEMPV_2017
             {
                 Informe frm = new Informe();
                 Conexion.data = "Caja";
+                Conexion.desde = Convert.ToDateTime(maskedTextBox1.Text+ " 00:00:00").ToString();
+                Conexion.hasta = Convert.ToDateTime(maskedTextBox2.Text + " 23:59:59").ToString();
                 frm.Show();
             }
         }
 
         private void Caja_KeyDown(object sender, KeyEventArgs e)
         {
+           
             if (e.KeyCode == Keys.Escape)
+            {
                 this.Close();
-
+                if (Application.OpenForms.OfType<Inicio>().Count() == 1)
+                    Application.OpenForms.OfType<Inicio>().First().Focus();
+            }
+                if (e.KeyCode == Keys.Enter && button1.Focused == false && button2.Focused == false)
+                SendKeys.SendWait("{TAB}");
+            if (e.KeyCode == Keys.F1) maskedTextBox1.Focus();
+            if (e.KeyCode == Keys.F2) maskedTextBox2.Focus();
+            if (e.KeyCode == Keys.F3)
+            {
+                if (maskedTextBox1.Text.Length > 6 && maskedTextBox2.Text.Length > 6)
+                    button1.PerformClick();
+                else
+                    MessageBox.Show("Para abrir el informe debe completar las dos fechas");
+            }
         }
+
+        private void maskedTextBox1_Leave(object sender, EventArgs e)
+        {
+             try
+            {
+                DateTime lafecha = DateTime.Parse(maskedTextBox1.Text);
+                maskedTextBox1.Text = lafecha.ToShortDateString();
+            getdebehaber();
+            calculardht();
+            }
+             catch (Exception)
+             {
+                 maskedTextBox1.Text = app.hoy;
+                 getdebehaber();
+                 calculardht();
+             }
+        }
+
+        private void maskedTextBox2_Leave(object sender, EventArgs e)
+        {
+
+            try
+            {
+                DateTime lafecha = DateTime.Parse(maskedTextBox2.Text);
+                maskedTextBox2.Text = lafecha.ToShortDateString();
+                getdebehaber();
+                calculardht();
+            }
+            catch (Exception)
+            {
+                maskedTextBox2.Text = app.hoy;
+                getdebehaber();
+                calculardht();
+            }
+        }
+
+        private void maskedTextBox1_Enter(object sender, EventArgs e)
+        {
+            BeginInvoke((Action)delegate { SetMaskedTextBoxSelectAll((MaskedTextBox)sender); });
+        }
+        private void SetMaskedTextBoxSelectAll(MaskedTextBox txtbox)
+        {
+            txtbox.SelectAll();
+            txtbox.Clear();
+        }
+
+        private void maskedTextBox2_Enter(object sender, EventArgs e)
+        {
+            BeginInvoke((Action)delegate { SetMaskedTextBoxSelectAll((MaskedTextBox)sender); });
+        }
+      
     }
 }

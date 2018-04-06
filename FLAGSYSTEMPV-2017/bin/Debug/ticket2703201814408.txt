@@ -1,0 +1,71 @@
+Flag Informática
+
+TICKET SIN VALIDEZ FISCAL
+
+ITEM Num 1:
+
+Descrip:opop
+Precio U: $53,00
+Cant:1
+Total: $53,00
+
+ITEM Num 2:
+
+Descrip:1
+Precio U: $53,00
+Cant:1
+Total: $53,00
+
+ITEM Num 3:
+
+Descrip:5
+Precio U: $5,00
+Cant:1
+Total: $5,00
+
+ITEM Num 4:
+
+Descrip:Servicio test n2
+Precio U: $5,00
+Cant:1
+Total: $5,00
+
+ITEM Num 5:
+
+Descrip:AAAAAAAAAAAAAAAAAAAA
+Precio U: $11024,00
+Cant:1
+Total: $11024,00
+
+ITEM Num 6:
+
+Descrip:opop
+Precio U: $53,00
+Cant:7
+Total: $371,00
+
+#########################
+
+Total GENERAL: $11511,00
+
+#########################
+
+GRACIAS POR SU COMPRA
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+

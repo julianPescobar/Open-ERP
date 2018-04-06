@@ -16,10 +16,6 @@ namespace FLAGSYSTEMPV_2017
             InitializeComponent();
         }
 
-        private void Pleasewait_Paint(object sender, PaintEventArgs e)
-        {
-            e.Graphics.DrawRectangle(new Pen(Color.Black, 8),
-                      this.DisplayRectangle);  
-        }
+      
     }
 }

@@ -26,7 +26,7 @@ namespace FLAGSYSTEMPV_2017
 
         private void Consultas_Load(object sender, EventArgs e)
         {
-          
+            
             if (Conexion.data == "Ventas")
             {
                 label1.Text = "Listado de Ventas";
@@ -43,7 +43,7 @@ namespace FLAGSYSTEMPV_2017
                 dataGridView1.Refresh();
                 if (showv.Rows.Count > 0)
                 dataGridView1.DataSource = showv; //mostramos lo que hay
-                textBox1.Focus();
+                textBox1.Select();
             }
             if (Conexion.data == "Compras")
             {
@@ -60,7 +60,7 @@ namespace FLAGSYSTEMPV_2017
                 dataGridView1.Refresh();
                 if (showv.Rows.Count > 0)
                     dataGridView1.DataSource = showv; //mostramos lo que hay
-                textBox1.Focus();
+                textBox1.Select();
             }
         }
 
@@ -146,25 +146,6 @@ namespace FLAGSYSTEMPV_2017
         }
 
 
-
-
-
-        protected override void WndProc(ref Message m)
-        {
-            base.WndProc(ref m);
-            if (m.Msg == WM_NCHITTEST)
-                m.Result = (IntPtr)(HT_CAPTION);
-        }
-        private const int WM_NCHITTEST = 0x84;
-        private const int HT_CLIENT = 0x1;
-        private const int HT_CAPTION = 0x2;
-
-        private void Consultas_Paint(object sender, PaintEventArgs e)
-        {
-            e.Graphics.DrawRectangle(new Pen(Color.Black, 4),
-                           this.DisplayRectangle);      
-        }
-
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             
@@ -222,15 +203,16 @@ namespace FLAGSYSTEMPV_2017
             {
                 this.Close();
             }
+          
         }
 
         private void Consultas_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Escape)
                 this.Close();
-
+            if (e.KeyCode == Keys.F1) textBox1.Select();
             
-            if (e.KeyCode == Keys.Up)
+            if (e.KeyCode == Keys.Up && dataGridView1.Focused == false && dataGridView2.Focused == false)
             {
                 try
                 {
@@ -243,7 +225,7 @@ namespace FLAGSYSTEMPV_2017
                 }
 
             }
-            if (e.KeyCode == Keys.Down)
+            if (e.KeyCode == Keys.Down && dataGridView1.Focused == false && dataGridView2.Focused == false)
             {
                 try
                 {

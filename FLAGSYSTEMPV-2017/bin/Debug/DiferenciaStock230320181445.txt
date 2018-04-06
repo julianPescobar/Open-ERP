@@ -1,0 +1,2 @@
+idarticulo			Descripcion del Articulo			Proveedor			Precio			Costo			Stock			Faltante			Sobrante			
+12			opop			cholis			6,12			6			-12			0			18			

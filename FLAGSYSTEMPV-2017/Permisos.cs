@@ -43,15 +43,7 @@ namespace FLAGSYSTEMPV_2017
         {
             this.Close();
         }
-        protected override void WndProc(ref Message m)
-        {
-            base.WndProc(ref m);
-            if (m.Msg == WM_NCHITTEST)
-                m.Result = (IntPtr)(HT_CAPTION);
-        }
-        private const int WM_NCHITTEST = 0x84;
-        private const int HT_CLIENT = 0x1;
-        private const int HT_CAPTION = 0x2;
+      
 
         private void Permisos_Paint(object sender, PaintEventArgs e)
         {
@@ -170,21 +162,26 @@ namespace FLAGSYSTEMPV_2017
 
         private void button2_Click(object sender, EventArgs e)
         {
-            try
+            if (dataGridView1.Rows.Count > 0)
             {
-                setpermisos();
-                this.Close();
+                try
+                {
+                    setpermisos();
+                    this.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("error " + ex.Message);
+                }
             }
-            catch(Exception ex)
-            {
-                MessageBox.Show("error "+ex.Message);
-            }
+            else MessageBox.Show("No hay usuario con el cual guardar esta configuracion de permisos");
         }
 
         private void Permisos_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Escape)
                 this.Close();
+            if (e.KeyCode == Keys.F1) button1.PerformClick();
 
         }
 

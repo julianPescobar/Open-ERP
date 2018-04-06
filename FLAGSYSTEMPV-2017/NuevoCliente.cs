@@ -49,16 +49,7 @@ namespace FLAGSYSTEMPV_2017
                 }
             }
         }
-        protected override void WndProc(ref Message m)
-        {
-            base.WndProc(ref m);
-            if (m.Msg == WM_NCHITTEST)
-                m.Result = (IntPtr)(HT_CAPTION);
-        }
-
-        private const int WM_NCHITTEST = 0x84;
-        private const int HT_CLIENT = 0x1;
-        private const int HT_CAPTION = 0x2;
+       
 
         private void button2_Click(object sender, EventArgs e)
         {
@@ -95,27 +86,35 @@ namespace FLAGSYSTEMPV_2017
                     nuevoc.Parameters.AddWithValue("@h", hh);
                     nuevoc.Parameters.AddWithValue("@i", ii);
                     nuevoc.Parameters.AddWithValue("@j", jj);
+                    nuevoc.Parameters.AddWithValue("@k", "Activo");
                     Conexion.abrir();
-                    Conexion.Insertar("Clientes", "nombre,atencion,direccion,localidad,provincia,cp,telefono,mail,cuit,tipocuit", "@a,@b,@c,@d,@e,@f,@g,@h,@i,@j", nuevoc);
+                    Conexion.Insertar("Clientes", "nombre,atencion,direccion,localidad,provincia,cp,telefono,mail,cuit,tipocuit,eliminado", "@a,@b,@c,@d,@e,@f,@g,@h,@i,@j,@k", nuevoc);
                     Conexion.cerrar();
-
+                    this.Close();
                     if (Application.OpenForms.OfType<Clientes>().Count() == 1)
-                    {
                         Application.OpenForms.OfType<Clientes>().First().Close();
 
-
-                    }
+                    
+                   
                     Clientes openagain = new Clientes();
                     openagain.Show();
-                    this.Close();
+                    if (Application.OpenForms.OfType<Clientes>().Count() > 0)
+                    {
+                        Application.OpenForms.OfType<Clientes>().First().Focus();
+
+                    }
+                    
 
 
 
 
                 }
+                else MessageBox.Show("Debe completar todos los campos con asterisco para poder dar de alta el cliente");
             }
             if (createorupdate.status == "update")
-            {
+            {if (textBox2.Text != "" && textBox3.Text != "" && textBox4.Text != "" && textBox5.Text != "" && textBox6.Text != "" && textBox8.Text != "")
+                {
+
                 string aa, bb, cc, dd, ee, ff, gg, hh, ii, jj;
                 aa = textBox2.Text;
                 bb = textBox3.Text;
@@ -144,23 +143,67 @@ namespace FLAGSYSTEMPV_2017
                 Conexion.Actualizar("Clientes", "nombre = @a ,atencion = @b,direccion = @c,localidad = @d,provincia = @e,cp = @f,telefono = @g,mail = @h,cuit = @i,tipocuit = @j", "WHERE idcliente = @id", "", nuevoc);
                 Conexion.cerrar();
 
-                if (Application.OpenForms.OfType<Clientes>().Count() == 1)
+                this.Close();
+                
+                if (Application.OpenForms.OfType<Clientes>().Count() > 0)
                 {
-                    Application.OpenForms.OfType<Clientes>().First().Close();
-
+                    Application.OpenForms.OfType<Clientes>().First().Dispose();
 
                 }
-                Clientes openagain = new Clientes();
-                openagain.Show();
-                this.Close();
+
+
+                Clientes clnts = new Clientes();
+                clnts.Show();
+
+
+               
+                    
+                }
+            else MessageBox.Show("Debe completar todos los campos con asterisco para poder dar de alta el cliente");
+           
             }
         }
 
         private void NuevoCliente_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Escape)
+            {
                 this.Close();
+                if (Application.OpenForms.OfType<Clientes>().Count() > 0)
+                {
+                    Application.OpenForms.OfType<Clientes>().First().Focus();
 
+                }
+            }
+            if (e.KeyCode == Keys.F1) button1.PerformClick();
+            if (e.KeyCode == Keys.Enter && button1.Focused == false && button2.Focused == false)
+            {
+                SendKeys.SendWait("{TAB}");
+            }
+
+        }
+
+        private void textBox2_Leave(object sender, EventArgs e)
+        {
+            if (textBox2.Text.Length > 0)
+            {
+                SqlCeCommand checkexistance = new SqlCeCommand();
+                checkexistance.Parameters.AddWithValue("code", textBox2.Text);
+                Conexion.abrir();
+                DataTable existira = Conexion.Consultar("nombre", "Clientes", "where nombre = @code and eliminado != 'Eliminado'", "", checkexistance);
+                Conexion.cerrar();
+                if (existira.Rows.Count > 0 && createorupdate.status == "create")
+                {
+                    MessageBox.Show("Ese nombre de cliente ya existe, use otro nombre por favor");
+                    textBox2.Text = "";
+                }
+            }
+        }
+
+        private void comboBox2_Enter(object sender, EventArgs e)
+        {
+            comboBox2.DroppedDown = true;
+            comboBox2.Select();
         }
     }
 }

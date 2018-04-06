@@ -22,21 +22,11 @@ namespace FLAGSYSTEMPV_2017
         public string extension = "";
 
 
-        protected override void WndProc(ref Message m)
-        {
-            base.WndProc(ref m);
-            if (m.Msg == WM_NCHITTEST)
-                m.Result = (IntPtr)(HT_CAPTION);
-        }
-        private const int WM_NCHITTEST = 0x84;
-        private const int HT_CLIENT = 0x1;
-        private const int HT_CAPTION = 0x2;
-
-        
-
+      
 
         private void InformeVentas_Load(object sender, EventArgs e)
         {
+            
             label3.Text = "Informe de "+Conexion.data;
             if (Conexion.data == "Articulos")
             {
@@ -50,6 +40,21 @@ namespace FLAGSYSTEMPV_2017
                 dataGridView1.Columns[0].Visible = false;
                 dataGridView1.Columns[4].DefaultCellStyle.Format = "c";
                 dataGridView1.Columns[5].DefaultCellStyle.Format = "c";
+                dataGridView1.DataSource = SBind;
+                dataGridView1.Refresh();
+            }
+            if (Conexion.data == "Gastos")
+            {
+                Conexion.abrir();
+                DataTable arts = Conexion.Consultar("idgasto,descripcion as [Descripcion],importe as [Importe],area as [Area],fecha as [Fecha]", "Gastos", "", "", new SqlCeCommand());
+                Conexion.cerrar();
+                BindingSource SBind = new BindingSource();
+                SBind.DataSource = arts;
+                dataGridView1.AutoGenerateColumns = true;
+                dataGridView1.DataSource = arts;
+                dataGridView1.Columns[0].Visible = false;
+                dataGridView1.Columns[2].DefaultCellStyle.Format = "c";
+             
                 dataGridView1.DataSource = SBind;
                 dataGridView1.Refresh();
             }
@@ -89,11 +94,13 @@ namespace FLAGSYSTEMPV_2017
             {
                 SqlCeCommand notdeleted = new SqlCeCommand();
                 notdeleted.Parameters.AddWithValue("an", "Anulada");
+                notdeleted.Parameters.AddWithValue("dde", Conexion.desde);
+                notdeleted.Parameters.AddWithValue("hta", Conexion.hasta);
                 Conexion.abrir();
-                DataTable ventas = Conexion.Consultar("fechaventa,nfactura,total", "Ventas", "WHERE estadoventa != @an", "", notdeleted);
-                DataTable entrada = Conexion.Consultar("fecha,motivo,total", "EntradaCaja", "", "", new SqlCeCommand());
-                DataTable salida = Conexion.Consultar("fecha,motivo,total", "SalidaCaja", "", "", new SqlCeCommand());
-                DataTable gastos = Conexion.Consultar("fecha,descripcion,importe", "Gastos", "", "", new SqlCeCommand());
+                DataTable ventas = Conexion.Consultar("fechaventa,nfactura,total", "Ventas", "WHERE estadoventa != @an and fechaventa between @dde and @hta", "", notdeleted);
+                DataTable entrada = Conexion.Consultar("fecha,motivo,total", "EntradaCaja", "where fecha between @dde and @hta", "", notdeleted);
+                DataTable salida = Conexion.Consultar("fecha,motivo,total", "SalidaCaja", "where fecha between @dde and @hta", "", notdeleted);
+                DataTable gastos = Conexion.Consultar("fecha,descripcion,importe", "Gastos", "where fecha between @dde and @hta", "", notdeleted);
                 Conexion.cerrar();
 
                 DataTable arts = new DataTable();
@@ -141,9 +148,6 @@ namespace FLAGSYSTEMPV_2017
                 SBind.DataSource = arts;
                 dataGridView1.AutoGenerateColumns = true;
                 dataGridView1.DataSource = arts;
-                //dataGridView1.Columns[0].Visible = false;
-                //dataGridView1.Columns[3].DefaultCellStyle.Format = "c";
-               // dataGridView1.Columns[5].DefaultCellStyle.Format = "c";
                 dataGridView1.DataSource = SBind;
                 dataGridView1.Refresh();
             }
@@ -168,7 +172,7 @@ namespace FLAGSYSTEMPV_2017
             if (Conexion.data == "Clientes")
             {
                 Conexion.abrir();
-                DataTable showacls = Conexion.Consultar("idcliente,nombre as [Nombre],atencion as [Atencion],direccion as Domicilio,telefono as Telefono,mail as Email, cuit as CUIT", "Clientes", "", "", new SqlCeCommand());
+                DataTable showacls = Conexion.Consultar("idcliente,nombre as [Nombre],atencion as [Atencion],direccion as Domicilio,telefono as Telefono,mail as Email, cuit as CUIT", "Clientes", "WHERE eliminado != 'Eliminado'", "", new SqlCeCommand());
                 Conexion.cerrar();
                 BindingSource SBind = new BindingSource();
                 SBind.DataSource = showacls;
@@ -181,7 +185,7 @@ namespace FLAGSYSTEMPV_2017
             if (Conexion.data == "Proveedores")
             {
                 Conexion.abrir();
-                DataTable showprovs = Conexion.Consultar("idproveedor,nombre as [Nombre],atencion as [Atencion],telefono as Telefono,mail as [Email],direccion as [Direccion],localidad as Localidad,cp as CP", "Proveedores", "", "", new SqlCeCommand());
+                DataTable showprovs = Conexion.Consultar("idproveedor,nombre as [Nombre],atencion as [Atencion],telefono as Telefono,mail as [Email],direccion as [Direccion],localidad as Localidad,cp as CP", "Proveedores", "WHERE Eliminado != 'Eliminado'", "", new SqlCeCommand());
                 Conexion.cerrar();
                 BindingSource SBind = new BindingSource();
                 SBind.DataSource = showprovs;
@@ -284,6 +288,10 @@ namespace FLAGSYSTEMPV_2017
                 dataGridView1.Refresh();
                 
 
+            }
+            foreach (DataGridViewColumn column in dataGridView1.Columns)
+            {
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
             }
         }
 
@@ -420,11 +428,20 @@ namespace FLAGSYSTEMPV_2017
 
         private void Informe_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Escape)
+            if (e.KeyCode == Keys.Escape )
                 this.Close();
 
-           
-            if (e.KeyCode == Keys.Up)
+            if (e.KeyCode == Keys.F1)
+                textBox1.Select();
+            if (e.KeyCode == Keys.F2)
+            {
+                comboBox1.DroppedDown = true;
+                comboBox1.Select();
+            }
+            if (e.KeyCode == Keys.F3)
+                button2.PerformClick();
+
+            if (e.KeyCode == Keys.Up && dataGridView1.Focused == false)
             {
                 try
                 {
@@ -435,9 +452,8 @@ namespace FLAGSYSTEMPV_2017
                 {
 
                 }
-
             }
-            if (e.KeyCode == Keys.Down)
+            if (e.KeyCode == Keys.Down && dataGridView1.Focused == false)
             {
                 try
                 {
@@ -446,8 +462,8 @@ namespace FLAGSYSTEMPV_2017
                 }
                 catch (Exception)
                 {
-                }
 
+                }
             }
         }
     }

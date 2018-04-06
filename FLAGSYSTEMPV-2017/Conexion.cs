@@ -16,16 +16,15 @@ namespace FLAGSYSTEMPV_2017
           static SqlCeConnection conn = new SqlCeConnection("Data Source=" + Directory.GetCurrentDirectory() + Conexion.encryptDecrypt(co));
           public static string data; //para ahorrarse crear informe de ventas, informe de gastos etc. le paso un string
          //por ejemplo si abro el form informes y data = ventas, mostrar inf ventas, si data = gastos, mostrar inf gastos etc.
-
+          public static string desde, hasta; //para el informe de la caja que tome el desde y hasta del form caja.
 
         internal static void abrir()
         {
             if (abierto() != true)
             {
-                
                     conn.Open();
-              
             }
+        
         } //abre conexion con la base local
         internal static void cerrar()
         {

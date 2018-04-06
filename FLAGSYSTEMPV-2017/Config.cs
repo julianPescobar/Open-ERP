@@ -28,11 +28,7 @@ namespace FLAGSYSTEMPV_2017
             this.Close();
         }
 
-        private void Config_Paint(object sender, PaintEventArgs e)
-        {
-            e.Graphics.DrawRectangle(new Pen(Color.Black, 4),
-                          this.DisplayRectangle);            
-        }
+  
 
         private void cargadata()
         {
@@ -71,15 +67,7 @@ namespace FLAGSYSTEMPV_2017
                 this.Close();
             }
         }
-        protected override void WndProc(ref Message m)
-        {
-            base.WndProc(ref m);
-            if (m.Msg == WM_NCHITTEST)
-                m.Result = (IntPtr)(HT_CAPTION);
-        }
-        private const int WM_NCHITTEST = 0x84;
-        private const int HT_CLIENT = 0x1;
-        private const int HT_CAPTION = 0x2;
+        
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -118,15 +106,77 @@ namespace FLAGSYSTEMPV_2017
             inserto.Parameters.AddWithValue("t", box4);
             Conexion.abrir();
             Conexion.Actualizar("Configuracion", "tooltipsON = @t, redondeo = @p,backupearsiemprealcerrardia = @q, nopermitircambiosendiasanteriores = @r, siempreimprimirtickets = @s, DireccionFisica = @b,Email= @c,Telefono1= @d,Localidad= @e,SaldoInicial= @g,SMTP= @h,PUERTO= @i,SSL= @j,MAIL= @k,CLAVE= @l,PARA= @m,TITULO= @n,CUERPO= @o", "", "", inserto);
+            
+            
+             DataTable consultaTest = Conexion.Consultar("*", "Configuracion", "","",new SqlCeCommand());
             Conexion.cerrar();
-            registereduser.smtp = textBox14.ToString();
-            registereduser.puerto = textBox13.ToString();
-            registereduser.ssl = textBox12.ToString();
-            registereduser.mail = textBox11.ToString();
-            registereduser.clave = textBox10.ToString();
-            registereduser.para = textBox9.ToString();
-            registereduser.titulo = textBox8.ToString();
-            registereduser.cuerpo = textBox16.ToString();    
+            if (consultaTest.Rows.Count >= 1)
+            {
+                string usaimpfis = consultaTest.Rows[0][12].ToString();
+                if (usaimpfis == "si") ConfigFiscal.usaImpFiscal = "si";
+                if (usaimpfis == "no") ConfigFiscal.usaImpFiscal = "no";
+                if (ConfigFiscal.usaImpFiscal == "si")
+                {
+                    ConfigFiscal.comport = short.Parse(consultaTest.Rows[0][9].ToString().Replace("COM", ""));
+                    ConfigFiscal.marca = consultaTest.Rows[0][10].ToString();
+                    ConfigFiscal.modelo = consultaTest.Rows[0][11].ToString();
+                }
+                registereduser.smtp = consultaTest.Rows[0][17].ToString();
+                registereduser.puerto = consultaTest.Rows[0][18].ToString();
+                registereduser.ssl = consultaTest.Rows[0][19].ToString();
+                registereduser.mail = consultaTest.Rows[0][20].ToString();
+                registereduser.clave = consultaTest.Rows[0][21].ToString();
+                registereduser.para = consultaTest.Rows[0][22].ToString();
+                registereduser.titulo = consultaTest.Rows[0][23].ToString();
+                registereduser.cuerpo = consultaTest.Rows[0][24].ToString();
+                registereduser.redondeo = consultaTest.Rows[0][27].ToString();
+                if (consultaTest.Rows[0][28].ToString() == "si") registereduser.closeandbkp = "si"; else registereduser.closeandbkp = "no";
+                if (consultaTest.Rows[0][29].ToString() == "si") registereduser.sololectura = "si"; else registereduser.sololectura = "no";
+                if (consultaTest.Rows[0][30].ToString() == "si") registereduser.alwaysprint = "si"; else registereduser.alwaysprint = "no";
+                if (consultaTest.Rows[0][31].ToString() == "si") registereduser.tooltips = "si"; else registereduser.tooltips = "no";
+
+                registereduser.saldoinicial = float.Parse(consultaTest.Rows[0][0].ToString());
+
+            }
+                 Conexion.abrir();
+            DataTable user = new DataTable();
+            SqlCeCommand userypass = new SqlCeCommand();
+            userypass.Parameters.Clear();
+            userypass.Parameters.AddWithValue("@a", registereduser.reguser);
+            userypass.Parameters.AddWithValue("elim", "Eliminado");
+            user = Conexion.Consultar("login,clave,level,nombreusuario, eliminado, p_venta, p_compra,p_articulo,p_clientes,p_proveedores,p_gastos,p_stock,p_cierredia,p_diferencia,p_consultaC,p_consultaV,p_EScaja,p_informes,p_anular,p_notac,p_notad,p_abstock,p_config,p_empleados,p_enviarinforme,p_fiscalconfig,p_caja,p_rubro", "Usuarios", "WHERE nombreusuario = @a  AND eliminado !=  @elim", "", userypass);
+            
+            Conexion.cerrar();
+            if (user.Rows.Count > 0)
+            {
+               
+                registereduser.pventa = user.Rows[0][5].ToString();
+                registereduser.pcompra = user.Rows[0][6].ToString();
+                registereduser.particulo = user.Rows[0][7].ToString();
+                registereduser.pclientes = user.Rows[0][8].ToString();
+                registereduser.pproveedores = user.Rows[0][9].ToString();
+                registereduser.pgastos = user.Rows[0][10].ToString();
+                registereduser.pstock = user.Rows[0][11].ToString();
+                registereduser.pcierredia = user.Rows[0][12].ToString();
+                registereduser.pdiferencia = user.Rows[0][13].ToString();
+                registereduser.pconsultaC = user.Rows[0][14].ToString();
+                registereduser.pconsultaV = user.Rows[0][15].ToString();
+                registereduser.pEScaja = user.Rows[0][16].ToString();
+                registereduser.pinformes = user.Rows[0][17].ToString();
+                registereduser.panular = user.Rows[0][18].ToString();
+                registereduser.pnotac = user.Rows[0][19].ToString();
+                registereduser.pnotad = user.Rows[0][20].ToString();
+                registereduser.pabstock = user.Rows[0][21].ToString();
+                registereduser.pconfig = user.Rows[0][22].ToString();
+                registereduser.pempleados = user.Rows[0][23].ToString();
+                registereduser.penviarinforme = user.Rows[0][24].ToString();
+                registereduser.pfiscalconfig= user.Rows[0][25].ToString();
+                registereduser.pcaja = user.Rows[0][26].ToString();
+                registereduser.prubro = user.Rows[0][27].ToString();
+
+
+
+            }
             this.Close();
         }
 
@@ -136,8 +186,6 @@ namespace FLAGSYSTEMPV_2017
             saveFileDialog1.InitialDirectory = app.dir;
             saveFileDialog1.FileName = "BACKUP" + app.hoy.Replace("/", "")+".sdf";
             saveFileDialog1.ShowDialog();
-
-          
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -149,18 +197,15 @@ namespace FLAGSYSTEMPV_2017
                 openFileDialog1.InitialDirectory = app.dir;
                 openFileDialog1.ShowDialog();
             }
-            
         }
 
         private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
         {
             string archivoabrir = openFileDialog1.FileName;
-           
             string nombrebackup = "Backup"+app.hoy.Replace("/","")+DateTime.Now.Hour.ToString()+DateTime.Now.Minute.ToString()+DateTime.Now.Second.ToString()+".sdf";
            // MessageBox.Show(nombrebackup);
             if (!Directory.Exists(app.dir + "\\BackupsAutomaticos\\")) Directory.CreateDirectory(app.dir + "\\BackupsAutomaticos");
             File.Move(app.dir + "\\BACKEND.sdf", app.dir + "\\BackupsAutomaticos\\" + nombrebackup);
-         
             File.Copy(archivoabrir, app.dir + "\\BACKEND.sdf");
             MessageBox.Show("Se ha abierto el backup anterior correctamente. Se ha hecho un backup automatico de la base antes de realizar esta accion, la misma se encuentra en BackupsAutomaticos\\" + nombrebackup);
         }
@@ -189,12 +234,16 @@ namespace FLAGSYSTEMPV_2017
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            MessageBox.Show("A continuación le explicaremos los SMTPs mas utilizados para agilizar la introduccion de datos para el envio de emails.\n\nSMTP para GMAIL:\nIngrese los siguientes datos para utilizar el servicio de GMAIL:\nSMTP: smtp.gmail.com\nPuerto: 587 o 465\n\nSMTP para HOTMAIL:\nIngrese los siguientes datos para utilizar el servicio de HOTMAIL:\nSMTP: smtp.live.com\nPuerto: 587\n\nSMTP para YAHOO:\nIngrese los siguientes datos para utilizar el servicio de YAHOO:\nSMTP: smtp.mail.yahoo.com\nPuerto: 465\n\nEmail Enviador: SU EMAIL\nClave Email: SU CLAVE\nPara: EMAIL DE LA PERSONA QUE RECIBIRA EL CORREO\nTitulo Mail: EL TITULO DEL EMAIL\nCuerpo del Mail: UN MENSAJE CORTO\nArchivo Adjunto: El archivo adjunto siempre será el resumen del dia, en el resumen del dia se encuentran todos los movimientos registrados en el dia.");
+            MessageBox.Show("A continuación le explicaremos los SMTPs mas utilizados para agilizar la introduccion de datos para el envio de emails.\n\nSMTP para GMAIL:\nIngrese los siguientes datos para utilizar el servicio de GMAIL:\nSMTP: smtp.gmail.com\nPuerto: 587 o 465\nAdemas puede que usted tenga que activar el modo 'permitir aplicaciones no seguras' en su configuracion de Gmail\n\nSMTP para HOTMAIL:\nIngrese los siguientes datos para utilizar el servicio de HOTMAIL:\nSMTP: smtp.live.com\nPuerto: 587\n\nSMTP para YAHOO:\nIngrese los siguientes datos para utilizar el servicio de YAHOO:\nSMTP: smtp.mail.yahoo.com\nPuerto: 465\n\nEmail Enviador: SU EMAIL\nClave Email: SU CLAVE\nPara: EMAIL DE LA PERSONA QUE RECIBIRA EL CORREO\nTitulo Mail: EL TITULO DEL EMAIL\nCuerpo del Mail: UN MENSAJE CORTO\nArchivo Adjunto: El archivo adjunto siempre será el resumen del dia, en el resumen del dia se encuentran todos los movimientos registrados en el dia.");
         }
 
         private void Config_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Escape) this.Close();
+            if (e.KeyCode == Keys.F1) numericUpDown1.Select();
+            if (e.KeyCode == Keys.F2) button3.PerformClick();
+            if (e.KeyCode == Keys.F3) button4.PerformClick();
+            if (e.KeyCode == Keys.F4) button1.PerformClick();
         }
     }
 }

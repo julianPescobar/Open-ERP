@@ -57,30 +57,7 @@ namespace FLAGSYSTEMPV_2017
 
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Up)
-            {
-                try
-                {
-                    int rowIndex = dataGridView1.CurrentCell.RowIndex;
-                    dataGridView1.Rows[rowIndex - 1].Cells[1].Selected = true;
-                }
-                catch (Exception)
-                {
-                }
-
-            }
-            if (e.KeyCode == Keys.Down)
-            {
-                try
-                {
-                    int rowIndex = dataGridView1.CurrentCell.RowIndex;
-                    dataGridView1.Rows[rowIndex + 1].Cells[1].Selected = true;
-                }
-                catch (Exception)
-                {
-                }
-
-            }
+          
             if (e.KeyCode == Keys.Escape)
             {
                 totalventa.codprodbuscado = "";
@@ -88,23 +65,18 @@ namespace FLAGSYSTEMPV_2017
             }
             if (e.KeyCode == Keys.Enter)
             {
-                int rowIndex = dataGridView1.CurrentCell.RowIndex;
+                if (dataGridView1.Rows.Count > 0)
+                {
+                    int rowIndex = dataGridView1.CurrentCell.RowIndex;
 
-                string cod = dataGridView1.Rows[rowIndex].Cells[1].Value.ToString();
-                totalventa.codprodbuscado = cod;
-                this.Close();
+                    string cod = dataGridView1.Rows[rowIndex].Cells[1].Value.ToString();
+                    totalventa.codprodbuscado = cod;
+                    this.Close();
+                }
+                else MessageBox.Show("No hay articulos para elegir");
             }
         }
-        protected override void WndProc(ref Message m)
-        {
-            base.WndProc(ref m);
-            if (m.Msg == WM_NCHITTEST)
-                m.Result = (IntPtr)(HT_CAPTION);
-        }
-
-        private const int WM_NCHITTEST = 0x84;
-        private const int HT_CLIENT = 0x1;
-        private const int HT_CAPTION = 0x2;
+       
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             var bd = (BindingSource)dataGridView1.DataSource;
@@ -113,11 +85,7 @@ namespace FLAGSYSTEMPV_2017
             dataGridView1.Refresh();
         }
 
-        private void Buscarticulo_Paint(object sender, PaintEventArgs e)
-        {
-            e.Graphics.DrawRectangle(new Pen(Color.Black, 4),
-                        this.DisplayRectangle);      
-        }
+      
 
         private void dataGridView1_SelectionChanged(object sender, EventArgs e)
         {
@@ -139,9 +107,10 @@ namespace FLAGSYSTEMPV_2017
             if (e.KeyCode == Keys.Escape)
                 this.Close();
 
-            
+            if (e.KeyCode == Keys.F1)
+                textBox1.Focus();
 
-            if (e.KeyCode == Keys.Up)
+            if (e.KeyCode == Keys.Up && dataGridView1.Focused == false)
             {
                 try
                 {
@@ -155,7 +124,7 @@ namespace FLAGSYSTEMPV_2017
                 }
 
             }
-            if (e.KeyCode == Keys.Down)
+            if (e.KeyCode == Keys.Down && dataGridView1.Focused == false)
             {
                 try
                 {

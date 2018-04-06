@@ -28,25 +28,7 @@ namespace FLAGSYSTEMPV_2017
             getarts();
 
         }
-        protected override void WndProc(ref Message m)
-        {
-            base.WndProc(ref m);
-            if (m.Msg == WM_NCHITTEST)
-                m.Result = (IntPtr)(HT_CAPTION);
-        }
-
-        private const int WM_NCHITTEST = 0x84;
-        private const int HT_CLIENT = 0x1;
-        private const int HT_CAPTION = 0x2;
-
-        private void VerCajaIO_Paint(object sender, PaintEventArgs e)
-        {
-
-            e.Graphics.DrawRectangle(new Pen(Color.Black, 4),
-                           this.DisplayRectangle);      
-        }
-
-        
+      
 
         void getarts()
         {
@@ -65,9 +47,8 @@ namespace FLAGSYSTEMPV_2017
             {
                 
                 dataGridView1.DataSource = showarts; //mostramos lo que hay
-               
+          
             }
-      
         }
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
@@ -83,6 +64,10 @@ namespace FLAGSYSTEMPV_2017
             if (e.KeyCode == Keys.Escape)
             {
                 this.Close();
+            }
+            if (e.KeyCode == Keys.F1)
+            {
+                textBox1.Select();
             }
         }
 

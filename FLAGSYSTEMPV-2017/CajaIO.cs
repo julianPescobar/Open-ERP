@@ -19,38 +19,25 @@ namespace FLAGSYSTEMPV_2017
 
         private void CajaIO_Load(object sender, EventArgs e)
         {
-            dateTimePicker1.Value = Convert.ToDateTime(app.hoy + " " + DateTime.Now.Hour.ToString() + ":" + DateTime.Now.Minute.ToString() + ":" + DateTime.Now.Second.ToString());
+            maskedTextBox1.Text = Convert.ToDateTime(app.hoy).ToShortDateString();
             float total = 0;
             textBox2.Text = total.ToString("0.00");
             if (CIO.entradaosalida == "Entrada")
             {
+                CajaIO.ActiveForm.Text = "Entradas de caja";
                 button1.Text = "Agregar Entrada";
                 button2.Text = "Ver Entradas";
             }
             if (CIO.entradaosalida == "Salida")
             {
+                CajaIO.ActiveForm.Text = "Salidas de Caja";
                 button1.Text = "Agregar Salida";
                 button2.Text = "Ver Salidas";
             }
         }
 
-             protected override void WndProc(ref Message m)
-        {
-            base.WndProc(ref m);
-            if (m.Msg == WM_NCHITTEST)
-                m.Result = (IntPtr)(HT_CAPTION);
-        }
 
-        private const int WM_NCHITTEST = 0x84;
-        private const int HT_CLIENT = 0x1;
-        private const int HT_CAPTION = 0x2;
-
-        private void CajaIO_Paint(object sender, PaintEventArgs e)
-        {
-               e.Graphics.DrawRectangle(new Pen(Color.Black, 4),
-                        this.DisplayRectangle);      
         
-        }
 
         private void button3_Click(object sender, EventArgs e)
         {
@@ -82,7 +69,7 @@ namespace FLAGSYSTEMPV_2017
             }
             else
             {
-                DateTime fecha = dateTimePicker1.Value;
+                DateTime fecha = Convert.ToDateTime(maskedTextBox1.Text);
                 string motivo = textBox1.Text;
                 float monto = float.Parse(textBox2.Text.Replace("$", ""));
                 SqlCeCommand inserto = new SqlCeCommand();
@@ -106,9 +93,9 @@ namespace FLAGSYSTEMPV_2017
                 }
                 this.Close();
                 if (Application.OpenForms.OfType<CajaIO>().Count() == 1)
-                    Application.OpenForms.OfType<CajaIO>().First().Close();
+                    Application.OpenForms.OfType<CajaIO>().First().Dispose();
                 CajaIO cajaio = new CajaIO();
-                cajaio.ShowDialog();
+                cajaio.Show();
                 
             }
         }
@@ -123,9 +110,9 @@ namespace FLAGSYSTEMPV_2017
         {
             
             if (Application.OpenForms.OfType<VerCajaIO>().Count() == 1)
-                Application.OpenForms.OfType<VerCajaIO>().First().Close();
+                Application.OpenForms.OfType<VerCajaIO>().First().Dispose();
             VerCajaIO abrirventa = new VerCajaIO();
-            abrirventa.ShowDialog();
+            abrirventa.Show();
         }
 
         private void CajaIO_KeyDown(object sender, KeyEventArgs e)
@@ -133,12 +120,43 @@ namespace FLAGSYSTEMPV_2017
             if (e.KeyCode == Keys.Escape)
                 this.Close();
 
+            if (e.KeyCode == Keys.Enter)
+                SendKeys.SendWait("{TAB}");
+            if (e.KeyCode == Keys.F1)
+                button1.PerformClick();
+
+            if (e.KeyCode == Keys.F2)
+                button2.PerformClick();
+
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
             textBox2.Text = textBox2.Text.Replace(".", ",");
             textBox2.SelectionStart = textBox2.Text.Length;
+        }
+
+        private void maskedTextBox1_Leave(object sender, EventArgs e)
+        {
+            try
+            {
+                DateTime fecha = Convert.ToDateTime(maskedTextBox1.Text);
+                maskedTextBox1.Text = fecha.ToShortDateString();
+            }
+            catch (Exception)
+            {
+                maskedTextBox1.Text = app.hoy;
+            }
+        }
+
+        private void maskedTextBox1_Enter(object sender, EventArgs e)
+        {
+            BeginInvoke((Action)delegate { SetMaskedTextBoxSelectAll((MaskedTextBox)sender); });
+        }
+        private void SetMaskedTextBoxSelectAll(MaskedTextBox txtbox)
+        {
+            txtbox.SelectAll();
+            txtbox.Clear();
         }
 
      

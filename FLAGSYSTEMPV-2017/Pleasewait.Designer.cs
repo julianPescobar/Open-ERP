@@ -37,9 +37,9 @@
             this.label1.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(65, 31);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(471, 17);
+            this.label1.Size = new System.Drawing.Size(418, 17);
             this.label1.TabIndex = 0;
-            this.label1.Text = "ESPERE POR FAVOR... CONECTANDO CON IMPRESORA FISCAL...";
+            this.label1.Text = "ESPERE POR FAVOR... CONECTANDO CON IMPRESORA...";
             // 
             // Pleasewait
             // 
@@ -56,7 +56,7 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Pleasewait";
-            this.Paint += new System.Windows.Forms.PaintEventHandler(this.Pleasewait_Paint);
+           
             this.ResumeLayout(false);
             this.PerformLayout();
 

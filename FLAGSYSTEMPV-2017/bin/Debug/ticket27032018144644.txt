@@ -1,0 +1,96 @@
+Flag Informática
+
+####TICKET SIN VALIDEZ FISCAL####
+
+#ITEM Num 1:
+
+°Descripcion: opop
+°Precio Unid: $53,00
+°Cantidad:1
+°Total: $53,00
+
+#ITEM Num 2:
+
+°Descripcion: 1
+°Precio Unid: $53,00
+°Cantidad:1
+°Total: $53,00
+
+#ITEM Num 3:
+
+°Descripcion: 5
+°Precio Unid: $5,00
+°Cantidad:1
+°Total: $5,00
+
+#ITEM Num 4:
+
+°Descripcion: Servicio test n2
+°Precio Unid: $5,00
+°Cantidad:1
+°Total: $5,00
+
+#ITEM Num 5:
+
+°Descripcion: AAAAAAAAAAAAAAAAAAAA
+°Precio Unid: $11024,00
+°Cantidad:1
+°Total: $11024,00
+
+#ITEM Num 6:
+
+°Descripcion: opop
+°Precio Unid: $53,00
+°Cantidad:1
+°Total: $53,00
+
+#ITEM Num 7:
+
+°Descripcion: opop
+°Precio Unid: $53,00
+°Cantidad:1
+°Total: $53,00
+
+#ITEM Num 8:
+
+°Descripcion: opop
+°Precio Unid: $53,00
+°Cantidad:1
+°Total: $53,00
+
+#ITEM Num 9:
+
+°Descripcion: opop
+°Precio Unid: $53,00
+°Cantidad:1
+°Total: $53,00
+
+#ITEM Num 10:
+
+°Descripcion: AAAAAAAAAAAAAAAAAAAA
+°Precio Unid: $11024,00
+°Cantidad:1
+°Total: $11024,00
+
+#ITEM Num 11:
+
+°Descripcion: 1
+°Precio Unid: $53,00
+°Cantidad:8
+°Total: $424,00
+
+#########################
+
+°Total GENERAL: $22800,00
+
+#########################
+
+°°°°GRACIAS POR SU COMPRA°°°°
+
+ 
+
+ 
+
+ 
+
+

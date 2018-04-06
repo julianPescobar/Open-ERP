@@ -12,6 +12,8 @@ using System.Management;
 using System.Security.Principal;
 using System.DirectoryServices;
 using System.Security.Cryptography;
+using System.Diagnostics;
+using System.Reflection;
 namespace FLAGSYSTEMPV_2017
 {
     public partial class Main : Form
@@ -21,10 +23,41 @@ namespace FLAGSYSTEMPV_2017
             InitializeComponent();
         }
 
+        public static Process RunningInstance()
+        {
+            Process current = Process.GetCurrentProcess();
+            Process[] processes = Process.GetProcessesByName(current.ProcessName);
+
+            //Loop through the running processes in with the same name 
+            foreach (Process process in processes)
+            {
+                //Ignore the current process 
+                if (process.Id != current.Id)
+                {
+                    //Make sure that the process is running from the exe file. 
+                    if (Assembly.GetExecutingAssembly().Location.
+                         Replace("/", "\\") == current.MainModule.FileName)
+                    {
+                        //Return the other process instance.  
+                        return process;
+
+                    }
+                }
+            }
+            //No other instance was found, return null.  
+            return null;
+        }
+
+
         private void Main_Load(object sender, EventArgs e)
         {
 
-                SecurityIdentifier asd = GetComputerSid();
+            if (Main.RunningInstance() != null)
+            {
+                MessageBox.Show("Ya hay un proceso de Flag System PV actualmente ejecutándose. ","No se pueden abrir varias instancias de Flag System PV",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                Environment.Exit(0);
+            } 
+            SecurityIdentifier asd = GetComputerSid();
              string sid =  asd.AccountDomainSid.ToString();
             string modelNo = identifier("Win32_DiskDrive", "Model");
          
@@ -62,6 +95,8 @@ namespace FLAGSYSTEMPV_2017
                 registereduser.titulo = consultaTest.Rows[0][23].ToString();
                 registereduser.cuerpo = consultaTest.Rows[0][24].ToString();
                 registereduser.redondeo = consultaTest.Rows[0][27].ToString();
+                ImpresionNOFISCAL.NONFISCALPRINTERNAME = consultaTest.Rows[0][32].ToString();
+                
                 if (consultaTest.Rows[0][28].ToString() == "si") registereduser.closeandbkp = "si"; else registereduser.closeandbkp = "no";
                 if (consultaTest.Rows[0][29].ToString() == "si") registereduser.sololectura = "si"; else registereduser.sololectura = "no";
                 if (consultaTest.Rows[0][30].ToString() == "si") registereduser.alwaysprint = "si"; else registereduser.alwaysprint = "no";

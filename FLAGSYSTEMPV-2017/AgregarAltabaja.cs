@@ -25,25 +25,9 @@ namespace FLAGSYSTEMPV_2017
         private void Articulos_Load(object sender, EventArgs e)
         {
             getarts();
-
         }
-        protected override void WndProc(ref Message m)
-        {
-            base.WndProc(ref m);
-            if (m.Msg == WM_NCHITTEST)
-                m.Result = (IntPtr)(HT_CAPTION);
-        }
+     
 
-        private const int WM_NCHITTEST = 0x84;
-        private const int HT_CLIENT = 0x1;
-        private const int HT_CAPTION = 0x2;
-
-        private void Articulos_Paint(object sender, PaintEventArgs e)
-        {
-
-            e.Graphics.DrawRectangle(new Pen(Color.Black, 4),
-                           this.DisplayRectangle);      
-        }
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -52,7 +36,7 @@ namespace FLAGSYSTEMPV_2017
             else
             {
                 NuevoArticulo frm = new NuevoArticulo();
-                frm.ShowDialog();
+                frm.Show();
             }
         }
 
@@ -114,11 +98,33 @@ namespace FLAGSYSTEMPV_2017
             {
                 this.Close();
             }
+            if (e.KeyCode == Keys.F1)
+            {
+                textBox1.Select();
+            }
+            if (e.KeyCode == Keys.F2)
+            {
+                comboBox2.DroppedDown = true;
+                comboBox2.Select();
+            }
+            if (e.KeyCode == Keys.F3)
+            {
+                numericUpDown2.Select();
+            }
+            if (e.KeyCode == Keys.F4)
+            {
+                comboBox1.DroppedDown = true;
+                comboBox1.Select();
+            }
+            if (e.KeyCode == Keys.F5)
+            {
+                button1.PerformClick();
+            }
         }
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            if (comboBox1.SelectedIndex >= 0 &&  comboBox2.SelectedIndex >= 0 && numericUpDown2.Value > 0)
+            if (comboBox1.SelectedIndex >= 0 &&  comboBox2.SelectedIndex >= 0 && numericUpDown2.Value > 0 && dataGridView1.Rows.Count > 0)
             {
                 int rowIndex = dataGridView1.CurrentCell.RowIndex;
                 string pid = dataGridView1.Rows[rowIndex].Cells[0].Value.ToString();
@@ -158,6 +164,23 @@ namespace FLAGSYSTEMPV_2017
         private void AgregarAltabaja_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Escape) this.Close();
+            if (e.KeyCode == Keys.F1) textBox1.Select();
+            if (e.KeyCode == Keys.F2) comboBox2.Select();
+            if (e.KeyCode == Keys.F3) numericUpDown2.Select();
+            if (e.KeyCode == Keys.F4) comboBox1.Select();
+            if (e.KeyCode == Keys.F5) button1.PerformClick();
+        }
+
+        private void comboBox1_Enter(object sender, EventArgs e)
+        {
+            comboBox1.DroppedDown = true;
+            comboBox1.Select();
+        }
+
+        private void comboBox2_Enter(object sender, EventArgs e)
+        {
+            comboBox2.DroppedDown = true;
+            comboBox2.Select();
         }
     }
 }

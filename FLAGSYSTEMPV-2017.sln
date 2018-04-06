@@ -11,6 +11,9 @@ Global
 		Dotfuscated|Any CPU = Dotfuscated|Any CPU
 		Dotfuscated|Mixed Platforms = Dotfuscated|Mixed Platforms
 		Dotfuscated|x86 = Dotfuscated|x86
+		Leito|Any CPU = Leito|Any CPU
+		Leito|Mixed Platforms = Leito|Mixed Platforms
+		Leito|x86 = Leito|x86
 		Release|Any CPU = Release|Any CPU
 		Release|Mixed Platforms = Release|Mixed Platforms
 		Release|x86 = Release|x86
@@ -26,6 +29,11 @@ Global
 		{CC8861AC-019E-41FF-A1C4-A9FB8E5EFF51}.Dotfuscated|Mixed Platforms.Build.0 = Debug|x86
 		{CC8861AC-019E-41FF-A1C4-A9FB8E5EFF51}.Dotfuscated|x86.ActiveCfg = Dotfuscated|x86
 		{CC8861AC-019E-41FF-A1C4-A9FB8E5EFF51}.Dotfuscated|x86.Build.0 = Dotfuscated|x86
+		{CC8861AC-019E-41FF-A1C4-A9FB8E5EFF51}.Leito|Any CPU.ActiveCfg = Leito|x86
+		{CC8861AC-019E-41FF-A1C4-A9FB8E5EFF51}.Leito|Mixed Platforms.ActiveCfg = Leito|x86
+		{CC8861AC-019E-41FF-A1C4-A9FB8E5EFF51}.Leito|Mixed Platforms.Build.0 = Leito|x86
+		{CC8861AC-019E-41FF-A1C4-A9FB8E5EFF51}.Leito|x86.ActiveCfg = Leito|x86
+		{CC8861AC-019E-41FF-A1C4-A9FB8E5EFF51}.Leito|x86.Build.0 = Leito|x86
 		{CC8861AC-019E-41FF-A1C4-A9FB8E5EFF51}.Release|Any CPU.ActiveCfg = Release|x86
 		{CC8861AC-019E-41FF-A1C4-A9FB8E5EFF51}.Release|Mixed Platforms.ActiveCfg = Release|x86
 		{CC8861AC-019E-41FF-A1C4-A9FB8E5EFF51}.Release|Mixed Platforms.Build.0 = Release|x86

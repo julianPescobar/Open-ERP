@@ -77,7 +77,6 @@ namespace FLAGSYSTEMPV_2017
             whatview1.DataSource = SBind;
             //whatview1.Columns[3].DefaultCellStyle.Format = "c";
             whatview1.Refresh();
-
             if (showv.Rows.Count > 0)
                 whatview1.DataSource = showv; //mostramos lo que hay
            
@@ -87,26 +86,6 @@ namespace FLAGSYSTEMPV_2017
         {
             
             
-        }
-
-
-
-
-
-        protected override void WndProc(ref Message m)
-        {
-            base.WndProc(ref m);
-            if (m.Msg == WM_NCHITTEST)
-                m.Result = (IntPtr)(HT_CAPTION);
-        }
-        private const int WM_NCHITTEST = 0x84;
-        private const int HT_CLIENT = 0x1;
-        private const int HT_CAPTION = 0x2;
-
-        private void Consultas_Paint(object sender, PaintEventArgs e)
-        {
-            e.Graphics.DrawRectangle(new Pen(Color.Black, 4),
-                           this.DisplayRectangle);      
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -122,10 +101,7 @@ namespace FLAGSYSTEMPV_2017
                 {
                     if (i == 0) formatstring += " CONVERT([" + dt.Columns[i].ColumnName + "],System.String) like '%{0}%' ";
                     else formatstring += " or CONVERT([" + dt.Columns[i].ColumnName + "],System.String) like '%{0}%' ";
-
                 }
-
-
                 dt.DefaultView.RowFilter = string.Format(formatstring, textBox1.Text.Trim().Replace("'", "''"));
                 dataGridView1.Refresh();
 
@@ -143,41 +119,63 @@ namespace FLAGSYSTEMPV_2017
 
         private void button2_Click(object sender, EventArgs e)
         {
-           int rowIndex = dataGridView1.CurrentCell.RowIndex;
-           string id =  dataGridView1.Rows[rowIndex].Cells[0].Value.ToString();
-           DialogResult seguro =  MessageBox.Show("Está seguro de anular esta venta?\nFactura n°:"+id,"Anular esta factura?",MessageBoxButtons.YesNo,MessageBoxIcon.Question);
-           if (seguro == DialogResult.Yes)
-           {
-               Conexion.abrir();
-               SqlCeCommand anular = new SqlCeCommand();
-               anular.Parameters.AddWithValue("anul", "Anulada");
-               anular.Parameters.AddWithValue("id", id);
-               Conexion.abrir();
-               Conexion.Actualizar("Ventas", "estadoventa = @anul", "WHERE nfactura = @id", "", anular);
-              DataTable detalle =  Conexion.Consultar("idproducto,cantidproducto,tipo","DetalleVentas","where nfactura = @id","", anular);
-              for (int i = 0; i < detalle.Rows.Count; i++)
-              {
-                  string idprod = detalle.Rows[i][0].ToString();
-                  string cantidad = detalle.Rows[i][1].ToString();
-                  string tipo = detalle.Rows[i][2].ToString();
-                  SqlCeCommand stockreturn = new SqlCeCommand();
-                  stockreturn.Parameters.Clear();
-                  stockreturn.Parameters.AddWithValue("id", idprod);
-                  stockreturn.Parameters.AddWithValue("x", cantidad);
-                  if (tipo.Contains("Producto"))
-                      Conexion.Actualizar("Articulos", "stockactual = (stockactual + @x) ", "WHERE idarticulo = @id", "", stockreturn);
-              }
-               Conexion.cerrar();
-               Anular refresh = new Anular();
-               refresh.Show();
-               refresh.Focus();
-               this.Close();
-           }
+            if (dataGridView1.Rows.Count > 0)
+            {
+                int rowIndex = dataGridView1.CurrentCell.RowIndex;
+                string id = dataGridView1.Rows[rowIndex].Cells[0].Value.ToString();
+                DialogResult seguro = MessageBox.Show("Está seguro de anular esta venta?\nFactura n°:" + id, "Anular esta factura?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (seguro == DialogResult.Yes)
+                {
+                    Conexion.abrir();
+                    SqlCeCommand anular = new SqlCeCommand();
+                    anular.Parameters.AddWithValue("anul", "Anulada");
+                    anular.Parameters.AddWithValue("id", id);
+                    Conexion.abrir();
+                    Conexion.Actualizar("Ventas", "estadoventa = @anul", "WHERE nfactura = @id", "", anular);
+                    DataTable detalle = Conexion.Consultar("idproducto,cantidproducto,tipo", "DetalleVentas", "where nfactura = @id", "", anular);
+                    for (int i = 0; i < detalle.Rows.Count; i++)
+                    {
+                        string idprod = detalle.Rows[i][0].ToString();
+                        string cantidad = detalle.Rows[i][1].ToString();
+                        string tipo = detalle.Rows[i][2].ToString();
+                        SqlCeCommand stockreturn = new SqlCeCommand();
+                        stockreturn.Parameters.Clear();
+                        stockreturn.Parameters.AddWithValue("id", idprod);
+                        stockreturn.Parameters.AddWithValue("x", cantidad);
+                        if (tipo.Contains("Producto"))
+                            Conexion.Actualizar("Articulos", "stockactual = (stockactual + @x) ", "WHERE idarticulo = @id", "", stockreturn);
+                    }
+                    Conexion.cerrar();
+                    Anular refresh = new Anular();
+                    refresh.Show();
+                    refresh.Focus();
+                    this.Close();
+                }
+            }
+            else MessageBox.Show("No hay ninguna venta seleccionada");
         }
 
         private void Anular_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Escape) this.Close();
+            if (e.KeyCode == Keys.F1) textBox1.Select();
+            if (e.KeyCode == Keys.F2) button2.PerformClick();
+            if (e.KeyCode == Keys.F3) button3.PerformClick();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (Application.OpenForms.OfType<CambiarFechaVenta>().Count() == 1)
+                Application.OpenForms.OfType<CambiarFechaVenta>().First().Focus();
+            else
+            {
+                if (registereduser.level == "Admin" || registereduser.level == "Supervisor")
+                {
+                    CambiarFechaVenta frm = new CambiarFechaVenta();
+                    frm.Show();
+                }
+                else MessageBox.Show("Solo los Admins o Supervisores pueden acceder a esta opcion");
+            }
         }
       
     }

@@ -19,7 +19,7 @@ namespace FLAGSYSTEMPV_2017
         public string totventa;
         private void Compras_Load(object sender, EventArgs e)
         {
-            
+            textBox4.Select();
             totalventa.compraoventa = "Compras";
             if (dataGridView1.Rows.Count == 0)
             {
@@ -27,13 +27,14 @@ namespace FLAGSYSTEMPV_2017
                 textBox5.Text = cero.ToString("$0.00");
             }
             Conexion.abrir();
-            DataTable proveedores = Conexion.Consultar("nombre", "Proveedores", "", "", new SqlCeCommand());
+            DataTable proveedores = Conexion.Consultar("nombre", "Proveedores", "WHERE Eliminado != 'Eliminado'", "", new SqlCeCommand());
             Conexion.cerrar();
             for (int i = 0; i < proveedores.Rows.Count; i++)
             {
                 comboBox1.Items.Add(proveedores.Rows[i][0].ToString());
             }
-            
+            comboBox1.DroppedDown = true;
+            comboBox1.Select();
             dateTimePicker1.Value = Convert.ToDateTime(app.hoy+" "+DateTime.Now.Hour.ToString()+":"+DateTime.Now.Minute.ToString()+":"+DateTime.Now.Second.ToString());
             Conexion.abrir();
             DataTable nextid = new DataTable();
@@ -50,31 +51,19 @@ namespace FLAGSYSTEMPV_2017
                 MessageBox.Show("Lo sentimos pero esta es la versión demo del producto y solo se permiten ingresar hasta 100 registros de compra. Si quiere habilitar esta opcion debe comprar la licencia.");
 
             }
-            comboBox1.DroppedDown = true;
-            comboBox1.Select();
+           
             
         }
-        protected override void WndProc(ref Message m)
-        {
-            base.WndProc(ref m);
-            if (m.Msg == WM_NCHITTEST)
-                m.Result = (IntPtr)(HT_CAPTION);
-        }
-
-        private const int WM_NCHITTEST = 0x84;
-        private const int HT_CLIENT = 0x1;
-        private const int HT_CAPTION = 0x2;
+        
 
         private void button1_Click(object sender, EventArgs e)
         {
             this.Close();
+            if (Application.OpenForms.OfType<Inicio>().Count() == 1)
+                Application.OpenForms.OfType<Inicio>().First().Focus();
         }
 
-        private void Ventas_Paint(object sender, PaintEventArgs e)
-        {
-            e.Graphics.DrawRectangle(new Pen(Color.Black, 4),
-                           this.DisplayRectangle);      
-        }
+        
 
         private void textBox4_KeyDown(object sender, KeyEventArgs e)
         {
@@ -357,7 +346,7 @@ namespace FLAGSYSTEMPV_2017
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             textBox4.Focus();
-            MessageBox.Show("Enter: Finaliza Compra (si se cargaron articulos)\nEscape: Cancela toda la compra si hay articulos cargados, de lo contrario cierra la ventana\nAbajo: Mueve el cursor de la lista de productos hacia abajo (si hay articulos cargados)\nArriba: Idem anterior pero para arriba.\nIzquierda: Disminuye en 1 las unidades del producto seleccionado.\nDerecha Aumenta en 1 las unidades del producto seleccionado.\nF5: Abre panel de busqueda de articulos.\n F4: abre una ventana en donde se puede escribir cuantas unidades asignar a un articulo.\nF3: Modifica el Costo de un producto (es util cuando el precio del proveedor varia sobre lo que figura en el sistema)","Atajos del teclado",MessageBoxButtons.OK,MessageBoxIcon.Information);
+            MessageBox.Show("Enter: Finaliza Compra (si se cargaron articulos)\nEscape: Cancela toda la compra si hay articulos cargados, de lo contrario cierra la ventana\nAbajo: Mueve el cursor de la lista de productos hacia abajo (si hay articulos cargados)\nArriba: Idem anterior pero para arriba.\nIzquierda: Disminuye en 1 las unidades del producto seleccionado.\nDerecha Aumenta en 1 las unidades del producto seleccionado.\nF5: Abre panel de busqueda de articulos.\nF4: abre una ventana en donde se puede escribir cuantas unidades asignar a un articulo.\nF3: Modifica el Costo de un producto (es util cuando el precio del proveedor varia sobre lo que figura en el sistema)","Atajos del teclado",MessageBoxButtons.OK,MessageBoxIcon.Information);
         }
 
         private void rectangleShape1_Click(object sender, EventArgs e)
@@ -431,15 +420,31 @@ namespace FLAGSYSTEMPV_2017
                         this.Close();
                         Compras frm = new Compras();
                         frm.Show();
-                        frm.Focus();
+                      
+                       
                     }
                 }
                 else
                 {
                     this.Close();
+                    if (Application.OpenForms.OfType<Inicio>().Count() == 1)
+                        Application.OpenForms.OfType<Inicio>().First().Focus();
                 }
             }
+           
         }
+
+        private void comboBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Tab) MessageBox.Show("test");
+        }
+
+        private void comboBox1_Leave(object sender, EventArgs e)
+        {
+            if (comboBox1.SelectedIndex > -1 && comboBox1.Enabled == true) MessageBox.Show("Tabulador deshabilitado para este control.");
+        }
+
+      
 
     }
 }

@@ -1,0 +1,26 @@
+Flag Informática
+
+ ###TICKET SIN VALIDEZ FISCAL###
+
+#ITEM Num 1:
+°Nombre: opop
+°Precio Unid: $53,00
+°Cantidad:1
+°Total: $53,00
+
+#ITEM Num 2:
+°Nombre: SERVICIO CGA VIRTUAL
+°Precio Unid: $1,00
+°Cantidad:1
+°Total: $1,00
+
+#########################
+°Total GENERAL: $54,00
+#########################
+
+°°°°GRACIAS POR SU COMPRA°°°°
+
+ 
+
+ 
+

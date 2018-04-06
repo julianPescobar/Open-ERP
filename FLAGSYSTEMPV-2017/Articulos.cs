@@ -20,30 +20,18 @@ namespace FLAGSYSTEMPV_2017
         private void button3_Click(object sender, EventArgs e)
         {
             this.Close();
+            if (Application.OpenForms.OfType<Inicio>().Count() == 1)
+                Application.OpenForms.OfType<Inicio>().First().Select();
         }
 
         private void Articulos_Load(object sender, EventArgs e)
         {
             getarts();
+            if (dataGridView1.Rows.Count < 1) button5.Enabled = false;
 
         }
-        protected override void WndProc(ref Message m)
-        {
-            base.WndProc(ref m);
-            if (m.Msg == WM_NCHITTEST)
-                m.Result = (IntPtr)(HT_CAPTION);
-        }
-
-        private const int WM_NCHITTEST = 0x84;
-        private const int HT_CLIENT = 0x1;
-        private const int HT_CAPTION = 0x2;
-
-        private void Articulos_Paint(object sender, PaintEventArgs e)
-        {
-
-            e.Graphics.DrawRectangle(new Pen(Color.Black, 4),
-                           this.DisplayRectangle);      
-        }
+      
+       
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -59,22 +47,26 @@ namespace FLAGSYSTEMPV_2017
 
         private void button2_Click(object sender, EventArgs e)
         {
-            int rowIndex = dataGridView1.CurrentCell.RowIndex;
-            var row = this.dataGridView1.Rows[rowIndex];
-            string name = row.Cells[2].Value.ToString();
-            string id = row.Cells[0].Value.ToString();
-
-            DialogResult borrar = MessageBox.Show("Está seguro de borrar este artículo?\n"+name, "Borrar?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-            if (borrar == DialogResult.Yes)
+            if (dataGridView1.Rows.Count > 0)
             {
-                Conexion.abrir();
-                SqlCeCommand del = new SqlCeCommand();
-                del.Parameters.AddWithValue("@id", id);
-                del.Parameters.AddWithValue("@el", "Eliminado");
-                Conexion.Actualizar("Articulos","eliminado = @el", "WHERE idarticulo = @id","", del);
-                 Conexion.cerrar();
+                int rowIndex = dataGridView1.CurrentCell.RowIndex;
+                var row = this.dataGridView1.Rows[rowIndex];
+                string name = row.Cells[2].Value.ToString();
+                string id = row.Cells[0].Value.ToString();
+
+                DialogResult borrar = MessageBox.Show("Está seguro de borrar este artículo?\n" + name, "Borrar?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (borrar == DialogResult.Yes)
+                {
+                    Conexion.abrir();
+                    SqlCeCommand del = new SqlCeCommand();
+                    del.Parameters.AddWithValue("@id", id);
+                    del.Parameters.AddWithValue("@el", "Eliminado");
+                    Conexion.Actualizar("Articulos", "eliminado = @el", "WHERE idarticulo = @id", "", del);
+                    Conexion.cerrar();
+                }
+                getarts();
             }
-            getarts();
+            else MessageBox.Show("No hay articulo seleccionado para borrar");
         }
 
         void getarts()
@@ -161,42 +153,55 @@ namespace FLAGSYSTEMPV_2017
             if (e.KeyCode == Keys.Escape)
             {
                 this.Close();
+                if (Application.OpenForms.OfType<Inicio>().Count() == 1)
+                    Application.OpenForms.OfType<Inicio>().First().Focus();
             }
         }
 
         private void button9_Click(object sender, EventArgs e)
         {
-            int rowIndex = dataGridView1.CurrentCell.RowIndex;
-            createorupdate.itemid = dataGridView1.Rows[rowIndex].Cells[0].Value.ToString();
-           
-            createorupdate.status = "update";
-            if (Application.OpenForms.OfType<NuevoArticulo>().Count() == 1)
-                Application.OpenForms.OfType<NuevoArticulo>().First().Focus();
-            else
+            if (dataGridView1.Rows.Count > 0)
             {
-                NuevoArticulo frm = new NuevoArticulo();
-                frm.ShowDialog();
+                int rowIndex = dataGridView1.CurrentCell.RowIndex;
+                createorupdate.itemid = dataGridView1.Rows[rowIndex].Cells[0].Value.ToString();
+
+                createorupdate.status = "update";
+                if (Application.OpenForms.OfType<NuevoArticulo>().Count() == 1)
+                    Application.OpenForms.OfType<NuevoArticulo>().First().Focus();
+                else
+                {
+                    NuevoArticulo frm = new NuevoArticulo();
+                    frm.ShowDialog();
+                }
             }
+            else MessageBox.Show("Debe elegir el articulo a editar");
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
-            int rowIndex = dataGridView1.CurrentCell.RowIndex;
-            createorupdate.itemid = dataGridView1.Rows[rowIndex].Cells[0].Value.ToString();
-            if (Application.OpenForms.OfType<ActualizaPrecios>().Count() == 1)
-                Application.OpenForms.OfType<ActualizaPrecios>().First().Focus();
-            else
+            if (dataGridView1.Rows.Count > 0)
             {
-                ActualizaPrecios frm = new ActualizaPrecios();
-                frm.ShowDialog();
+                int rowIndex = dataGridView1.CurrentCell.RowIndex;
+                createorupdate.itemid = dataGridView1.Rows[rowIndex].Cells[0].Value.ToString();
+                if (Application.OpenForms.OfType<ActualizaPrecios>().Count() == 1)
+                    Application.OpenForms.OfType<ActualizaPrecios>().First().Focus();
+                else
+                {
+                    ActualizaPrecios frm = new ActualizaPrecios();
+                    frm.ShowDialog();
+                }
             }
+            else MessageBox.Show("No hay articulos sobre los cuales actualizar precio/costo");
         }
 
         private void Articulos_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Escape)
+            {
                 this.Close();
-
+                if (Application.OpenForms.OfType<Inicio>().Count() == 1)
+                    Application.OpenForms.OfType<Inicio>().First().Focus();
+            }
             if (e.KeyCode == Keys.F1 && button1.Enabled == true)
                 button1.PerformClick();
             if (e.KeyCode == Keys.F2 && button9.Enabled == true)
@@ -208,7 +213,7 @@ namespace FLAGSYSTEMPV_2017
             if (e.KeyCode == Keys.F5)
                 textBox1.Select();
 
-            if (e.KeyCode == Keys.Up)
+            if (e.KeyCode == Keys.Up && dataGridView1.Focused == false)
             {
                 try
                 {
@@ -221,7 +226,7 @@ namespace FLAGSYSTEMPV_2017
                 }
 
             }
-            if (e.KeyCode == Keys.Down)
+            if (e.KeyCode == Keys.Down && dataGridView1.Focused == false)
             {
                 try
                 {

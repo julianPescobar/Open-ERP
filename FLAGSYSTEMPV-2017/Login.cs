@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Data.SqlServerCe;
+using System.IO;
+using System.Drawing.Printing;
 
 
 namespace FLAGSYSTEMPV_2017
@@ -225,15 +227,7 @@ namespace FLAGSYSTEMPV_2017
             e.Graphics.DrawRectangle(new Pen(Color.Black, 4),
                          this.DisplayRectangle);    
         }
-        protected override void WndProc(ref Message m)
-        {
-            base.WndProc(ref m);
-            if (m.Msg == WM_NCHITTEST)
-                m.Result = (IntPtr)(HT_CAPTION);
-        }
-        private const int WM_NCHITTEST = 0x84;
-        private const int HT_CLIENT = 0x1;
-        private const int HT_CAPTION = 0x2;
+       
 
         private void textBox1_Enter(object sender, EventArgs e)
         {
@@ -253,8 +247,10 @@ namespace FLAGSYSTEMPV_2017
         {
             if (e.KeyCode == Keys.Escape) button2.PerformClick();
         }
+        
+      
 
-
+       
        
     }
 }

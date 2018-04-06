@@ -26,41 +26,29 @@ namespace FLAGSYSTEMPV_2017
             this.Close();
         }
 
-        private void EnviarMail_Paint(object sender, PaintEventArgs e)
-        {
-            e.Graphics.DrawRectangle(new Pen(Color.Black, 4),
-                          this.DisplayRectangle);    
-        }
-        protected override void WndProc(ref Message m)
-        {
-            base.WndProc(ref m);
-            if (m.Msg == WM_NCHITTEST)
-                m.Result = (IntPtr)(HT_CAPTION);
-        }
-        private const int WM_NCHITTEST = 0x84;
-        private const int HT_CLIENT = 0x1;
-        private const int HT_CAPTION = 0x2;
+     
 
         private void EnviarMail_Load(object sender, EventArgs e)
         {
-            dateTimePicker1.Value = Convert.ToDateTime(app.hoy);
-            string fecha = dateTimePicker1.Value.ToShortDateString();
+            app.chequearconfigmail();
+            maskedTextBox1.Text = app.hoy;
+            string fecha = maskedTextBox1.Text;
             if (File.Exists(app.dir + "\\Cierre" + fecha.Replace("/","") + ".txt") == true)
             {
                 getdata();
                 button1.Enabled = true;
-                button3.Visible = false;
+                button3.Enabled = false;
             }
             else
             {
-                button3.Visible = true;
+                button3.Enabled = true;
                 button1.Enabled = false;
             }
         }
         private void getdata()
         {
-           
-              string fecha = dateTimePicker1.Value.ToShortDateString();
+
+            string fecha = maskedTextBox1.Text;
             string[] data = File.ReadAllLines(app.dir + "\\Cierre" + fecha.Replace("/", "") + ".txt");
             float venta = float.Parse(data[2].ToString().Replace("Total Ventas:", "").Replace("$", ""));
             float compra = float.Parse(data[3].ToString().Replace("Total Compras:", "").Replace("$", ""));
@@ -113,22 +101,24 @@ namespace FLAGSYSTEMPV_2017
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string fecha = dateTimePicker1.Value.ToShortDateString();
-            sendmail(app.dir + "\\Cierre" + app.hoy.Replace("/", "") + ".xlsx.xls");
+            string fecha = maskedTextBox1.Text;
+            sendmail(app.dir + "\\Cierre" + fecha.Replace("/", "") + ".xlsx.xls");
         }
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
-            string fecha = dateTimePicker1.Value.ToShortDateString();
+            string fecha = maskedTextBox1.Text;
             if (File.Exists(app.dir + "\\Cierre" + fecha.Replace("/", "") + ".txt") == true)
             {
                 getdata();
+                
                 button1.Enabled = true;
-                button3.Visible = false;
+                button3.Enabled = false;
             }
             else
             {
-                button3.Visible = true;
+                
+                button3.Enabled = true;
                 button1.Enabled = false;
                 textBox1.Text = "";
                 textBox2.Text = "";
@@ -139,12 +129,12 @@ namespace FLAGSYSTEMPV_2017
 
             }
         }
-        public static void generarResumenFinal()
+        public static void generarResumenFinal(string fecha)
         {
             Conexion.abrir();
             SqlCeCommand hoy = new SqlCeCommand();
-            hoy.Parameters.AddWithValue("hoy", app.hoy + " 00:00:00");
-            hoy.Parameters.AddWithValue("hoy2", app.hoy + " 23:59:59");
+            hoy.Parameters.AddWithValue("hoy", fecha + " 00:00:00");
+            hoy.Parameters.AddWithValue("hoy2", fecha + " 23:59:59");
             DataTable ventas = Conexion.Consultar("nfactura,vendedor,total", "Ventas", "Where estadoVenta != 'Anulada' and fechaventa between @hoy and @hoy2", "", hoy);
             DataTable compras = Conexion.Consultar("nfactura,vendedor,CAST(totalfactura as FLOAT) as total", "Compras", "Where fechacompra between @hoy and @hoy2", "", hoy);
             DataTable gastos = Conexion.Consultar("area,descripcion,importe", "Gastos", "Where fecha between @hoy and @hoy2", "", hoy);
@@ -211,22 +201,22 @@ namespace FLAGSYSTEMPV_2017
             }
             else ts = 0;
 
-            File.WriteAllText(app.dir + "\\Cierre" + app.hoy.Replace("/", "") + ".txt", registereduser.registeredlicense + "\r\n" + "Informe de cierre del dia " + DateTime.Now.ToShortDateString() + "\r\nTotal Ventas:\t" + tv.ToString("$0.00") + "\r\nTotal Compras:\t" + tc.ToString("$0.00") + "\r\nTotal Gastos:\t" + tg.ToString("$0.00") + "\r\nTotal Entrada Caja:\t" + te.ToString("$0.00") + "\r\nTotal Salida Caja:\t" + ts.ToString("$0.00") + "\r\nTotal del Día:\t" + ((tv + tc + te) - (tg + ts)).ToString("$0.00"));
-            File.AppendAllText(app.dir + "\\Cierre" + app.hoy.Replace("/", "") + ".txt", "\r\n");
-            File.AppendAllText(app.dir + "\\Cierre" + app.hoy.Replace("/", "") + ".txt", "\r\nDetalle de Ventas:\r\nN° Venta\tVendedor\tTotal\t\r\n");
-            File.AppendAllLines(app.dir + "\\Cierre" + app.hoy.Replace("/", "") + ".txt", Ventas);
-            File.AppendAllText(app.dir + "\\Cierre" + app.hoy.Replace("/", "") + ".txt", "\r\nDetalle de Compras:\r\nN° Compra\tVendedor\tTotal\t\r\n");
-            File.AppendAllLines(app.dir + "\\Cierre" + app.hoy.Replace("/", "") + ".txt", Compras);
-            File.AppendAllText(app.dir + "\\Cierre" + app.hoy.Replace("/", "") + ".txt", "\r\nDetalle de Gastos:\r\nArea\tDescripcion\tImporte\t\r\n");
-            File.AppendAllLines(app.dir + "\\Cierre" + app.hoy.Replace("/", "") + ".txt", Gastos);
-            File.AppendAllText(app.dir + "\\Cierre" + app.hoy.Replace("/", "") + ".txt", "\r\nDetalle de Entradas de Caja:\r\nTipo\tMotivo\tTotal\t\r\n");
-            File.AppendAllLines(app.dir + "\\Cierre" + app.hoy.Replace("/", "") + ".txt", Entradas);
-            File.AppendAllText(app.dir + "\\Cierre" + app.hoy.Replace("/", "") + ".txt", "\r\nDetalle de Salidas de Caja:\r\nTipo\tMotivo\tTotal\t\r\n");
-            File.AppendAllLines(app.dir + "\\Cierre" + app.hoy.Replace("/", "") + ".txt", Salidas);
+            File.WriteAllText(app.dir + "\\Cierre" + fecha.Replace("/", "") + ".txt", registereduser.registeredlicense + "\r\n" + "Informe de cierre del dia " + fecha + "\r\nTotal Ventas:\t" + tv.ToString("$0.00") + "\r\nTotal Compras:\t" + tc.ToString("$0.00") + "\r\nTotal Gastos:\t" + tg.ToString("$0.00") + "\r\nTotal Entrada Caja:\t" + te.ToString("$0.00") + "\r\nTotal Salida Caja:\t" + ts.ToString("$0.00") + "\r\nTotal del Día:\t" + ((tv + tc + te) - (tg + ts)).ToString("$0.00"));
+            File.AppendAllText(app.dir + "\\Cierre" + fecha.Replace("/", "") + ".txt", "\r\n");
+            File.AppendAllText(app.dir + "\\Cierre" + fecha.Replace("/", "") + ".txt", "\r\nDetalle de Ventas:\r\nN° Venta\tVendedor\tTotal\t\r\n");
+            File.AppendAllLines(app.dir + "\\Cierre" + fecha.Replace("/", "") + ".txt", Ventas);
+            File.AppendAllText(app.dir + "\\Cierre" + fecha.Replace("/", "") + ".txt", "\r\nDetalle de Compras:\r\nN° Compra\tVendedor\tTotal\t\r\n");
+            File.AppendAllLines(app.dir + "\\Cierre" + fecha.Replace("/", "") + ".txt", Compras);
+            File.AppendAllText(app.dir + "\\Cierre" + fecha.Replace("/", "") + ".txt", "\r\nDetalle de Gastos:\r\nArea\tDescripcion\tImporte\t\r\n");
+            File.AppendAllLines(app.dir + "\\Cierre" + fecha.Replace("/", "") + ".txt", Gastos);
+            File.AppendAllText(app.dir + "\\Cierre" + fecha.Replace("/", "") + ".txt", "\r\nDetalle de Entradas de Caja:\r\nTipo\tMotivo\tTotal\t\r\n");
+            File.AppendAllLines(app.dir + "\\Cierre" + fecha.Replace("/", "") + ".txt", Entradas);
+            File.AppendAllText(app.dir + "\\Cierre" + fecha.Replace("/", "") + ".txt", "\r\nDetalle de Salidas de Caja:\r\nTipo\tMotivo\tTotal\t\r\n");
+            File.AppendAllLines(app.dir + "\\Cierre" + fecha.Replace("/", "") + ".txt", Salidas);
 
             try
             {
-                string tempfilename = app.dir + "\\Cierre" + app.hoy.Replace("/", "") + ".xlsx.xls";
+                string tempfilename = app.dir + "\\Cierre" + fecha.Replace("/", "") + ".xlsx.xls";
                 string xConnStr = "Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=" + tempfilename + ";Extended Properties='Excel 8.0;HDR=YES'";
                 string TabName = "";
                 var conn = new OleDbConnection(xConnStr);
@@ -273,7 +263,7 @@ namespace FLAGSYSTEMPV_2017
                 TabName = "Totales";
                 var cmd = new OleDbCommand("CREATE TABLE [" + TabName + "] (" + ColumnName + ")", conn);
                 cmd.ExecuteNonQuery();
-                var insert = new OleDbCommand("INSERT INTO [" + TabName + "] (" + ColumnName.Replace(" varchar(255)", "") + ") VALUES (" + "'Fecha:','" + app.hoy + "','" + registereduser.registeredlicense + "'" + ")", conn);
+                var insert = new OleDbCommand("INSERT INTO [" + TabName + "] (" + ColumnName.Replace(" varchar(255)", "") + ") VALUES (" + "'Fecha:','" + fecha + "','" + registereduser.registeredlicense + "'" + ")", conn);
                 insert.ExecuteNonQuery();
                 insert = new OleDbCommand("INSERT INTO [" + TabName + "] (" + ColumnName.Replace(" varchar(255)", "") + ") VALUES (" + "'Totales:',' ',' '" + ")", conn);
                 insert.ExecuteNonQuery();
@@ -409,17 +399,18 @@ namespace FLAGSYSTEMPV_2017
         {
             try
             {
-                generarResumenFinal();
-                string fecha = dateTimePicker1.Value.ToShortDateString();
+
+                string fecha = maskedTextBox1.Text;
+                generarResumenFinal(fecha);
                 if (File.Exists(app.dir + "\\Cierre" + fecha.Replace("/", "") + ".txt") == true)
                 {
                     getdata();
                     button1.Enabled = true;
-                    button3.Visible = false;
+                    button3.Enabled = false;
                 }
                 else
                 {
-                    button3.Visible = true;
+                    button3.Enabled = true;
                     button1.Enabled = false;
                     textBox1.Text = "";
                     textBox2.Text = "";
@@ -435,8 +426,8 @@ namespace FLAGSYSTEMPV_2017
         {
             Conexion.abrir();
             SqlCeCommand hoy = new SqlCeCommand();
-            hoy.Parameters.AddWithValue("hoy", dateTimePicker1.Value.ToShortDateString()+ " 00:00:00");
-            hoy.Parameters.AddWithValue("hoy2", dateTimePicker1.Value.ToShortDateString() + " 23:59:59");
+            hoy.Parameters.AddWithValue("hoy", maskedTextBox1.Text+ " 00:00:00");
+            hoy.Parameters.AddWithValue("hoy2", maskedTextBox1.Text+ " 23:59:59");
             DataTable ventas = Conexion.Consultar("nfactura,vendedor,total", "Ventas", "Where estadoVenta != 'Anulada' and fechaventa between @hoy and @hoy2", "", hoy);
             DataTable compras = Conexion.Consultar("nfactura,vendedor,CAST(totalfactura as FLOAT)", "Compras", "Where fechacompra between @hoy and @hoy2", "", hoy);
             DataTable gastos = Conexion.Consultar("area,descripcion,importe", "Gastos", "Where fecha between @hoy and @hoy2", "", hoy);
@@ -503,24 +494,75 @@ namespace FLAGSYSTEMPV_2017
             }
             else ts = 0;
 
-            File.WriteAllText(app.dir + "\\Cierre" + dateTimePicker1.Value.ToShortDateString().Replace("/", "") + ".txt", registereduser.registeredlicense + "\r\n" + "Informe de cierre del dia " + dateTimePicker1.Value.ToShortDateString() + "\r\nTotal Ventas:\t" + tv.ToString("$0.00") + "\r\nTotal Compras:\t" + tc.ToString("$0.00") + "\r\nTotal Gastos:\t" + tg.ToString("$0.00") + "\r\nTotal Entrada Caja:\t" + te.ToString("$0.00") + "\r\nTotal Salida Caja:\t" + ts.ToString("$0.00") + "\r\nTotal del Día:\t" + ((tv + tc + te) - (tg + ts)).ToString("$0.00"));
-            File.AppendAllText(app.dir + "\\Cierre" + dateTimePicker1.Value.ToShortDateString().Replace("/", "") + ".txt", "\r\n");
-            File.AppendAllText(app.dir + "\\Cierre" + dateTimePicker1.Value.ToShortDateString().Replace("/", "") + ".txt", "\r\nDetalle de Ventas:\r\nN° Venta\tVendedor\tTotal\t\r\n");
-            File.AppendAllLines(app.dir + "\\Cierre" + dateTimePicker1.Value.ToShortDateString().Replace("/", "") + ".txt", Ventas);
-            File.AppendAllText(app.dir + "\\Cierre" + dateTimePicker1.Value.ToShortDateString().Replace("/", "") + ".txt", "\r\nDetalle de Compras:\r\nN° Compra\tVendedor\tTotal\t\r\n");
-            File.AppendAllLines(app.dir + "\\Cierre" + dateTimePicker1.Value.ToShortDateString().Replace("/", "") + ".txt", Compras);
-            File.AppendAllText(app.dir + "\\Cierre" + dateTimePicker1.Value.ToShortDateString().Replace("/", "") + ".txt", "\r\nDetalle de Gastos:\r\nArea\tDescripcion\tImporte\t\r\n");
-            File.AppendAllLines(app.dir + "\\Cierre" + dateTimePicker1.Value.ToShortDateString().Replace("/", "") + ".txt", Gastos);
-            File.AppendAllText(app.dir + "\\Cierre" + dateTimePicker1.Value.ToShortDateString().Replace("/", "") + ".txt", "\r\nDetalle de Entradas de Caja:\r\nTipo\tMotivo\tTotal\t\r\n");
-            File.AppendAllLines(app.dir + "\\Cierre" + dateTimePicker1.Value.ToShortDateString().Replace("/", "") + ".txt", Entradas);
-            File.AppendAllText(app.dir + "\\Cierre" + dateTimePicker1.Value.ToShortDateString().Replace("/", "") + ".txt", "\r\nDetalle de Salidas de Caja:\r\nTipo\tMotivo\tTotal\t\r\n");
-            File.AppendAllLines(app.dir + "\\Cierre" + dateTimePicker1.Value.ToShortDateString().Replace("/", "") + ".txt", Salidas);
+            File.WriteAllText(app.dir + "\\Cierre" + maskedTextBox1.Text.Replace("/", "") + ".txt", registereduser.registeredlicense + "\r\n" + "Informe de cierre del dia " + maskedTextBox1.Text + "\r\nTotal Ventas:\t" + tv.ToString("$0.00") + "\r\nTotal Compras:\t" + tc.ToString("$0.00") + "\r\nTotal Gastos:\t" + tg.ToString("$0.00") + "\r\nTotal Entrada Caja:\t" + te.ToString("$0.00") + "\r\nTotal Salida Caja:\t" + ts.ToString("$0.00") + "\r\nTotal del Día:\t" + ((tv + tc + te) - (tg + ts)).ToString("$0.00"));
+            File.AppendAllText(app.dir + "\\Cierre" + maskedTextBox1.Text.Replace("/", "") + ".txt", "\r\n");
+            File.AppendAllText(app.dir + "\\Cierre" + maskedTextBox1.Text.Replace("/", "") + ".txt", "\r\nDetalle de Ventas:\r\nN° Venta\tVendedor\tTotal\t\r\n");
+            File.AppendAllLines(app.dir + "\\Cierre" + maskedTextBox1.Text.Replace("/", "") + ".txt", Ventas);
+            File.AppendAllText(app.dir + "\\Cierre" + maskedTextBox1.Text.Replace("/", "") + ".txt", "\r\nDetalle de Compras:\r\nN° Compra\tVendedor\tTotal\t\r\n");
+            File.AppendAllLines(app.dir + "\\Cierre" + maskedTextBox1.Text.Replace("/", "") + ".txt", Compras);
+            File.AppendAllText(app.dir + "\\Cierre" + maskedTextBox1.Text.Replace("/", "") + ".txt", "\r\nDetalle de Gastos:\r\nArea\tDescripcion\tImporte\t\r\n");
+            File.AppendAllLines(app.dir + "\\Cierre" + maskedTextBox1.Text.Replace("/", "") + ".txt", Gastos);
+            File.AppendAllText(app.dir + "\\Cierre" + maskedTextBox1.Text.Replace("/", "") + ".txt", "\r\nDetalle de Entradas de Caja:\r\nTipo\tMotivo\tTotal\t\r\n");
+            File.AppendAllLines(app.dir + "\\Cierre" + maskedTextBox1.Text.Replace("/", "") + ".txt", Entradas);
+            File.AppendAllText(app.dir + "\\Cierre" + maskedTextBox1.Text.Replace("/", "") + ".txt", "\r\nDetalle de Salidas de Caja:\r\nTipo\tMotivo\tTotal\t\r\n");
+            File.AppendAllLines(app.dir + "\\Cierre" + maskedTextBox1.Text.Replace("/", "") + ".txt", Salidas);
                    
         }
 
         private void EnviarMail_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Escape) this.Close();
+            if (e.KeyCode == Keys.Enter && maskedTextBox1.Focused == true) {
+                button1.Focus();
+            maskedTextBox1.Focus();
+            }
+            if (e.KeyCode == Keys.F2) button3.PerformClick();
+            if (e.KeyCode == Keys.F3) button1.PerformClick();
         }
+
+        private void maskedTextBox1_Leave(object sender, EventArgs e)
+        {
+            try{
+                DateTime fecha = Convert.ToDateTime(maskedTextBox1.Text);
+                maskedTextBox1.Text = fecha.ToShortDateString();
+                string fecham = maskedTextBox1.Text;
+                if (File.Exists(app.dir + "\\Cierre" + fecham.Replace("/", "") + ".txt") == true)
+                {
+                    getdata();
+                    button1.Enabled = true;
+                    button3.Enabled = false;
+                }
+                else
+                {
+                    button3.Enabled = true;
+                    button1.Enabled = false;
+                    textBox1.Text = "";
+                    textBox2.Text = "";
+                    textBox3.Text = "";
+                    textBox4.Text = "";
+                    textBox5.Text = "";
+                    textBox6.Text = "";
+                }
+            }
+                catch(Exception)
+            {
+                maskedTextBox1.Text = app.hoy;
+                }
+        }
+
+        private void maskedTextBox1_Enter(object sender, EventArgs e)
+        {
+            BeginInvoke((Action)delegate { SetMaskedTextBoxSelectAll((MaskedTextBox)sender); });
+        }
+        private void SetMaskedTextBoxSelectAll(MaskedTextBox txtbox)
+        {
+            txtbox.SelectAll();
+            txtbox.Clear();
+        }
+
+      
+
+
+       
     }
 }

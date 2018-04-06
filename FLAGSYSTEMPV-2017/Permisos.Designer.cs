@@ -80,6 +80,8 @@
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.label12 = new System.Windows.Forms.Label();
             this.checkBox10 = new System.Windows.Forms.CheckBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label27 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -592,12 +594,38 @@
             this.checkBox10.TabIndex = 54;
             this.checkBox10.UseVisualStyleBackColor = false;
             // 
+            // label13
+            // 
+            this.label13.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label13.AutoSize = true;
+            this.label13.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.label13.Font = new System.Drawing.Font("Lucida Sans Unicode", 6.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Location = new System.Drawing.Point(331, 416);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(20, 14);
+            this.label13.TabIndex = 56;
+            this.label13.Text = "F1";
+            // 
+            // label27
+            // 
+            this.label27.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label27.AutoSize = true;
+            this.label27.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.label27.Font = new System.Drawing.Font("Lucida Sans Unicode", 6.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label27.Location = new System.Drawing.Point(14, 416);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(25, 14);
+            this.label27.TabIndex = 57;
+            this.label27.Text = "Esc";
+            // 
             // Permisos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SteelBlue;
             this.ClientSize = new System.Drawing.Size(439, 439);
+            this.Controls.Add(this.label27);
+            this.Controls.Add(this.label13);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.checkBox10);
             this.Controls.Add(this.dataGridView1);
@@ -718,5 +746,7 @@
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.CheckBox checkBox10;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label27;
     }
 }

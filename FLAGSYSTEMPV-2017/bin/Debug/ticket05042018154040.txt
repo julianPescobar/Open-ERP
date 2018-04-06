@@ -1,0 +1,28 @@
+
+
+
+Flag Informática
+
+ ###TICKET SIN VALIDEZ FISCAL###
+
+ITEM 1:
+#Nombre: CARGA VIRTUAL
+#Precio Unid: $0,45
+#Cantidad:1
+#Total: $0,45
+
+ITEM 2:
+#Nombre: CARGA VIRTUAL
+#Precio Unid: $0,45
+#Cantidad:1
+#Total: $0,45
+
+#########################
+# Total Compra: $0,90
+#########################
+
+###GRACIAS POR SU COMPRA###
+
+
+
+

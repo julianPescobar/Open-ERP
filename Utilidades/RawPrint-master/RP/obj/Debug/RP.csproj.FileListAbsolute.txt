@@ -1,0 +1,10 @@
+C:\Users\Julian\Desktop\flag nuevo\FLAGSYSTEMPV-2017-12-20\FLAGSYSTEMPV-2017-21-12\Utilidades\RawPrint-master\RP\bin\Debug\RP.exe
+C:\Users\Julian\Desktop\flag nuevo\FLAGSYSTEMPV-2017-12-20\FLAGSYSTEMPV-2017-21-12\Utilidades\RawPrint-master\RP\bin\Debug\RP.pdb
+C:\Users\Julian\Desktop\flag nuevo\FLAGSYSTEMPV-2017-12-20\FLAGSYSTEMPV-2017-21-12\Utilidades\RawPrint-master\RP\bin\Debug\RP.exe.CodeAnalysisLog.xml
+C:\Users\Julian\Desktop\flag nuevo\FLAGSYSTEMPV-2017-12-20\FLAGSYSTEMPV-2017-21-12\Utilidades\RawPrint-master\RP\bin\Debug\RP.exe.lastcodeanalysissucceeded
+C:\Users\Julian\Desktop\flag nuevo\FLAGSYSTEMPV-2017-12-20\FLAGSYSTEMPV-2017-21-12\Utilidades\RawPrint-master\RP\bin\Debug\RawPrint.dll
+C:\Users\Julian\Desktop\flag nuevo\FLAGSYSTEMPV-2017-12-20\FLAGSYSTEMPV-2017-21-12\Utilidades\RawPrint-master\RP\bin\Debug\RawPrint.pdb
+C:\Users\Julian\Desktop\flag nuevo\FLAGSYSTEMPV-2017-12-20\FLAGSYSTEMPV-2017-21-12\Utilidades\RawPrint-master\RP\obj\Debug\RP.csprojResolveAssemblyReference.cache
+C:\Users\Julian\Desktop\flag nuevo\FLAGSYSTEMPV-2017-12-20\FLAGSYSTEMPV-2017-21-12\Utilidades\RawPrint-master\RP\obj\Debug\RP.csproj.CoreCompileInputs.cache
+C:\Users\Julian\Desktop\flag nuevo\FLAGSYSTEMPV-2017-12-20\FLAGSYSTEMPV-2017-21-12\Utilidades\RawPrint-master\RP\obj\Debug\RP.exe
+C:\Users\Julian\Desktop\flag nuevo\FLAGSYSTEMPV-2017-12-20\FLAGSYSTEMPV-2017-21-12\Utilidades\RawPrint-master\RP\obj\Debug\RP.pdb

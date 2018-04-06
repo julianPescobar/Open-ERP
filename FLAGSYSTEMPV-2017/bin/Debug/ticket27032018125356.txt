@@ -1,0 +1,6 @@
+TEST TICKETTICKET SIN VALOR FISCAL
+opop x1    $53,00
+opop x1    $53,00
+opop x1    $53,00
+opop x1    $53,00
+opop x1    $53,00

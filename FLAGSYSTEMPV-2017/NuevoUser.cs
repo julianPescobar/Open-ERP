@@ -38,16 +38,7 @@ namespace FLAGSYSTEMPV_2017
                 }
             }
         }
-        protected override void WndProc(ref Message m)
-        {
-            base.WndProc(ref m);
-            if (m.Msg == WM_NCHITTEST)
-                m.Result = (IntPtr)(HT_CAPTION);
-        }
-
-        private const int WM_NCHITTEST = 0x84;
-        private const int HT_CLIENT = 0x1;
-        private const int HT_CAPTION = 0x2;
+      
 
         private void NuevoUser_Paint(object sender, PaintEventArgs e)
         {
@@ -134,7 +125,31 @@ namespace FLAGSYSTEMPV_2017
         {
             if (e.KeyCode == Keys.Escape)
                 this.Close();
+            if (e.KeyCode == Keys.F1) button1.PerformClick();
+            if (e.KeyCode == Keys.Enter && button1.Focused == false && button2.Focused == false)
+            {
+                SendKeys.SendWait("{TAB}"); ;
+            }
 
+        }
+
+        private void textBox1_Leave(object sender, EventArgs e)
+        {
+            if (textBox1.Text.Length > 0)
+            {
+                SqlCeCommand checkexistance = new SqlCeCommand();
+                checkexistance.Parameters.AddWithValue("code", textBox1.Text);
+                Conexion.abrir();
+                DataTable existira = Conexion.Consultar("login", "Usuarios", "where login = @code and eliminado != 'Eliminado'", "", checkexistance);
+                Conexion.cerrar();
+                if (existira.Rows.Count > 0 && createorupdate.status == "create")
+                {
+                    MessageBox.Show("Ese usuario ya existe, use otro nombre de usuario por favor");
+                    textBox1.Text = "";
+                }
+
+
+            }
         }
 
     }

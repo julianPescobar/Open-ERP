@@ -1,0 +1,4 @@
+test tkt
+ no es fiscal 
+
+Servicio test n2 x1 $5,00

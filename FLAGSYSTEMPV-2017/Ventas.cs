@@ -19,6 +19,7 @@ namespace FLAGSYSTEMPV_2017
         public string totventa;
         private void Ventas_Load(object sender, EventArgs e)
         {
+            textBox4.Select();
             totalventa.compraoventa = "Ventas";
             if (dataGridView1.Rows.Count == 0)
             {
@@ -44,25 +45,15 @@ namespace FLAGSYSTEMPV_2017
                 MessageBox.Show("Lo sentimos pero esta es la versión demo del producto y solo se permiten ingresar hasta 50 registros de venta. Si quiere habilitar todo el sistema, deberá comprar la licencia.");            
             }
         }
-        protected override void WndProc(ref Message m)
-        {
-            base.WndProc(ref m);
-            if (m.Msg == WM_NCHITTEST)
-                m.Result = (IntPtr)(HT_CAPTION);
-        }
-        private const int WM_NCHITTEST = 0x84;
-        private const int HT_CLIENT = 0x1;
-        private const int HT_CAPTION = 0x2;
+     
         private void button1_Click(object sender, EventArgs e)
         {
             this.Close();
+            if (Application.OpenForms.OfType<Inicio>().Count() == 1)
+                Application.OpenForms.OfType<Inicio>().First().Focus();
         }
 
-        private void Ventas_Paint(object sender, PaintEventArgs e)
-        {
-            e.Graphics.DrawRectangle(new Pen(Color.Black, 4),
-                           this.DisplayRectangle);      
-        }
+      
 
         private void textBox4_KeyDown(object sender, KeyEventArgs e)
         {
@@ -275,7 +266,7 @@ namespace FLAGSYSTEMPV_2017
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             textBox4.Focus();
-            MessageBox.Show("Enter: Finaliza Venta (si se cargaron articulos)\nEscape: Cancela toda la venta si hay articulos cargados, de lo contrario cierra la ventana\nAbajo: Mueve el cursor de la lista de productos hacia abajo (si hay articulos cargados)\nArriba: Idem anterior pero para arriba.\nIzquierda: Disminuye en 1 las unidades del producto seleccionado.\nDerecha Aumenta en 1 las unidades del producto seleccionado.\nF5: Abre panel de busqueda de articulos.\n F4: abre una ventana en donde se puede escribir cuantas unidades asignar a un articulo.","Atajos del teclado",MessageBoxButtons.OK,MessageBoxIcon.Information);
+            MessageBox.Show("Enter: Finaliza Venta (si se cargaron articulos)\nEscape: Cancela toda la venta si hay articulos cargados, de lo contrario cierra la ventana\nAbajo: Mueve el cursor de la lista de productos hacia abajo (si hay articulos cargados)\nArriba: Idem anterior pero para arriba.\nIzquierda: Disminuye en 1 las unidades del producto seleccionado.\nDerecha Aumenta en 1 las unidades del producto seleccionado.\nF5: Abre panel de busqueda de articulos.\nF4: abre una ventana en donde se puede escribir cuantas unidades asignar a un articulo.","Atajos del teclado",MessageBoxButtons.OK,MessageBoxIcon.Information);
         }
 
         private void rectangleShape1_Click(object sender, EventArgs e)
@@ -324,12 +315,14 @@ namespace FLAGSYSTEMPV_2017
                         this.Close();
                         Ventas frm = new Ventas();
                         frm.Show();
-                        frm.Focus();
+                        
                     }
                 }
                 else
                 {
                     this.Close();
+                    if (Application.OpenForms.OfType<Inicio>().Count() == 1)
+                        Application.OpenForms.OfType<Inicio>().First().Focus();
                 }
             }
         }

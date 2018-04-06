@@ -1,0 +1,32 @@
+Flag Informática
+
+ ###TICKET SIN VALIDEZ FISCAL###
+
+#ITEM Num 1:
+°Nombre: SERVICIO PETE
+°Precio Unid: $50,00
+°Cantidad:1
+°Total: $50,00
+
+#ITEM Num 2:
+°Nombre: TETAS (PEZONES XL)
+°Precio Unid: $600,00
+°Cantidad:1
+°Total: $600,00
+
+#ITEM Num 3:
+°Nombre: PRESERVATIV INCLUIDO
+°Precio Unid: $1,00
+°Cantidad:3
+°Total: $3,00
+
+#########################
+°Total GENERAL: $653,00
+#########################
+
+°°°°GRACIAS POR SU COMPRA°°°°
+
+ 
+
+ 
+

@@ -1,0 +1,22 @@
+
+
+
+Flag Informática
+
+ ###TICKET SIN VALIDEZ FISCAL###
+
+ITEM 1:
+#Nombre: HOLIS AMIGUIS
+#Precio Unid: $53,00
+#Cantidad:1
+#Total: $53,00
+
+#########################
+# Total Compra: $53,00
+#########################
+
+###GRACIAS POR SU COMPRA###
+
+
+
+

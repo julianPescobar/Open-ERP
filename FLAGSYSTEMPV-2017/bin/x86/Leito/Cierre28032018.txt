@@ -1,15 +1,17 @@
-Choclo y asociados
-Informe de cierre del dia 01/03/2018
-Total Ventas:	$6,06
+Choclo Landia
+Informe de cierre del dia 28/03/2018
+Total Ventas:	$18,22
 Total Compras:	$0,00
 Total Gastos:	$0,00
 Total Entrada Caja:	$0,00
 Total Salida Caja:	$0,00
-Total del Día:	$6,06
+Total del Día:	$18,22
 
 Detalle de Ventas:
 N° Venta	Vendedor	Total	
-11	Administrador	$6,06
+75	Administrador	$6,05
+76	Administrador	$12,17
+78	Administrador	$18,22
 
 Detalle de Compras:
 N° Compra	Vendedor	Total	

@@ -1,0 +1,8 @@
+C:\Users\Julian\Desktop\flag nuevo\FLAGSYSTEMPV-2017-12-20\FLAGSYSTEMPV-2017-21-12\Utilidades\RawPrint-master\RawPrint\bin\Debug\RawPrint.dll
+C:\Users\Julian\Desktop\flag nuevo\FLAGSYSTEMPV-2017-12-20\FLAGSYSTEMPV-2017-21-12\Utilidades\RawPrint-master\RawPrint\bin\Debug\RawPrint.pdb
+C:\Users\Julian\Desktop\flag nuevo\FLAGSYSTEMPV-2017-12-20\FLAGSYSTEMPV-2017-21-12\Utilidades\RawPrint-master\RawPrint\bin\Debug\RawPrint.dll.CodeAnalysisLog.xml
+C:\Users\Julian\Desktop\flag nuevo\FLAGSYSTEMPV-2017-12-20\FLAGSYSTEMPV-2017-21-12\Utilidades\RawPrint-master\RawPrint\bin\Debug\RawPrint.dll.lastcodeanalysissucceeded
+C:\Users\Julian\Desktop\flag nuevo\FLAGSYSTEMPV-2017-12-20\FLAGSYSTEMPV-2017-21-12\Utilidades\RawPrint-master\RawPrint\obj\Debug\RawPrint.csprojResolveAssemblyReference.cache
+C:\Users\Julian\Desktop\flag nuevo\FLAGSYSTEMPV-2017-12-20\FLAGSYSTEMPV-2017-21-12\Utilidades\RawPrint-master\RawPrint\obj\Debug\RawPrint.csproj.CoreCompileInputs.cache
+C:\Users\Julian\Desktop\flag nuevo\FLAGSYSTEMPV-2017-12-20\FLAGSYSTEMPV-2017-21-12\Utilidades\RawPrint-master\RawPrint\obj\Debug\RawPrint.dll
+C:\Users\Julian\Desktop\flag nuevo\FLAGSYSTEMPV-2017-12-20\FLAGSYSTEMPV-2017-21-12\Utilidades\RawPrint-master\RawPrint\obj\Debug\RawPrint.pdb
